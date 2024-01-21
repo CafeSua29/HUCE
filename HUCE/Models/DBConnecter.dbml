@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HUCE" Class="DBConnecterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.ChuongTrinhKhung" Member="ChuongTrinhKhungs">
+    <Type Name="ChuongTrinhKhung">
+      <Column Name="MaKhoa" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaHK" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaMH" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="HocKy_ChuongTrinhKhung" Member="HocKy" ThisKey="MaHK" OtherKey="MaHK" Type="HocKy" IsForeignKey="true" />
+      <Association Name="Khoa_ChuongTrinhKhung" Member="Khoa" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="Khoa" IsForeignKey="true" />
+      <Association Name="MonHoc_ChuongTrinhKhung" Member="MonHoc" ThisKey="MaMH" OtherKey="MaMH" Type="MonHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhSachLop" Member="DanhSachLops">
+    <Type Name="DanhSachLop">
+      <Column Name="MaLop" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaMH" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaHK" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="HocKy_DanhSachLop" Member="HocKy" ThisKey="MaHK" OtherKey="MaHK" Type="HocKy" IsForeignKey="true" />
+      <Association Name="Lop_DanhSachLop" Member="Lop" ThisKey="MaLop" OtherKey="MaLop" Type="Lop" IsForeignKey="true" />
+      <Association Name="MonHoc_DanhSachLop" Member="MonHoc" ThisKey="MaMH" OtherKey="MaMH" Type="MonHoc" IsForeignKey="true" />
+      <Association Name="SinhVien_DanhSachLop" Member="SinhVien" ThisKey="MaSV" OtherKey="MaSV" Type="SinhVien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DiemRenLuyen" Member="DiemRenLuyens">
+    <Type Name="DiemRenLuyen">
+      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaTC" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Diem" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="SinhVien_DiemRenLuyen" Member="SinhVien" ThisKey="MaSV" OtherKey="MaSV" Type="SinhVien" IsForeignKey="true" />
+      <Association Name="TieuChiDiemRenLuyen_DiemRenLuyen" Member="TieuChiDiemRenLuyen" ThisKey="MaTC" OtherKey="MaTC" Type="TieuChiDiemRenLuyen" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GiangVien" Member="GiangViens">
+    <Type Name="GiangVien">
+      <Column Name="MaGV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenGV" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="QueQuan" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SoDienThoai" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocKy" Member="HocKies">
+    <Type Name="HocKy">
+      <Column Name="MaHK" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenHK" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaNH" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="HocKy_ChuongTrinhKhung" Member="ChuongTrinhKhungs" ThisKey="MaHK" OtherKey="MaHK" Type="ChuongTrinhKhung" />
+      <Association Name="HocKy_DanhSachLop" Member="DanhSachLops" ThisKey="MaHK" OtherKey="MaHK" Type="DanhSachLop" />
+      <Association Name="NamHoc_HocKy" Member="NamHoc" ThisKey="MaNH" OtherKey="MaNH" Type="NamHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KetQua" Member="KetQuas">
+    <Type Name="KetQua">
+      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaMH" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DiemGiuaKy" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="DiemQuaTrinh" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="DiemCuoiKy" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="DiemTongKet" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="BaoLuu" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="MonHoc_KetQua" Member="MonHoc" ThisKey="MaMH" OtherKey="MaMH" Type="MonHoc" IsForeignKey="true" />
+      <Association Name="SinhVien_KetQua" Member="SinhVien" ThisKey="MaSV" OtherKey="MaSV" Type="SinhVien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Khoa" Member="Khoas">
+    <Type Name="Khoa">
+      <Column Name="MaKhoa" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenKhoa" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Khoa_ChuongTrinhKhung" Member="ChuongTrinhKhungs" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="ChuongTrinhKhung" />
+      <Association Name="Khoa_Lop" Member="Lops" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="Lop" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lop" Member="Lops">
+    <Type Name="Lop">
+      <Column Name="MaLop" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenLop" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaKhoa" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Lop_DanhSachLop" Member="DanhSachLops" ThisKey="MaLop" OtherKey="MaLop" Type="DanhSachLop" />
+      <Association Name="Khoa_Lop" Member="Khoa" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="Khoa" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MonHoc" Member="MonHocs">
+    <Type Name="MonHoc">
+      <Column Name="MaMH" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenMH" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SoTin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="MonHoc_ChuongTrinhKhung" Member="ChuongTrinhKhungs" ThisKey="MaMH" OtherKey="MaMH" Type="ChuongTrinhKhung" />
+      <Association Name="MonHoc_DanhSachLop" Member="DanhSachLops" ThisKey="MaMH" OtherKey="MaMH" Type="DanhSachLop" />
+      <Association Name="MonHoc_KetQua" Member="KetQuas" ThisKey="MaMH" OtherKey="MaMH" Type="KetQua" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NamHoc" Member="NamHocs">
+    <Type Name="NamHoc">
+      <Column Name="MaNH" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenNH" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="NamHoc_HocKy" Member="HocKies" ThisKey="MaNH" OtherKey="MaNH" Type="HocKy" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SinhVien" Member="SinhViens">
+    <Type Name="SinhVien">
+      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenSV" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="QueQuan" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SoDienThoai" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="SinhVien_DanhSachLop" Member="DanhSachLops" ThisKey="MaSV" OtherKey="MaSV" Type="DanhSachLop" />
+      <Association Name="SinhVien_DiemRenLuyen" Member="DiemRenLuyens" ThisKey="MaSV" OtherKey="MaSV" Type="DiemRenLuyen" />
+      <Association Name="SinhVien_KetQua" Member="KetQuas" ThisKey="MaSV" OtherKey="MaSV" Type="KetQua" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TaiKhoan" Member="TaiKhoans">
+    <Type Name="TaiKhoan">
+      <Column Name="TenTaiKhoan" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MatKhau" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaQuyen" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TieuChiDiemRenLuyen" Member="TieuChiDiemRenLuyens">
+    <Type Name="TieuChiDiemRenLuyen">
+      <Column Name="MaTC" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenTC" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="TieuChiDiemRenLuyen_DiemRenLuyen" Member="DiemRenLuyens" ThisKey="MaTC" OtherKey="MaTC" Type="DiemRenLuyen" />
+    </Type>
+  </Table>
+</Database>
