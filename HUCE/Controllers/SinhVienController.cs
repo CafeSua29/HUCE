@@ -254,5 +254,17 @@ namespace HUCE.Controllers
 
             return null;
         }
+
+        public SinhVien GetSinhVien(string masv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.SinhViens.Where(o => o.MaSV == masv && o.DelTime == null).SingleOrDefault(); ;
+            }
+
+            return null;
+        }
     }
 }

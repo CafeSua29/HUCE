@@ -24,5 +24,10 @@ namespace HUCE.App_Start
         {
             return (string)HttpContext.Current.Session["maquyen"];
         }
+
+        public static void DeSession()
+        {
+            HttpContext.Current.Session.Clear();
+        }
     }
 }

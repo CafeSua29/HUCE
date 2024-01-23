@@ -318,5 +318,64 @@ namespace HUCE.Controllers
                 Response.End();
             }
         }
+
+        public ActionResult DoiMatKhau(string tentk)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            TaiKhoan tk = db.TaiKhoans.FirstOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            return View(tk);
+        }
+
+        [HttpPost]
+        public ActionResult DoiMatKhau(TaiKhoan tk)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                if (!string.IsNullOrEmpty(tk.TenTaiKhoan))
+                {
+                    var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == tk.TenTaiKhoan && o.DelTime == null);
+
+                    if (qr.Any())
+                    {
+                        TaiKhoan tk1 = qr.SingleOrDefault();
+                        tk1.MatKhau = tk.MatKhau;
+
+                        db.SubmitChanges();
+
+                        SessionConfig.DeSession();
+                        return RedirectToAction("Login", "Login");
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Không tim thay tai khoan";
+                        return View(tk);
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Không tim thay tai khoan";
+                    return View(tk);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Không thể doi mat khau, chi tiet loi: " + ex;
+                return View(tk);
+            }
+        }
+
+        public ActionResult DangXuat()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            SessionConfig.DeSession();
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

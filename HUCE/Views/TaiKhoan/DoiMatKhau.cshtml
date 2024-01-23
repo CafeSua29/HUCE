@@ -1,7 +1,7 @@
 ﻿@model HUCE.Models.TaiKhoan
 
 @{
-    ViewBag.Title = "SuaTaiKhoan";
+    ViewBag.Title = "DoiMatKhau";
     Layout = "~/Views/Layouts/_LayoutMain.cshtml";
 }
 
@@ -42,24 +42,11 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.MaQuyen, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <select class="form-control" name="MaQuyen">
-                                        <option value="1" @Html.Raw("1" == Model.MaQuyen ? "selected" : "")>Admin</option>
-                                        <option value="2" @Html.Raw("2" == Model.MaQuyen ? "selected" : "")>Nhan Vien</option>
-                                        <option value="3" @Html.Raw("3" == Model.MaQuyen ? "selected" : "")>Giang Vien</option>
-                                        <option value="4" @Html.Raw("4" == Model.MaQuyen ? "selected" : "")>Sinh Vien</option>
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.MaQuyen, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <div class="text-danger">
                                         @TempData["Error"]
                                     </div>
-                                    <input type="submit" value="Luu" class="btn btn-primary" />
+                                    <input type="submit" value="Xac Nhan" class="btn btn-primary" />
                                 </div>
                             </div>
                         </div>

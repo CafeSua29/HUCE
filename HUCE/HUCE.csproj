@@ -159,6 +159,7 @@
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\TaiKhoan\ThemTaiKhoan.cshtml" />
     <Content Include="Views\TaiKhoan\SuaTaiKhoan.cshtml" />
+    <Content Include="Views\TaiKhoan\DoiMatKhau.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

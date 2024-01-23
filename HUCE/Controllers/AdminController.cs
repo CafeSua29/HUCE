@@ -28,28 +28,13 @@ namespace HUCE.Controllers
             return View(listTK);
         }
 
-        public ActionResult ThemTaiKhoan()
-        {
-            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
-                return RedirectToAction("Login", "Login");
-
-            return View(new TaiKhoan());
-        }
-
         public Admin GetAdmin(string maad)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 RedirectToAction("Login", "Login");
             else
             {
-                var ad = db.Admins.Where(o => o.DelTime == null).SingleOrDefault();
-
-                if (!string.IsNullOrEmpty(maad))
-                {
-                    ad = db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault();
-                }
-
-                return ad;
+               return db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault(); ;
             }
 
             return null;

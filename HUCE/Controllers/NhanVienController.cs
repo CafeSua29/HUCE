@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HUCE.App_Start;
+using HUCE.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +10,24 @@ namespace HUCE.Controllers
 {
     public class NhanVienController : Controller
     {
+        public DBConnecterDataContext db = new DBConnecterDataContext();
+
         // GET: NhanVien
         public ActionResult Index()
         {
             return View();
+        }
+
+        public NhanVien GetNhanVien(string manv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.NhanViens.Where(o => o.MaNV == manv && o.DelTime == null).SingleOrDefault(); ;
+            }
+
+            return null;
         }
     }
 }

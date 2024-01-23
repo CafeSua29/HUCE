@@ -255,5 +255,17 @@ namespace HUCE.Controllers
 
             return null;
         }
+
+        public GiangVien GetGiangVien(string magv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.GiangViens.Where(o => o.MaGV == magv && o.DelTime == null).SingleOrDefault(); ;
+            }
+
+            return null;
+        }
     }
 }

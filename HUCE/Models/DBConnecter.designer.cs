@@ -76,12 +76,12 @@ namespace HUCE.Models
     partial void UpdateNhanVien(NhanVien instance);
     partial void DeleteNhanVien(NhanVien instance);
         #endregion
-
         public DBConnecterDataContext() :
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["HUCEConnectionString"].ConnectionString, mappingSource)
+        base(global::System.Configuration.ConfigurationManager.ConnectionStrings["HUCEConnectionString"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
+
 
         public DBConnecterDataContext(string connection) : 
 				base(connection, mappingSource)
