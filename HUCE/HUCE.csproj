@@ -158,6 +158,7 @@
     <Content Include="Views\Layouts\_LayoutPageNV.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\TaiKhoan\ThemTaiKhoan.cshtml" />
+    <Content Include="Views\TaiKhoan\SuaTaiKhoan.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

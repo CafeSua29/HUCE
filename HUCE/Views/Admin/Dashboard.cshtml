@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Layouts/_LayoutMain.cshtml";
+
 }
 
 <div class="content container-fluid">
@@ -17,13 +18,13 @@
                 </div>
             </div>
             <div class="col-auto text-right float-right ml-auto">
-                <a href="~/TaiKhoan/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i>Tải danh sách</a>
+                <a href="~/TaiKhoan/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
                 <a href="~/TaiKhoan/ThemTaiKhoan" class="btn btn-primary"><i class="fas fa-plus"></i></a>
             </div>
             <div class="text-danger">
                 @TempData["Error"]
             </div>
-        </div>  
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -45,7 +46,7 @@
                                     <tr>
                                         <td>@tk.TenTaiKhoan</td>
                                         <td>@tk.MatKhau</td>
-                                        @{ 
+                                        @{
                                             switch (tk.MaQuyen)
                                             {
                                                 case "1":
@@ -107,25 +108,25 @@
                         $.each(data.dstk, function (index, item) {
                             display += '<tr><td>' + item.TenTaiKhoan + '</td>';
                             display += '<td>' + item.MatKhau + '</td>';
-                            display += '<td>' +
-                                        switch (item.MaQuyen) {
-                                            case "1":
-                                                "Admin"
-                                                break;
+                            display += '<td>';
+                            switch (item.MaQuyen) {
+                                case "1":
+                                    display += "Admin"
+                                    break;
 
-                                            case "2":
-                                                "Nhan Vien"
-                                                break;
+                                case "2":
+                                    display += "Nhan Vien"
+                                    break;
 
-                                            case "3":
-                                                "Giang Vien"
-                                                break;
+                                case "3":
+                                    display += "Giang Vien"
+                                    break;
 
-                                            case "4":
-                                                "Sinh Vien"
-                                                break;
-                                        }
-                                    + '</td>';
+                                case "4":
+                                    display += "Sinh Vien"
+                                    break;
+                            }
+                            display += '</td>';
                             display += '<td class="text-right"><div class="actions"><a href="/TaiKhoan/SuaTaiKhoan?tentk=' + item.TenTaiKhoan + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
                             display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa tai khoan này không ?\')) { location.href = \'/TaiKhoan/XoaTaiKhoan?tentk=' + item.TenTaiKhoan + '\'}" class="btn btn-sm bg-danger-light"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });

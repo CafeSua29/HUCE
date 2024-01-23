@@ -20,9 +20,9 @@ namespace HUCE.Models
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-    using System.ComponentModel.DataAnnotations;
-
-    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="HUCE")]
+	
+	
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="HUCE")]
 	public partial class DBConnecterDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -69,10 +69,16 @@ namespace HUCE.Models
     partial void InsertTieuChiDiemRenLuyen(TieuChiDiemRenLuyen instance);
     partial void UpdateTieuChiDiemRenLuyen(TieuChiDiemRenLuyen instance);
     partial void DeleteTieuChiDiemRenLuyen(TieuChiDiemRenLuyen instance);
+    partial void InsertAdmin(Admin instance);
+    partial void UpdateAdmin(Admin instance);
+    partial void DeleteAdmin(Admin instance);
+    partial void InsertNhanVien(NhanVien instance);
+    partial void UpdateNhanVien(NhanVien instance);
+    partial void DeleteNhanVien(NhanVien instance);
         #endregion
 
         public DBConnecterDataContext() :
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["HUCEConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["HUCEConnectionString"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
@@ -204,6 +210,22 @@ namespace HUCE.Models
 				return this.GetTable<TieuChiDiemRenLuyen>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Admin> Admins
+		{
+			get
+			{
+				return this.GetTable<Admin>();
+			}
+		}
+		
+		public System.Data.Linq.Table<NhanVien> NhanViens
+		{
+			get
+			{
+				return this.GetTable<NhanVien>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChuongTrinhKhung")]
@@ -249,8 +271,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaKhoa", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Khoa")]
-        public string MaKhoa
+		public string MaKhoa
 		{
 			get
 			{
@@ -274,8 +295,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHK", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Hoc Ky")]
-        public string MaHK
+		public string MaHK
 		{
 			get
 			{
@@ -299,8 +319,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaMH", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Mon Hoc")]
-        public string MaMH
+		public string MaMH
 		{
 			get
 			{
@@ -516,8 +535,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaLop", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Lop")]
-        public string MaLop
+		public string MaLop
 		{
 			get
 			{
@@ -541,8 +559,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaMH", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Mon Hoc")]
-        public string MaMH
+		public string MaMH
 		{
 			get
 			{
@@ -566,8 +583,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHK", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Hoc Ky")]
-        public string MaHK
+		public string MaHK
 		{
 			get
 			{
@@ -591,8 +607,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaSV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Sinh Vien")]
-        public string MaSV
+		public string MaSV
 		{
 			get
 			{
@@ -832,8 +847,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaSV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Sinh Vien")]
-        public string MaSV
+		public string MaSV
 		{
 			get
 			{
@@ -857,8 +871,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaTC", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Mã Tieu Chi")]
-        public string MaTC
+		public string MaTC
 		{
 			get
 			{
@@ -882,8 +895,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Diem", DbType="Real")]
-        [Display(Name = "Diem")]
-        public System.Nullable<float> Diem
+		public System.Nullable<float> Diem
 		{
 			get
 			{
@@ -1061,8 +1073,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Ma Giang Vien")]
-        public string MaGV
+		public string MaGV
 		{
 			get
 			{
@@ -1082,8 +1093,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenGV", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "Ten Giang Vien")]
-        public string TenGV
+		public string TenGV
 		{
 			get
 			{
@@ -1103,8 +1113,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
-        [Display(Name = "Gioi Tinh")]
-        public bool GioiTinh
+		public bool GioiTinh
 		{
 			get
 			{
@@ -1124,9 +1133,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="Date NOT NULL")]
-        [DataType(DataType.Date)]
-        [Display(Name = "Ngay Sinh")]
-        public System.DateTime NgaySinh
+		public System.DateTime NgaySinh
 		{
 			get
 			{
@@ -1146,8 +1153,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueQuan", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "Que Quan")]
-        public string QueQuan
+		public string QueQuan
 		{
 			get
 			{
@@ -1167,8 +1173,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDienThoai", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "So Dien Thoai")]
-        public string SoDienThoai
+		public string SoDienThoai
 		{
 			get
 			{
@@ -1188,8 +1193,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "Email")]
-        public string Email
+		public string Email
 		{
 			get
 			{
@@ -1292,8 +1296,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHK", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Ma Hoc Ky")]
-        public string MaHK
+		public string MaHK
 		{
 			get
 			{
@@ -1313,8 +1316,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenHK", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "Ten Hoc Ky")]
-        public string TenHK
+		public string TenHK
 		{
 			get
 			{
@@ -1334,8 +1336,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaNH", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-        [Display(Name = "Ma Nam Hoc")]
-        public string MaNH
+		public string MaNH
 		{
 			get
 			{
@@ -1539,8 +1540,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaSV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Ma Sinh Vien")]
-        public string MaSV
+		public string MaSV
 		{
 			get
 			{
@@ -1564,8 +1564,7 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaMH", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-        [Display(Name = "Ma Mon Hoc")]
-        public string MaMH
+		public string MaMH
 		{
 			get
 			{
@@ -3105,6 +3104,466 @@ namespace HUCE.Models
 		{
 			this.SendPropertyChanging();
 			entity.TieuChiDiemRenLuyen = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Admin")]
+	public partial class Admin : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _MaAdmin;
+		
+		private string _TenAdmin;
+		
+		private bool _GioiTinh;
+		
+		private System.DateTime _NgaySinh;
+		
+		private string _QueQuan;
+		
+		private string _SoDienThoai;
+		
+		private string _Email;
+		
+		private System.Nullable<System.DateTime> _DelTime;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaAdminChanging(string value);
+    partial void OnMaAdminChanged();
+    partial void OnTenAdminChanging(string value);
+    partial void OnTenAdminChanged();
+    partial void OnGioiTinhChanging(bool value);
+    partial void OnGioiTinhChanged();
+    partial void OnNgaySinhChanging(System.DateTime value);
+    partial void OnNgaySinhChanged();
+    partial void OnQueQuanChanging(string value);
+    partial void OnQueQuanChanged();
+    partial void OnSoDienThoaiChanging(string value);
+    partial void OnSoDienThoaiChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnDelTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnDelTimeChanged();
+    #endregion
+		
+		public Admin()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaAdmin", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string MaAdmin
+		{
+			get
+			{
+				return this._MaAdmin;
+			}
+			set
+			{
+				if ((this._MaAdmin != value))
+				{
+					this.OnMaAdminChanging(value);
+					this.SendPropertyChanging();
+					this._MaAdmin = value;
+					this.SendPropertyChanged("MaAdmin");
+					this.OnMaAdminChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenAdmin", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenAdmin
+		{
+			get
+			{
+				return this._TenAdmin;
+			}
+			set
+			{
+				if ((this._TenAdmin != value))
+				{
+					this.OnTenAdminChanging(value);
+					this.SendPropertyChanging();
+					this._TenAdmin = value;
+					this.SendPropertyChanged("TenAdmin");
+					this.OnTenAdminChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
+		public bool GioiTinh
+		{
+			get
+			{
+				return this._GioiTinh;
+			}
+			set
+			{
+				if ((this._GioiTinh != value))
+				{
+					this.OnGioiTinhChanging(value);
+					this.SendPropertyChanging();
+					this._GioiTinh = value;
+					this.SendPropertyChanged("GioiTinh");
+					this.OnGioiTinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="Date NOT NULL")]
+		public System.DateTime NgaySinh
+		{
+			get
+			{
+				return this._NgaySinh;
+			}
+			set
+			{
+				if ((this._NgaySinh != value))
+				{
+					this.OnNgaySinhChanging(value);
+					this.SendPropertyChanging();
+					this._NgaySinh = value;
+					this.SendPropertyChanged("NgaySinh");
+					this.OnNgaySinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueQuan", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string QueQuan
+		{
+			get
+			{
+				return this._QueQuan;
+			}
+			set
+			{
+				if ((this._QueQuan != value))
+				{
+					this.OnQueQuanChanging(value);
+					this.SendPropertyChanging();
+					this._QueQuan = value;
+					this.SendPropertyChanged("QueQuan");
+					this.OnQueQuanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDienThoai", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string SoDienThoai
+		{
+			get
+			{
+				return this._SoDienThoai;
+			}
+			set
+			{
+				if ((this._SoDienThoai != value))
+				{
+					this.OnSoDienThoaiChanging(value);
+					this.SendPropertyChanging();
+					this._SoDienThoai = value;
+					this.SendPropertyChanged("SoDienThoai");
+					this.OnSoDienThoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DelTime", DbType="Date")]
+		public System.Nullable<System.DateTime> DelTime
+		{
+			get
+			{
+				return this._DelTime;
+			}
+			set
+			{
+				if ((this._DelTime != value))
+				{
+					this.OnDelTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DelTime = value;
+					this.SendPropertyChanged("DelTime");
+					this.OnDelTimeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NhanVien")]
+	public partial class NhanVien : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _MaNV;
+		
+		private string _TenNV;
+		
+		private bool _GioiTinh;
+		
+		private System.DateTime _NgaySinh;
+		
+		private string _QueQuan;
+		
+		private string _SoDienThoai;
+		
+		private string _Email;
+		
+		private System.Nullable<System.DateTime> _DelTime;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaNVChanging(string value);
+    partial void OnMaNVChanged();
+    partial void OnTenNVChanging(string value);
+    partial void OnTenNVChanged();
+    partial void OnGioiTinhChanging(bool value);
+    partial void OnGioiTinhChanged();
+    partial void OnNgaySinhChanging(System.DateTime value);
+    partial void OnNgaySinhChanged();
+    partial void OnQueQuanChanging(string value);
+    partial void OnQueQuanChanged();
+    partial void OnSoDienThoaiChanging(string value);
+    partial void OnSoDienThoaiChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnDelTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnDelTimeChanged();
+    #endregion
+		
+		public NhanVien()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaNV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string MaNV
+		{
+			get
+			{
+				return this._MaNV;
+			}
+			set
+			{
+				if ((this._MaNV != value))
+				{
+					this.OnMaNVChanging(value);
+					this.SendPropertyChanging();
+					this._MaNV = value;
+					this.SendPropertyChanged("MaNV");
+					this.OnMaNVChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenNV", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenNV
+		{
+			get
+			{
+				return this._TenNV;
+			}
+			set
+			{
+				if ((this._TenNV != value))
+				{
+					this.OnTenNVChanging(value);
+					this.SendPropertyChanging();
+					this._TenNV = value;
+					this.SendPropertyChanged("TenNV");
+					this.OnTenNVChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
+		public bool GioiTinh
+		{
+			get
+			{
+				return this._GioiTinh;
+			}
+			set
+			{
+				if ((this._GioiTinh != value))
+				{
+					this.OnGioiTinhChanging(value);
+					this.SendPropertyChanging();
+					this._GioiTinh = value;
+					this.SendPropertyChanged("GioiTinh");
+					this.OnGioiTinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="Date NOT NULL")]
+		public System.DateTime NgaySinh
+		{
+			get
+			{
+				return this._NgaySinh;
+			}
+			set
+			{
+				if ((this._NgaySinh != value))
+				{
+					this.OnNgaySinhChanging(value);
+					this.SendPropertyChanging();
+					this._NgaySinh = value;
+					this.SendPropertyChanged("NgaySinh");
+					this.OnNgaySinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueQuan", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string QueQuan
+		{
+			get
+			{
+				return this._QueQuan;
+			}
+			set
+			{
+				if ((this._QueQuan != value))
+				{
+					this.OnQueQuanChanging(value);
+					this.SendPropertyChanging();
+					this._QueQuan = value;
+					this.SendPropertyChanged("QueQuan");
+					this.OnQueQuanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDienThoai", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string SoDienThoai
+		{
+			get
+			{
+				return this._SoDienThoai;
+			}
+			set
+			{
+				if ((this._SoDienThoai != value))
+				{
+					this.OnSoDienThoaiChanging(value);
+					this.SendPropertyChanging();
+					this._SoDienThoai = value;
+					this.SendPropertyChanged("SoDienThoai");
+					this.OnSoDienThoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DelTime", DbType="Date")]
+		public System.Nullable<System.DateTime> DelTime
+		{
+			get
+			{
+				return this._DelTime;
+			}
+			set
+			{
+				if ((this._DelTime != value))
+				{
+					this.OnDelTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DelTime = value;
+					this.SendPropertyChanged("DelTime");
+					this.OnDelTimeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

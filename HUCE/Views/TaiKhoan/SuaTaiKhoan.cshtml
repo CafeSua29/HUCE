@@ -1,7 +1,7 @@
 ﻿@model HUCE.Models.TaiKhoan
 
 @{
-    ViewBag.Title = "ThemTaiKhoan";
+    ViewBag.Title = "SuaTaiKhoan";
     Layout = "~/Views/Layouts/_LayoutMain.cshtml";
 }
 
@@ -38,10 +38,10 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Them Tai Khoan</h3>
+                <h3 class="page-title">Sua Tai Khoan</h3>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="~/Admin/Dashboard">Trang Chu</a></li>
-                    <li class="breadcrumb-item active">Them Tai Khoan</li>
+                    <li class="breadcrumb-item active">Sua Tai Khoan</li>
                 </ul>
             </div>
         </div>
@@ -60,16 +60,7 @@
                                 <h5 class="form-title"><span>Thông Tin Tai Khoan</span></h5>
                             </div>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TenTaiKhoan, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TenTaiKhoan, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.TenTaiKhoan, "", new { @class = "text-danger" })
-                                    <div class="text-danger">
-                                        @TempData["Error1"]
-                                    </div>
-                                </div>
-                            </div>
+                            @Html.HiddenFor(model => model.TenTaiKhoan)
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.MatKhau, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -97,21 +88,17 @@
                                     <div class="text-danger">
                                         @TempData["Error"]
                                     </div>
-                                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                                    <input type="submit" value="Luu" class="btn btn-primary" />
                                 </div>
                             </div>
                         </div>
                     }
-                    <div class="col-md-offset-2 col-md-10">
-                        <form method="post" action="~/TaiKhoan/NhapFileExcel" enctype="multipart/form-data">
-                            <input type="file" id="file" name="file" class="btn btn-primary" />
-                            <button type="submit" value="Thêm" class="btn btn-primary">Thêm danh sach</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

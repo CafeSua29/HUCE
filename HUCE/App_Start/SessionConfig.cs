@@ -1,7 +1,9 @@
-﻿using System;
+﻿using HUCE.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace HUCE.App_Start
 {

@@ -182,7 +182,7 @@ namespace HUCE.Controllers
 
                 if (!string.IsNullOrEmpty(tentk))
                 {
-                    dstk = (from item in db.TaiKhoans.Where(o => o.TenTaiKhoan == tentk && o.DelTime == null)
+                    dstk = (from item in db.TaiKhoans.Where(o => o.TenTaiKhoan.Contains(tentk) && o.DelTime == null)
                             select new
                             {
                                 TenTaiKhoan = item.TenTaiKhoan,
