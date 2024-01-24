@@ -51,7 +51,7 @@ namespace HUCE.Controllers
 
                     if (qr.Any())
                     {
-                        TempData["Error1"] = "Tai khoan da ton tai";
+                        TempData["Error"] = "Tai khoan da ton tai";
                         return View(tk);
                     }
                     else
@@ -319,53 +319,78 @@ namespace HUCE.Controllers
             }
         }
 
-        public ActionResult DoiMatKhau(string tentk)
+        public ActionResult DoiMatKhau()
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            TaiKhoan tk = db.TaiKhoans.FirstOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
-            return View(tk);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult DoiMatKhau(TaiKhoan tk)
+        public ActionResult DoiMatKhau(string currpass, string newpass, string confpass)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
             try
             {
-                if (!string.IsNullOrEmpty(tk.TenTaiKhoan))
+                if (!string.IsNullOrEmpty(currpass) && !string.IsNullOrEmpty(newpass) && !string.IsNullOrEmpty(confpass))
                 {
-                    var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == tk.TenTaiKhoan && o.DelTime == null);
+                    var tentk = SessionConfig.GetSession();
+                    var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
                     if (qr.Any())
                     {
-                        TaiKhoan tk1 = qr.SingleOrDefault();
-                        tk1.MatKhau = tk.MatKhau;
+                        TaiKhoan tk = qr.SingleOrDefault();
+                        
+                        if (currpass != tk.MatKhau)
+                        {
+                            TempData["Error"] = "Mat khau hien tai khong dung";
+                            return View();
+                        }
+                        else
+                        {
+                            if(newpass != confpass)
+                            {
+                                TempData["Error"] = "Xac nhan mat khau khong dung";
+                                return View();
+                            }
+                            else
+                            {
+                                if(tk.MatKhau == newpass)
+                                {
+                                    TempData["Error"] = "Mat khau moi giong mat khau cu";
+                                    return View();
+                                }
+                                else
+                                {
+                                    tk.MatKhau = newpass;
 
-                        db.SubmitChanges();
+                                    db.SubmitChanges();
 
-                        SessionConfig.DeSession();
-                        return RedirectToAction("Login", "Login");
+                                    SessionConfig.DeSession();
+                                    return RedirectToAction("Login", "Login");
+                                }
+                            }
+                        }
                     }
                     else
                     {
                         TempData["Error"] = "Không tim thay tai khoan";
-                        return View(tk);
+                        return View();
                     }
                 }
                 else
                 {
-                    TempData["Error"] = "Không tim thay tai khoan";
-                    return View(tk);
+                    TempData["Error"] = "Vui long nhap day du thong tin ";
+                    return View();
                 }
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "Không thể doi mat khau, chi tiet loi: " + ex;
-                return View(tk);
+                return View();
             }
         }
 
