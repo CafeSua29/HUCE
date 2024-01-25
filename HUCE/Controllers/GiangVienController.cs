@@ -19,6 +19,14 @@ namespace HUCE.Controllers
             return View();
         }
 
+        public ActionResult Dashboard()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            return View();
+        }
+
         public ActionResult DanhSachGiangVien()
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
@@ -73,14 +81,14 @@ namespace HUCE.Controllers
 
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachGiangVien", "GiangVien");
                         }
                         else
                         {
                             db.GiangViens.InsertOnSubmit(gv);
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachGiangVien", "GiangVien");
                         }
                     }
                 }
@@ -130,7 +138,7 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "NhanVien");
+                        return RedirectToAction("DanhSachGiangVien", "GiangVien");
                     }
                     else
                     {
@@ -166,16 +174,16 @@ namespace HUCE.Controllers
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachGiangVien", "GiangVien");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachGiangVien", "GiangVien");
             }
         }
 
         [HttpPost]
-        public JsonResult TimGiangVien(string magv, string tengv)
+        public JsonResult TimGiangVien(string ttgv)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 RedirectToAction("Login", "Login");
@@ -193,61 +201,36 @@ namespace HUCE.Controllers
                                 Email = item.Email
                             }).ToList();
 
-                if (!string.IsNullOrEmpty(magv) && string.IsNullOrEmpty(tengv))
+                if (!string.IsNullOrEmpty(ttgv))
                 {
-                    dsgv = (from item in db.GiangViens.Where(o => o.MaGV == magv && o.DelTime == null)
-                            select new
-                            {
-                                MaGV = item.MaGV,
-                                TenGV = item.TenGV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else if (!string.IsNullOrEmpty(tengv) && string.IsNullOrEmpty(magv))
-                {
-                    dsgv = (from item in db.GiangViens.Where(o => o.TenGV.Contains(tengv) && o.DelTime == null)
-                            select new
-                            {
-                                MaGV = item.MaGV,
-                                TenGV = item.TenGV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else if (string.IsNullOrEmpty(tengv) && string.IsNullOrEmpty(magv))
-                {
-                    dsgv = (from item in db.GiangViens.Where(o => o.DelTime == null)
-                            select new
-                            {
-                                MaGV = item.MaGV,
-                                TenGV = item.TenGV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else
-                {
-                    dsgv = (from item in db.GiangViens.Where(o => o.MaGV == magv && o.TenGV.Contains(tengv) && o.DelTime == null)
-                            select new
-                            {
-                                MaGV = item.MaGV,
-                                TenGV = item.TenGV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
+                    if (ttgv.All(char.IsDigit))
+                    {
+                        dsgv = (from item in db.GiangViens.Where(o => o.MaGV == ttgv && o.DelTime == null)
+                                select new
+                                {
+                                    MaGV = item.MaGV,
+                                    TenGV = item.TenGV,
+                                    GioiTinh = item.GioiTinh,
+                                    NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
+                                    QueQuan = item.QueQuan,
+                                    SoDienThoai = item.SoDienThoai,
+                                    Email = item.Email
+                                }).ToList();
+                    }
+                    else
+                    {
+                        dsgv = (from item in db.GiangViens.Where(o => o.TenGV.Contains(ttgv) && o.DelTime == null)
+                                select new
+                                {
+                                    MaGV = item.MaGV,
+                                    TenGV = item.TenGV,
+                                    GioiTinh = item.GioiTinh,
+                                    NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
+                                    QueQuan = item.QueQuan,
+                                    SoDienThoai = item.SoDienThoai,
+                                    Email = item.Email
+                                }).ToList();
+                    }
                 }
 
                 return Json(new { dsgv = dsgv }, JsonRequestBehavior.AllowGet);

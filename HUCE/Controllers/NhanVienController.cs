@@ -18,6 +18,14 @@ namespace HUCE.Controllers
             return View();
         }
 
+        public ActionResult Dashboard()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            return View();
+        }
+
         public NhanVien GetNhanVien(string manv)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))

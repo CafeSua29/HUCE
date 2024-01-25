@@ -20,9 +20,9 @@ namespace HUCE.Models
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-	
-	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="HUCE")]
+    using System.ComponentModel.DataAnnotations;
+
+    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="HUCE")]
 	public partial class DBConnecterDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -2640,7 +2640,9 @@ namespace HUCE.Models
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="Date NOT NULL")]
-		public System.DateTime NgaySinh
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public System.DateTime NgaySinh
 		{
 			get
 			{

@@ -1,7 +1,10 @@
 ﻿using HUCE.App_Start;
 using HUCE.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +18,14 @@ namespace HUCE.Controllers
         // GET: SinhVien
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Dashboard()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
@@ -50,7 +61,7 @@ namespace HUCE.Controllers
 
                     if (qr.Any())
                     {
-                        TempData["Error1"] = "Ma sinh vien da ton tai";
+                        TempData["Error"] = "Ma sinh vien da ton tai";
                         return View(sv);
                     }
                     else
@@ -72,14 +83,14 @@ namespace HUCE.Controllers
 
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachSinhVien", "SinhVien");
                         }
                         else
                         {
                             db.SinhViens.InsertOnSubmit(sv);
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachSinhVien", "SinhVien");
                         }
                     }
                 }
@@ -129,7 +140,7 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "NhanVien");
+                        return RedirectToAction("DanhSachSinhVien", "SinhVien");
                     }
                     else
                     {
@@ -165,16 +176,16 @@ namespace HUCE.Controllers
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachSinhVien", "SinhVien");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachSinhVien", "SinhVien");
             }
         }
 
         [HttpPost]
-        public JsonResult TimSinhVien(string MaSV, string TenSV)
+        public JsonResult TimSinhVien(string ttsv)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 RedirectToAction("Login", "Login");
@@ -192,61 +203,36 @@ namespace HUCE.Controllers
                                 Email = item.Email
                             }).ToList();
 
-                if (!string.IsNullOrEmpty(MaSV) && string.IsNullOrEmpty(TenSV))
+                if (!string.IsNullOrEmpty(ttsv))
                 {
-                    dssv = (from item in db.SinhViens.Where(o => o.MaSV == MaSV && o.DelTime == null)
-                            select new
-                            {
-                                MaSV = item.MaSV,
-                                TenSV = item.TenSV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else if (!string.IsNullOrEmpty(TenSV) && string.IsNullOrEmpty(MaSV))
-                {
-                    dssv = (from item in db.SinhViens.Where(o => o.TenSV.Contains(TenSV) && o.DelTime == null)
-                            select new
-                            {
-                                MaSV = item.MaSV,
-                                TenSV = item.TenSV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else if (string.IsNullOrEmpty(TenSV) && string.IsNullOrEmpty(MaSV))
-                {
-                    dssv = (from item in db.SinhViens.Where(o => o.DelTime == null)
-                            select new
-                            {
-                                MaSV = item.MaSV,
-                                TenSV = item.TenSV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
-                }
-                else
-                {
-                    dssv = (from item in db.SinhViens.Where(o => o.MaSV == MaSV && o.TenSV.Contains(TenSV) && o.DelTime == null)
-                            select new
-                            {
-                                MaSV = item.MaSV,
-                                TenSV = item.TenSV,
-                                GioiTinh = item.GioiTinh,
-                                NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
-                                QueQuan = item.QueQuan,
-                                SoDienThoai = item.SoDienThoai,
-                                Email = item.Email
-                            }).ToList();
+                    if (ttsv.All(char.IsDigit))
+                    {
+                        dssv = (from item in db.SinhViens.Where(o => o.MaSV == ttsv && o.DelTime == null)
+                                select new
+                                {
+                                    MaSV = item.MaSV,
+                                    TenSV = item.TenSV,
+                                    GioiTinh = item.GioiTinh,
+                                    NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
+                                    QueQuan = item.QueQuan,
+                                    SoDienThoai = item.SoDienThoai,
+                                    Email = item.Email
+                                }).ToList();
+                    }
+                    else
+                    {
+                        dssv = (from item in db.SinhViens.Where(o => o.TenSV.Contains(ttsv) && o.DelTime == null)
+                                select new
+                                {
+                                    MaSV = item.MaSV,
+                                    TenSV = item.TenSV,
+                                    GioiTinh = item.GioiTinh,
+                                    NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
+                                    QueQuan = item.QueQuan,
+                                    SoDienThoai = item.SoDienThoai,
+                                    Email = item.Email
+                                }).ToList();
+                    }
                 }
 
                 return Json(new { dssv = dssv }, JsonRequestBehavior.AllowGet);
@@ -265,6 +251,137 @@ namespace HUCE.Controllers
             }
 
             return null;
+        }
+
+        public ActionResult ChiTietSinhVien(string masv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var sv = db.SinhViens.Where(o => o.MaSV == masv && o.DelTime == null).SingleOrDefault();
+
+            return View(sv);
+        }
+
+        public ActionResult NhapFileExcel()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+            else
+            {
+                try
+                {
+                    if (Request != null)
+                    {
+                        HttpPostedFileBase file = Request.Files["file"];
+
+                        if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                        {
+                            using (var package = new ExcelPackage(file.InputStream))
+                            {
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                                int rowCount = worksheet.Dimension.Rows;
+
+                                for (int row = 2; row <= rowCount; row++)
+                                {
+                                    var gioitinh = worksheet.Cells[row, 3].Value.ToString().Trim();
+                                    var gt = false;
+
+                                    switch (gioitinh)
+                                    {
+                                        case "Nam":
+                                            gt = true;
+                                            break;
+
+                                        case "Nu":
+                                            gt = false;
+                                            break;
+
+                                        default:
+                                            TempData["Error"] = "Gioi tinh khong hop le";
+                                            return View("ThemSinhVien", new SinhVien());
+                                    }
+
+                                    SinhVien sv = new SinhVien
+                                    {
+                                        MaSV = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                                        TenSV = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                                        GioiTinh = gt,
+                                        NgaySinh = DateTime.ParseExact(worksheet.Cells[row, 4].Value.ToString().Trim(), "dd/MM/yyyy", CultureInfo.InvariantCulture),
+                                        QueQuan = worksheet.Cells[row, 5].Value.ToString().Trim(),
+                                        SoDienThoai = worksheet.Cells[row, 6].Value.ToString().Trim(),
+                                        Email = worksheet.Cells[row, 7].Value.ToString().Trim()
+
+                                    };
+
+                                    ThemSinhVien(sv);
+                                }
+                            }
+                        }
+                    }
+
+                    return View("ThemSinhVien", new SinhVien());
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Không thể them moi danh sach, chi tiet loi: " + ex;
+                    return View("ThemSinhVien", new SinhVien());
+                }
+            }
+        }
+
+        public void XuatFileExcel()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                List<SinhVien> listsv = db.SinhViens.Where(o => o.DelTime == null).ToList();
+
+                ExcelPackage ep = new ExcelPackage();
+                ExcelWorksheet Sheet = ep.Workbook.Worksheets.Add("SinhVien");
+
+                Sheet.Cells["A1"].Value = "Ma Sinh Vien";
+                Sheet.Cells["B1"].Value = "Ten Sinh Vien";
+                Sheet.Cells["C1"].Value = "Gioi Tinh";
+                Sheet.Cells["D1"].Value = "Ngay Sinh";
+                Sheet.Cells["E1"].Value = "Que Quan";
+                Sheet.Cells["F1"].Value = "So Dien Thoai";
+                Sheet.Cells["G1"].Value = "Email";
+
+                int row = 2;
+
+                foreach (var sv in listsv)
+                {
+                    Sheet.Cells[string.Format("A{0}", row)].Value = sv.MaSV;
+                    Sheet.Cells[string.Format("B{0}", row)].Value = sv.TenSV;
+
+                    switch (sv.GioiTinh)
+                    {
+                        case true:
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Nam";
+                            break;
+
+                        case false:
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Nu";
+                            break;
+                    }
+
+                    Sheet.Cells[string.Format("D{0}", row)].Value = sv.NgaySinh.ToString("dd/MM/yyyy");
+                    Sheet.Cells[string.Format("E{0}", row)].Value = sv.QueQuan;
+                    Sheet.Cells[string.Format("F{0}", row)].Value = sv.SoDienThoai;
+                    Sheet.Cells[string.Format("G{0}", row)].Value = sv.Email;
+
+                    row++;
+                }
+
+                Sheet.Cells["A:AZ"].AutoFitColumns();
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment; filename=" + "SinhVien.xlsx");
+                Response.BinaryWrite(ep.GetAsByteArray());
+                Response.End();
+            }
         }
     }
 }

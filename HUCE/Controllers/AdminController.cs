@@ -34,10 +34,20 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-               return db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault(); ;
+               return db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault();
             }
 
             return null;
+        }
+
+        public ActionResult ChiTietAdmin(string maad)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var admin = db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault();
+
+            return View(admin);
         }
     }
 }

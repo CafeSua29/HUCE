@@ -157,7 +157,14 @@ namespace HUCE.Controllers
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Dashboard", "Admin");
+                if(tentk == SessionConfig.GetSession())
+                {
+                    SessionConfig.DeSession();
+
+                    return RedirectToAction("Login", "Login");
+                }
+                else
+                    return RedirectToAction("Dashboard", "Admin");
             }
             catch (Exception ex)
             {

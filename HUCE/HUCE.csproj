@@ -126,12 +126,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SessionConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ChuongTrinhKhungController.cs" />
+    <Compile Include="Controllers\DiemRenLuyenController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
+    <Compile Include="Controllers\HocBongController.cs" />
+    <Compile Include="Controllers\KhoaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LopController.cs" />
     <Compile Include="Controllers\MonHocController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\SinhVienController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
+    <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -160,6 +166,14 @@
     <Content Include="Views\TaiKhoan\ThemTaiKhoan.cshtml" />
     <Content Include="Views\TaiKhoan\SuaTaiKhoan.cshtml" />
     <Content Include="Views\TaiKhoan\DoiMatKhau.cshtml" />
+    <Content Include="Views\Admin\ChiTietAdmin.cshtml" />
+    <Content Include="Views\SinhVien\DanhSachSinhVien.cshtml" />
+    <Content Include="Views\NhanVien\Dashboard.cshtml" />
+    <Content Include="Views\SinhVien\Dashboard.cshtml" />
+    <Content Include="Views\GiangVien\Dashboard.cshtml" />
+    <Content Include="Views\SinhVien\ThemSinhVien.cshtml" />
+    <Content Include="Views\SinhVien\SuaSinhVien.cshtml" />
+    <Content Include="Views\SinhVien\ChiTietSinhVien.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -169,10 +183,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\GiangVien\" />
+    <Folder Include="Views\ChuongTrinhKhung\" />
+    <Folder Include="Views\DiemRenLuyen\" />
+    <Folder Include="Views\HocBong\" />
+    <Folder Include="Views\Khoa\" />
+    <Folder Include="Views\Lop\" />
     <Folder Include="Views\MonHoc\" />
-    <Folder Include="Views\NhanVien\" />
-    <Folder Include="Views\SinhVien\" />
+    <Folder Include="Views\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

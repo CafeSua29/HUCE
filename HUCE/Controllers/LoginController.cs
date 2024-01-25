@@ -31,7 +31,7 @@ namespace HUCE.Controllers
             {
                 if (!string.IsNullOrEmpty(taikhoan.TenTaiKhoan) && !string.IsNullOrEmpty(taikhoan.MatKhau))
                 {
-                    var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == taikhoan.TenTaiKhoan);
+                    var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == taikhoan.TenTaiKhoan && o.DelTime == null);
 
                     if (qr.Any())
                     {

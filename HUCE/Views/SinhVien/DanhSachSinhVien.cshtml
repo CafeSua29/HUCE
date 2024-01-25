@@ -1,0 +1,145 @@
+﻿@model List<HUCE.Models.SinhVien>
+
+@{
+    ViewBag.Title = "DanhSachSinhVien";
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="form-row col-md-8">
+                <div class="col-md-4 mb-3 top-nav-search">
+                    <input type="text" class="form-control" placeholder="Nhập ma hoac ten sinh vien" id="ttsv" name="ttsv">
+                </div>
+                <div class="col-md-3 mb-1 top-nav-search">
+                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search">Tìm Kiếm</i></button>
+                </div>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/SinhVien/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
+                <a href="~/SinhVien/ThemSinhVien" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="text-danger">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma Sinh Vien</th>
+                                    <th>Ten Sinh Vien</th>
+                                    <th>Gioi Tinh</th>
+                                    <th>Ngay Sinh</th>
+                                    <th>Que Quan</th>
+                                    <th>So Dien Thoai</th>
+                                    <th>Email</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbSinhVien">
+                                @foreach (var sv in Model)
+                                {
+                                    <tr>
+                                        <td>@sv.MaSV</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle"
+                                                         src="~/Assets/img/profiles/@{ @sv.MaSV }.jpg"
+                                                         alt="User Image">
+                                                </a>
+                                                <a href="~/SinhVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
+                                            </h2>
+                                        </td>
+                                        @{
+                                            switch (sv.GioiTinh)
+                                            {
+                                                case true:
+                                                    <td>Nam</td>
+                                                    break;
+
+                                                case false:
+                                                    <td>Nu</td>
+                                                    break;
+                                            }
+                                        }
+                                        <td>@String.Format("{0:dd/MM/yyyy}", sv.NgaySinh)</td>
+                                        <td>@sv.QueQuan</td>
+                                        <td>@sv.SoDienThoai</td>
+                                        <td>@sv.Email</td>
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a href="~/SinhVien/SuaSinhVien?masv=@sv.MaSV" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa sinh vien này không ?')) { location.href = '/SinhVien/XoaSinhVien?masv=@sv.MaSV' }" class="btn btn-sm bg-danger-light">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnTimKiem').click(function () {
+                var ttsv = $('#ttsv').val();
+
+                TimSinhVien(ttsv);
+            });
+
+            function TimSinhVien(ttsv) {
+                $.ajax({
+                    url: "/SinhVien/TimSinhVien",
+                    type: 'post',
+                    data: { ttsv: ttsv },
+                    success: function (data) {
+                        let display = '';
+
+                        $.each(data.dssv, function (index, item) {
+                            display += '<tr><td>' + item.MaSV + '</td>';
+                            display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
+                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                            display += '<td>';
+                            switch (item.GioiTinh) {
+                                case true:
+                                    display += "Nam"
+                                    break;
+
+                                case false:
+                                    display += "Nu"
+                                    break;
+                            }
+                            display += '</td>';
+                            display += '<td>' + item.NgaySinh + '</td>';
+                            display += '<td>' + item.QueQuan + '</td>';
+                            display += '<td>' + item.SoDienThoai + '</td>';
+                            display += '<td>' + item.Email + '</td>';
+                            display += '<td class="text-right"><div class="actions"><a href="/SinhVien/SuaSinhVien?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa sinh vien này không ?\')) { location.href = \'/SinhVien/XoaSinhVien?masv=' + item.MaSV + '\'}" class="btn btn-sm bg-danger-light"><i class="fas fa-trash"></i></a></div></td></tr>';
+                        });
+
+                        $('#tbSinhVien').html(display);
+                    }
+                });
+            }
+        })
+    </script>
+}

@@ -68,14 +68,14 @@ namespace HUCE.Controllers
 
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachMonHoc", "MonHoc");
                         }
                         else
                         {
                             db.MonHocs.InsertOnSubmit(mh);
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "NhanVien");
+                            return RedirectToAction("DanhSachMonHoc", "MonHoc");
                         }
                     }
                 }
@@ -121,7 +121,7 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "NhanVien");
+                        return RedirectToAction("DanhSachMonHoc", "MonHoc");
                     }
                     else
                     {
@@ -157,16 +157,16 @@ namespace HUCE.Controllers
 
                 db.SubmitChanges();
 
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachMonHoc", "MonHoc");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Dashboard", "NhanVien");
+                return RedirectToAction("DanhSachMonHoc", "MonHoc");
             }
         }
 
         [HttpPost]
-        public JsonResult TimMonHoc(string MaMH, string TenMH)
+        public JsonResult TimMonHoc(string ttmh)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 RedirectToAction("Login", "Login");
@@ -180,45 +180,28 @@ namespace HUCE.Controllers
                                 SoTin = item.SoTin
                             }).ToList();
 
-                if (!string.IsNullOrEmpty(MaMH) && string.IsNullOrEmpty(TenMH))
+                if (!string.IsNullOrEmpty(ttmh))
                 {
-                    dsmh = (from item in db.MonHocs.Where(o => o.MaMH == MaMH && o.DelTime == null)
-                            select new
-                            {
-                                MaMH = item.MaMH,
-                                TenMH = item.TenMH,
-                                SoTin = item.SoTin
-                            }).ToList();
-                }
-                else if (!string.IsNullOrEmpty(TenMH) && string.IsNullOrEmpty(MaMH))
-                {
-                    dsmh = (from item in db.MonHocs.Where(o => o.TenMH.Contains(TenMH) && o.DelTime == null)
-                            select new
-                            {
-                                MaMH = item.MaMH,
-                                TenMH = item.TenMH,
-                                SoTin = item.SoTin
-                            }).ToList();
-                }
-                else if (string.IsNullOrEmpty(TenMH) && string.IsNullOrEmpty(MaMH))
-                {
-                    dsmh = (from item in db.MonHocs.Where(o => o.DelTime == null)
-                            select new
-                            {
-                                MaMH = item.MaMH,
-                                TenMH = item.TenMH,
-                                SoTin = item.SoTin
-                            }).ToList();
-                }
-                else
-                {
-                    dsmh = (from item in db.MonHocs.Where(o => o.MaMH == MaMH && o.TenMH.Contains(TenMH) && o.DelTime == null)
-                            select new
-                            {
-                                MaMH = item.MaMH,
-                                TenMH = item.TenMH,
-                                SoTin = item.SoTin
-                            }).ToList();
+                    if (ttmh.All(char.IsDigit))
+                    {
+                        dsmh = (from item in db.MonHocs.Where(o => o.MaMH == ttmh && o.DelTime == null)
+                                select new
+                                {
+                                    MaMH = item.MaMH,
+                                    TenMH = item.TenMH,
+                                    SoTin = item.SoTin
+                                }).ToList();
+                    }
+                    else
+                    {
+                        dsmh = (from item in db.MonHocs.Where(o => o.TenMH.Contains(ttmh) && o.DelTime == null)
+                                select new
+                                {
+                                    MaMH = item.MaMH,
+                                    TenMH = item.TenMH,
+                                    SoTin = item.SoTin
+                                }).ToList();
+                    }
                 }
 
                 return Json(new { dsmh = dsmh }, JsonRequestBehavior.AllowGet);
