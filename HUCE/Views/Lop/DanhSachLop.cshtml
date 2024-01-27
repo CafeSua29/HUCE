@@ -1,0 +1,112 @@
+﻿@model List<HUCE.Models.Lop>
+
+@{
+    ViewBag.Title = "DanhSachLop";
+    List<HUCE.Models.Khoa> listkhoa = ViewBag.Khoa;
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="form-row col-md-8">
+                <div class="col-md-4 mb-3 top-nav-search">
+                    <input type="text" class="form-control" placeholder="Nhập ma hoac ten lop" id="ttlop" name="ttlop">
+                </div>
+                <div class="col-md-3 mb-1 top-nav-search">
+                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search">Tìm Kiếm</i></button>
+                </div>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/Lop/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
+                <a href="~/Lop/ThemLop" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="text-danger">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma Lop</th>
+                                    <th>Ten Lop</th>
+                                    <th>Khoa</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbLop">
+                                @foreach (var lop in Model)
+                                {
+                                    <tr>
+                                        <td>@lop.MaLop</td>
+                                        <td>@lop.TenLop</td>
+                                        @{
+                                            foreach (var khoa in listkhoa)
+                                            {
+                                                if (lop.MaKhoa == khoa.MaKhoa)
+                                                {
+                                                    <td>@khoa.TenKhoa</td>
+                                                }
+                                            }
+                                        }
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a href="~/Lop/SuaLop?malop=@lop.MaLop" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa lop này không ?')) { location.href = '/Lop/XoaLop?malop=@lop.MaLop' }" class="btn btn-sm bg-danger-light">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnTimKiem').click(function () {
+                var ttlop = $('#ttlop').val();
+
+                TimLop(ttlop);
+            });
+
+            function TimLop(ttlop) {
+                $.ajax({
+                    url: "/Lop/TimLop",
+                    type: 'post',
+                    data: { ttlop: ttlop },
+                    success: function (data) {
+                        let display = '';
+
+                        $.each(data.dslop, function (index, item) {
+                            display += '<tr><td>' + item.MaLop + '</td>';
+                            display += '<td>' + item.TenLop + '</td>';
+                            display += '<td>' + item.TenKhoa + '</td>';
+                            display += '<td class="text-right"><div class="actions"><a href="/Lop/SuaLop?malop=' + item.MaLop + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa Lop này không ?\')) { location.href = \'/Lop/XoaLop?malop=' + item.MaLop + '\'}" class="btn btn-sm bg-danger-light"><i class="fas fa-trash"></i></a></div></td></tr>';
+                        });
+
+                        $('#tbLop').html(display);
+                    }
+                });
+            }
+        })
+    </script>
+}
+

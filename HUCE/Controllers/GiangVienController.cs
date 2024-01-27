@@ -61,7 +61,7 @@ namespace HUCE.Controllers
 
                     if (qr.Any())
                     {
-                        TempData["Error1"] = "Ma giang vien da ton tai";
+                        TempData["Error"] = "Ma giang vien da ton tai";
                         return View(gv);
                     }
                     else
@@ -320,7 +320,14 @@ namespace HUCE.Controllers
                         }
                     }
 
-                    return View("ThemGiangVien", new GiangVien());
+                    if (TempData["Error"] == null)
+                    {
+                        return RedirectToAction("DanhSachGiangVien", "GiangVien");
+                    }
+                    else
+                    {
+                        return View("ThemGiangVien", new GiangVien());
+                    }
                 }
                 catch (Exception ex)
                 {

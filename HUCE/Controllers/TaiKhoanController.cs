@@ -263,7 +263,14 @@ namespace HUCE.Controllers
                         }
                     }
 
-                    return View("ThemTaiKhoan", new TaiKhoan());
+                    if (TempData["Error"] == null)
+                    {
+                        return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
+                    }
+                    else
+                    {
+                        return View("ThemTaiKhoan", new TaiKhoan());
+                    }
                 }
                 catch (Exception ex)
                 {

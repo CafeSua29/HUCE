@@ -1,0 +1,86 @@
+﻿@model HUCE.Models.Lop
+
+@{
+    ViewBag.Title = "ThemLop";
+    List<HUCE.Models.Khoa> listkhoa = ViewBag.Khoa;
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Them Lop</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="~/Admin/Dashboard">Trang Chu</a></li>
+                    <li class="breadcrumb-item active">Them Lop</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>Thông Tin Lop</span></h5>
+                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaLop, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaLop, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TenLop, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TenLop, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TenLop, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaKhoa, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <select class="form-control" name="MaKhoa">
+                                    @{
+                                        foreach (var khoa in listkhoa)
+                                        {
+                                            <option value="@khoa.MaKhoa" @Html.Raw(khoa.MaKhoa == Model.MaKhoa ? "selected" : "")>@khoa.TenKhoa</option>
+                                        }
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="text-danger">
+                                    @TempData["Error"]
+                                </div>
+                                <input type="submit" value="Thêm" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <div class="col-md-offset-2 col-md-10">
+                        <form method="post" action="~/Lop/NhapFileExcel" enctype="multipart/form-data">
+                            <input type="file" id="file" name="file" class="btn btn-primary" />
+                            <button type="submit" value="Thêm" class="btn btn-primary">Thêm danh sach</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -320,7 +320,14 @@ namespace HUCE.Controllers
                         }
                     }
 
-                    return View("ThemSinhVien", new SinhVien());
+                    if (TempData["Error"] == null)
+                    {
+                        return RedirectToAction("DanhSachSinhVien", "SinhVien");
+                    }
+                    else
+                    {
+                        return View("ThemSinhVien", new SinhVien());
+                    }
                 }
                 catch (Exception ex)
                 {

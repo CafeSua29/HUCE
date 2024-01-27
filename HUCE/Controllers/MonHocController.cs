@@ -1,5 +1,6 @@
 ﻿using HUCE.App_Start;
 using HUCE.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,36 +47,44 @@ namespace HUCE.Controllers
             {
                 if (!string.IsNullOrEmpty(mh.MaMH) && !string.IsNullOrEmpty(mh.TenMH))
                 {
-                    var qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime == null);
-
-                    if (qr.Any())
+                    if(mh.SoTin <= 0)
                     {
-                        TempData["Error1"] = "Ma mon hoc da ton tai";
+                        TempData["Error"] = "So tin khong hop le";
                         return View(mh);
                     }
                     else
                     {
-                        qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime != null);
+                        var qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime == null);
 
                         if (qr.Any())
                         {
-                            MonHoc mh1 = qr.SingleOrDefault();
-
-                            mh1.MaMH = mh.MaMH;
-                            mh1.TenMH = mh.TenMH;
-                            mh1.SoTin = mh.SoTin;
-                            mh1.DelTime = null;
-
-                            db.SubmitChanges();
-
-                            return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                            TempData["Error"] = "Ma mon hoc da ton tai";
+                            return View(mh);
                         }
                         else
                         {
-                            db.MonHocs.InsertOnSubmit(mh);
-                            db.SubmitChanges();
+                            qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime != null);
 
-                            return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                            if (qr.Any())
+                            {
+                                MonHoc mh1 = qr.SingleOrDefault();
+
+                                mh1.MaMH = mh.MaMH;
+                                mh1.TenMH = mh.TenMH;
+                                mh1.SoTin = mh.SoTin;
+                                mh1.DelTime = null;
+
+                                db.SubmitChanges();
+
+                                return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                            }
+                            else
+                            {
+                                db.MonHocs.InsertOnSubmit(mh);
+                                db.SubmitChanges();
+
+                                return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                            }
                         }
                     }
                 }
@@ -111,22 +120,30 @@ namespace HUCE.Controllers
             {
                 if (!string.IsNullOrEmpty(mh.MaMH))
                 {
-                    var qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime == null);
-
-                    if (qr.Any())
+                    if (mh.SoTin <= 0)
                     {
-                        MonHoc mh1 = qr.SingleOrDefault();
-                        mh1.TenMH = mh.TenMH;
-                        mh1.SoTin = mh.SoTin;
-
-                        db.SubmitChanges();
-
-                        return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                        TempData["Error"] = "So tin khong hop le";
+                        return View(mh);
                     }
                     else
                     {
-                        TempData["Error"] = "Không tim thay mon hoc";
-                        return View(mh);
+                        var qr = db.MonHocs.Where(o => o.MaMH == mh.MaMH && o.DelTime == null);
+
+                        if (qr.Any())
+                        {
+                            MonHoc mh1 = qr.SingleOrDefault();
+                            mh1.TenMH = mh.TenMH;
+                            mh1.SoTin = mh.SoTin;
+
+                            db.SubmitChanges();
+
+                            return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                        }
+                        else
+                        {
+                            TempData["Error"] = "Không tim thay mon hoc";
+                            return View(mh);
+                        }
                     }
                 }
                 else
@@ -208,6 +225,92 @@ namespace HUCE.Controllers
             }
 
             return null;
+        }
+
+        public ActionResult NhapFileExcel()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+            else
+            {
+                try
+                {
+                    if (Request != null)
+                    {
+                        HttpPostedFileBase file = Request.Files["file"];
+
+                        if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                        {
+                            using (var package = new ExcelPackage(file.InputStream))
+                            {
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                                int rowCount = worksheet.Dimension.Rows;
+
+                                for (int row = 2; row <= rowCount; row++)
+                                {
+                                    MonHoc mh = new MonHoc
+                                    {
+                                        MaMH = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                                        TenMH = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                                        SoTin = int.Parse(worksheet.Cells[row, 3].Value.ToString().Trim())
+                                    };
+
+                                    ThemMonHoc(mh);
+                                }
+                            }
+                        }
+                    }
+
+                    if (TempData["Error"] == null)
+                    {
+                        return RedirectToAction("DanhSachMonHoc", "MonHoc");
+                    }
+                    else
+                    {
+                        return View("ThemMonHoc", new MonHoc());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Không thể them moi danh sach, chi tiet loi: " + ex;
+                    return View("ThemMonHoc", new MonHoc());
+                }
+            }
+        }
+
+        public void XuatFileExcel()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                List<MonHoc> listmh = db.MonHocs.Where(o => o.DelTime == null).ToList();
+
+                ExcelPackage ep = new ExcelPackage();
+                ExcelWorksheet Sheet = ep.Workbook.Worksheets.Add("MonHoc");
+
+                Sheet.Cells["A1"].Value = "Ma Mon Hoc";
+                Sheet.Cells["B1"].Value = "Ten Mon Hoc";
+                Sheet.Cells["C1"].Value = "So Tin";
+
+                int row = 2;
+
+                foreach (var mh in listmh)
+                {
+                    Sheet.Cells[string.Format("A{0}", row)].Value = mh.MaMH;
+                    Sheet.Cells[string.Format("B{0}", row)].Value = mh.TenMH;
+                    Sheet.Cells[string.Format("C{0}", row)].Value = mh.SoTin;
+
+                    row++;
+                }
+
+                Sheet.Cells["A:AZ"].AutoFitColumns();
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment; filename=" + "MonHoc.xlsx");
+                Response.BinaryWrite(ep.GetAsByteArray());
+                Response.End();
+            }
         }
     }
 }

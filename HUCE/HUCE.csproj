@@ -179,6 +179,18 @@
     <Content Include="Views\NhanVien\ChiTietGiangVien.cshtml" />
     <Content Include="Views\NhanVien\ChiTietSinhVien.cshtml" />
     <Content Include="Views\GiangVien\DanhSachGiangVien.cshtml" />
+    <Content Include="Views\Layouts\_LayoutPageChung.cshtml" />
+    <Content Include="Views\GiangVien\SuaGiangVien.cshtml" />
+    <Content Include="Views\GiangVien\ThemGiangVien.cshtml" />
+    <Content Include="Views\MonHoc\DanhSachMonHoc.cshtml" />
+    <Content Include="Views\MonHoc\ThemMonHoc.cshtml" />
+    <Content Include="Views\MonHoc\SuaMonHoc.cshtml" />
+    <Content Include="Views\Khoa\DanhSachKhoa.cshtml" />
+    <Content Include="Views\Khoa\ThemKhoa.cshtml" />
+    <Content Include="Views\Khoa\SuaKhoa.cshtml" />
+    <Content Include="Views\Lop\DanhSachLop.cshtml" />
+    <Content Include="Views\Lop\ThemLop.cshtml" />
+    <Content Include="Views\Lop\SuaLop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -191,9 +203,6 @@
     <Folder Include="Views\ChuongTrinhKhung\" />
     <Folder Include="Views\DiemRenLuyen\" />
     <Folder Include="Views\HocBong\" />
-    <Folder Include="Views\Khoa\" />
-    <Folder Include="Views\Lop\" />
-    <Folder Include="Views\MonHoc\" />
     <Folder Include="Views\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>

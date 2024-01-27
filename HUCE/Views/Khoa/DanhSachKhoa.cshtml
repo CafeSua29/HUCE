@@ -1,0 +1,100 @@
+﻿@model List<HUCE.Models.Khoa>
+
+@{
+    ViewBag.Title = "DanhSachKhoa";
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="form-row col-md-8">
+                <div class="col-md-4 mb-3 top-nav-search">
+                    <input type="text" class="form-control" placeholder="Nhập ma hoac ten khoa" id="ttkhoa" name="ttkhoa">
+                </div>
+                <div class="col-md-3 mb-1 top-nav-search">
+                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search">Tìm Kiếm</i></button>
+                </div>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/Khoa/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
+                <a href="~/Khoa/ThemKhoa" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="text-danger">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma khoa</th>
+                                    <th>Ten khoa</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbKhoa">
+                                @foreach (var khoa in Model)
+                                {
+                                    <tr>
+                                        <td>@khoa.MaKhoa</td>
+                                        <td>@khoa.TenKhoa</td>
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a href="~/Khoa/SuaKhoa?makhoa=@khoa.MaKhoa" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa khoa này không ?')) { location.href = '/Khoa/XoaKhoa?makhoa=@khoa.MaKhoa' }" class="btn btn-sm bg-danger-light">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnTimKiem').click(function () {
+                var ttkhoa = $('#ttkhoa').val();
+
+                TimKhoa(ttkhoa);
+            });
+
+            function TimKhoa(ttkhoa) {
+                $.ajax({
+                    url: "/Khoa/TimKhoa",
+                    type: 'post',
+                    data: { ttkhoa: ttkhoa },
+                    success: function (data) {
+                        let display = '';
+
+                        $.each(data.dskhoa, function (index, item) {
+                            display += '<tr><td>' + item.MaKhoa + '</td>';
+                            display += '<td>' + item.TenKhoa + '</td>';
+                            display += '<td class="text-right"><div class="actions"><a href="/Khoa/SuaKhoa?makhoa=' + item.MaKhoa + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa khoa này không ?\')) { location.href = \'/Khoa/XoaKhoa?makhoa=' + item.MaKhoa + '\'}" class="btn btn-sm bg-danger-light"><i class="fas fa-trash"></i></a></div></td></tr>';
+                        });
+
+                        $('#tbKhoa').html(display);
+                    }
+                });
+            }
+        })
+    </script>
+}
+

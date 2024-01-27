@@ -1,0 +1,115 @@
+﻿@model HUCE.Models.GiangVien
+
+@{
+    ViewBag.Title = "ThemGiangVien";
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Them Giang Vien</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="~/GiangVien/DanhSachGiangVien">Trang Chu</a></li>
+                    <li class="breadcrumb-item active">Them Giang Vien</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Thông Tin Giang Vien</span></h5>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MaGV, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MaGV, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MaGV, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TenGV, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TenGV, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TenGV, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        <select class="form-control" name="GioiTinh">
+                                            <option value="true" @Html.Raw(true == Model.GioiTinh ? "selected" : "")>Nam</option>
+                                            <option value="false" @Html.Raw(false == Model.GioiTinh ? "selected" : "")>Nữ</option>
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.QueQuan, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.QueQuan, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.QueQuan, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SoDienThoai, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="text-danger">
+                                        @TempData["Error"]
+                                    </div>
+                                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-offset-2 col-md-10">
+                        <form method="post" action="~/GiangVien/NhapFileExcel" enctype="multipart/form-data">
+                            <input type="file" id="file" name="file" class="btn btn-primary" />
+                            <button type="submit" value="Thêm" class="btn btn-primary">Thêm danh sach</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
