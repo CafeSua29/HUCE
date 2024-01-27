@@ -37,5 +37,35 @@ namespace HUCE.Controllers
 
             return null;
         }
+
+        public ActionResult ChiTietNhanVien(string manv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var nv = db.NhanViens.Where(o => o.MaNV == manv && o.DelTime == null).SingleOrDefault();
+
+            return View(nv);
+        }
+
+        public ActionResult ChiTietSinhVien(string masv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var sv = db.SinhViens.Where(o => o.MaSV == masv && o.DelTime == null).SingleOrDefault();
+
+            return View(sv);
+        }
+
+        public ActionResult ChiTietGiangVien(string magv)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var gv = db.GiangViens.Where(o => o.MaGV == magv && o.DelTime == null).SingleOrDefault();
+
+            return View(gv);
+        }
     }
 }

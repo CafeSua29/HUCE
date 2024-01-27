@@ -1,18 +1,18 @@
-﻿@model HUCE.Models.SinhVien
+﻿@model HUCE.Models.NhanVien
 
 @{
-    ViewBag.Title = "ChiTietSinhVien";
-    Layout = "~/Views/Layouts/_LayoutPageSV.cshtml";
+    ViewBag.Title = "ChiTietNhanVien";
+    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
 }
 
 <div class="content container-fluid">
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title">Thong Tin Sinh Vien</h3>
+                <h3 class="page-title">Thong Tin Nhan Vien</h3>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">Trang Chu</li>
-                    <li class="breadcrumb-item active">Thong Tin Sinh Vien</li>
+                    <li class="breadcrumb-item active">Thong Tin Nhan Vien</li>
                 </ul>
             </div>
         </div>
@@ -24,16 +24,16 @@
                     <div class="about-info">
                         <h4>Thong Tin Ca Nhan</h4>
                         <div class="media mt-3">
-                            <img src="~/Assets/img/profiles/@{ @Model.MaSV }.jpg" class="mr-3" alt="...">
+                            <img src="~/Assets/img/profiles/@{ @Model.MaNV }.jpg" class="mr-3" alt="...">
                             <div class="media-body">
                                 <ul>
                                     <li>
-                                        <span class="title-span">Ma Sinh Vien : </span>
-                                        <span class="info-span">@Model.MaSV</span>
+                                        <span class="title-span">Ma Nhan Vien : </span>
+                                        <span class="info-span">@Model.MaNV</span>
                                     </li>
                                     <li>
-                                        <span class="title-span">Ten Sinh Vien : </span>
-                                        <span class="info-span">@Model.TenSV</span>
+                                        <span class="title-span">Ten Nhan Vien : </span>
+                                        <span class="info-span">@Model.TenNV</span>
                                     </li>
                                     <li>
                                         <span class="title-span">Gioi Tinh : </span>
