@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "DanhSachSinhVien";
-    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 }
 
 <div class="content container-fluid">
@@ -55,7 +55,7 @@
                                                          src="~/Assets/img/profiles/@{ @sv.MaSV }.jpg"
                                                          alt="User Image">
                                                 </a>
-                                                <a href="~/NhanVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
+                                                <a href="~/SinhVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
                                             </h2>
                                         </td>
                                         @{
@@ -116,7 +116,7 @@
                         $.each(data.dssv, function (index, item) {
                             display += '<tr><td>' + item.MaSV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
-                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/NhanVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
                             display += '<td>';
                             switch (item.GioiTinh) {
                                 case true:

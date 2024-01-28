@@ -135,6 +135,7 @@
     <Compile Include="Controllers\LopController.cs" />
     <Compile Include="Controllers\MonHocController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
+    <Compile Include="Controllers\PhanQuyenController.cs" />
     <Compile Include="Controllers\SinhVienController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
@@ -176,8 +177,6 @@
     <Content Include="Views\SinhVien\ChiTietSinhVien.cshtml" />
     <Content Include="Views\NhanVien\ChiTietNhanVien.cshtml" />
     <Content Include="Views\GiangVien\ChiTietGiangVien.cshtml" />
-    <Content Include="Views\NhanVien\ChiTietGiangVien.cshtml" />
-    <Content Include="Views\NhanVien\ChiTietSinhVien.cshtml" />
     <Content Include="Views\GiangVien\DanhSachGiangVien.cshtml" />
     <Content Include="Views\Layouts\_LayoutPageChung.cshtml" />
     <Content Include="Views\GiangVien\SuaGiangVien.cshtml" />
@@ -203,6 +202,7 @@
     <Folder Include="Views\ChuongTrinhKhung\" />
     <Folder Include="Views\DiemRenLuyen\" />
     <Folder Include="Views\HocBong\" />
+    <Folder Include="Views\PhanQuyen\" />
     <Folder Include="Views\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>

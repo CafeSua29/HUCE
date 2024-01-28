@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "DanhSachGiangVien";
-    Layout = "~/Views/Layouts/_LayoutPageNV.cshtml";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 }
 
 <div class="content container-fluid">
@@ -55,7 +55,7 @@
                                                          src="~/Assets/img/profiles/@{ @gv.MaGV }.jpg"
                                                          alt="User Image">
                                                 </a>
-                                                <a href="~/NhanVien/ChiTietGiangVien?magv=@gv.MaGV">@gv.TenGV</a>
+                                                <a href="~/GiangVien/ChiTietGiangVien?magv=@gv.MaGV">@gv.TenGV</a>
                                             </h2>
                                         </td>
                                         @{
@@ -116,7 +116,7 @@
                         $.each(data.dsgv, function (index, item) {
                             display += '<tr><td>' + item.MaGV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
-                                + item.MaGV + '.jpg" alt="User Image"></a>' + '<a href="/NhanVien/ChiTietGiangVien?magv=' + item.MaGV + '">' + item.TenGV + '</a>' + '</td>';
+                                + item.MaGV + '.jpg" alt="User Image"></a>' + '<a href="/GiangVien/ChiTietGiangVien?magv=' + item.MaGV + '">' + item.TenGV + '</a>' + '</td>';
                             display += '<td>';
                             switch (item.GioiTinh) {
                                 case true:
