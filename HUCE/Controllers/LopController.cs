@@ -332,5 +332,17 @@ namespace HUCE.Controllers
                 Response.End();
             }
         }
+
+        public Lop GetLop(string malop)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.Lops.Where(o => o.MaLop == malop && o.DelTime == null).SingleOrDefault();
+            }
+
+            return null;
+        }
     }
 }

@@ -194,6 +194,7 @@
     <Content Include="Views\Lop\SuaLop.cshtml" />
     <Content Include="Views\User\ChiTietUser.cshtml" />
     <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyen.cshtml" />
+    <Content Include="Views\HocBong\DanhSachHocBong.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -204,7 +205,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ChuongTrinhKhung\" />
-    <Folder Include="Views\HocBong\" />
     <Folder Include="Views\PhanQuyen\" />
     <Folder Include="Views\Quyen\" />
     <Folder Include="Views\ThoiKhoaBieu\" />

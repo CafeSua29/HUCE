@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "DanhSachDiemRenLuyen";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -31,11 +33,7 @@
                                 <tr>
                                     <th>Ma Sinh Vien</th>
                                     <th>Ten Sinh Vien</th>
-                                    <th>Gioi Tinh</th>
-                                    <th>Ngay Sinh</th>
-                                    <th>Que Quan</th>
-                                    <th>So Dien Thoai</th>
-                                    <th>Email</th>
+                                    <th>Lop</th>
                                     <th class="text-right">Hành động</th>
                                 </tr>
                             </thead>
@@ -54,22 +52,13 @@
                                                 <a href="~/SinhVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
                                             </h2>
                                         </td>
-                                        @{
-                                            switch (sv.GioiTinh)
-                                            {
-                                                case true:
-                                                    <td>Nam</td>
-                                                    break;
-
-                                                case false:
-                                                    <td>Nu</td>
-                                                    break;
+                                        @foreach (var lop in listlop)
+                                        {
+                                            if(sv.MaLop == lop.MaLop)
+                                            { 
+                                                <td>@lop.TenLop</td>
                                             }
                                         }
-                                        <td>@String.Format("{0:dd/MM/yyyy}", sv.NgaySinh)</td>
-                                        <td>@sv.QueQuan</td>
-                                        <td>@sv.SoDienThoai</td>
-                                        <td>@sv.Email</td>
                                         <td class="text-right">
                                             <div class="actions">
                                                 <a href="~/DiemRenLuyen/DanhGiaDiemRenLuyen?masv=@sv.MaSV" class="btn btn-sm bg-success-light mr-2">
@@ -110,21 +99,7 @@
                             display += '<tr><td>' + item.MaSV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
                                 + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
-                            display += '<td>';
-                            switch (item.GioiTinh) {
-                                case true:
-                                    display += "Nam"
-                                    break;
-
-                                case false:
-                                    display += "Nu"
-                                    break;
-                            }
-                            display += '</td>';
-                            display += '<td>' + item.NgaySinh + '</td>';
-                            display += '<td>' + item.QueQuan + '</td>';
-                            display += '<td>' + item.SoDienThoai + '</td>';
-                            display += '<td>' + item.Email + '</td>';
+                            display += '<td>' + item.TenLop + '</td>';
                             display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/DanhGiaDiemRenLuyen?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a></div></td></tr>';
                         });
 

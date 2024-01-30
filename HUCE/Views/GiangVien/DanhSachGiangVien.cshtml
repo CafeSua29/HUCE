@@ -79,7 +79,7 @@
                                                 <a href="~/GiangVien/SuaGiangVien?magv=@gv.MaGV" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa giang vien này không ?')) { location.href = '/GiangVien/XoaGiangVien?magv=@gv.MaGV' }" class="btn btn-sm bg-danger-light">
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa giang vien này không ?')) { location.href = '/GiangVien/XoaGiangVien?magv=@gv.MaGV' }" class="btn btn-sm bg-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -133,7 +133,7 @@
                             display += '<td>' + item.SoDienThoai + '</td>';
                             display += '<td>' + item.Email + '</td>';
                             display += '<td class="text-right"><div class="actions"><a href="/GiangVien/SuaGiangVien?magv=' + item.MaGV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
-                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa giang vien này không ?\')) { location.href = \'/GiangVien/XoaGiangVien?MaGV=' + item.MaGV + '\'}" class="btn btn-sm bg-danger-light"><i class="fas fa-trash"></i></a></div></td></tr>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa giang vien này không ?\')) { location.href = \'/GiangVien/XoaGiangVien?MaGV=' + item.MaGV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });
 
                         $('#tbGiangVien').html(display);

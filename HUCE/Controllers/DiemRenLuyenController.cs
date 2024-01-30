@@ -24,11 +24,12 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             List<SinhVien> listsv = db.SinhViens.Where(o => o.DelTime == null).ToList();
+            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
 
             return View(listsv);
         }
 
-        public ActionResult DanhGiaDiemRenLuyen(string masv)
+        public ActionResult DanhGiaDiemRenLuyen()
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
@@ -41,6 +42,8 @@ namespace HUCE.Controllers
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
+
+            var masv = SessionConfig.GetSession();
 
             return View();
         }
