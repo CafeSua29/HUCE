@@ -1,12 +1,16 @@
 ﻿@{
     var username = HUCE.App_Start.SessionConfig.GetSession();
-    var quyen = HUCE.App_Start.SessionConfig.GetQuyen();
+    var quyen = HUCE.App_Start.SessionConfig.GetQuyen( );
+    var UC = new HUCE.Controllers.UserController();
+    var user = UC.GetUser(username);
+    var QC = new HUCE.Controllers.QuyenController();
+    var q = QC.GetQuyen(user.MaQuyen);
 }
 
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
+<head>fr4333333333333333333333333333333
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>@ViewBag.Title</title>
@@ -22,10 +26,10 @@
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
-                <a href="~/Admin/Dashboard" class="logo">
+                <a href="~/@user.QuyenUrl/Dashboard" class="logo">
                     <img src="https://media.huce.edu.vn/Media/2_SINHVIEN/FolderFunc/202304/Images/logodhxd-20230421024916-e.png" alt="Logo">
                 </a>
-                <a href="~/Admin/Dashboard" class="logo logo-small">
+                <a href="~/@user.QuyenUrl/Dashboard" class="logo logo-small">
                     <img src="~/Assets/img/logo-dhxd.png" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -37,122 +41,27 @@
             </a>
             <ul class="nav user-menu">
                 <li class="nav-item dropdown has-arrow">
-                    @{
-                        switch (quyen)
-                        {
-                            case "1":
-                                var AC = new HUCE.Controllers.AdminController();
-                                var userad = AC.GetAdmin(username);
-
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <span class="user-img">
-                                        <img class="rounded-circle" src="~/Assets/img/profiles/@{ @userad.MaAdmin }.jpg"
-                                             width="31" alt="@userad.TenAdmin">
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="~/Assets/img/profiles/@{ @userad.MaAdmin }.jpg" alt="User Image"
-                                                 class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="user-text">
-                                            <h6>@userad.TenAdmin</h6>
-                                            <p class="text-muted mb-0">Admin</p>
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="~/Admin/ChiTietAdmin?maad=@userad.MaAdmin">Thong Tin Ca Nhan</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DoiMatKhau">Doi Mat Khau</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DangXuat">Dang Xuat</a>
-                                </div>
-
-                                break;
-
-                            case "2":
-                                var NVC = new HUCE.Controllers.NhanVienController();
-                                var usernv = NVC.GetNhanVien(username);
-
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <span class="user-img">
-                                        <img class="rounded-circle" src="~/Assets/img/profiles/@{ @usernv.MaNV }.jpg"
-                                             width="31" alt="@usernv.TenNV">
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="~/Assets/img/profiles/@{ @usernv.MaNV }.jpg" alt="User Image"
-                                                 class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="user-text">
-                                            <h6>@usernv.TenNV</h6>
-                                            <p class="text-muted mb-0">Nhan Vien</p>
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="~/NhanVien/ChiTietNhanVien?manv=@usernv.MaNV">Thong Tin Ca Nhan</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DoiMatKhau">Doi Mat Khau</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DangXuat">Dang Xuat</a>
-                                </div>
-
-                                break;
-
-                            case "3":
-                                var GVC = new HUCE.Controllers.GiangVienController();
-                                var usergv = GVC.GetGiangVien(username);
-
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <span class="user-img">
-                                        <img class="rounded-circle" src="~/Assets/img/profiles/@{ @usergv.MaGV }.jpg"
-                                             width="31" alt="@usergv.TenGV">
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="~/Assets/img/profiles/@{ @usergv.MaGV }.jpg" alt="User Image"
-                                                 class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="user-text">
-                                            <h6>@usergv.TenGV</h6>
-                                            <p class="text-muted mb-0">Giang Vien</p>
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="~/GiangVien/ChiTietGiangVien?magv=@usergv.MaGV">Thong Tin Ca Nhan</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DoiMatKhau">Doi Mat Khau</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DangXuat">Dang Xuat</a>
-                                </div>
-
-                                break;
-
-                            case "4":
-                                var SVC = new HUCE.Controllers.SinhVienController();
-                                var usersv = SVC.GetSinhVien(username);
-
-                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <span class="user-img">
-                                        <img class="rounded-circle" src="~/Assets/img/profiles/@{ @usersv.MaSV }.jpg"
-                                             width="31" alt="@usersv.TenSV">
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="~/Assets/img/profiles/@{ @usersv.MaSV }.jpg" alt="User Image"
-                                                 class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="user-text">
-                                            <h6>@usersv.TenSV</h6>
-                                            <p class="text-muted mb-0">Sinh Vien</p>
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="~/SinhVien/ChiTietSinhVien?masv=@usersv.MaSV">Thong Tin Ca Nhan</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DoiMatKhau">Doi Mat Khau</a>
-                                    <a class="dropdown-item" href="~/TaiKhoan/DangXuat">Dang Xuat</a>
-                                </div>
-
-                                break;
-                        }
-                    }
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="~/Assets/img/profiles/@{ @user.MaUser }.jpg"
+                                 width="31" alt="@user.TenUser">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="~/Assets/img/profiles/@{ @user.MaUser }.jpg" alt="User Image"
+                                     class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>@user.TenUser</h6>
+                                <p class="text-muted mb-0">@q.TenQuyen</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="~/User/ChiTietUser?maus=@user.MaUser">Thong Tin Ca Nhan</a>
+                        <a class="dropdown-item" href="~/TaiKhoan/DoiMatKhau">Doi Mat Khau</a>
+                        <a class="dropdown-item" href="~/TaiKhoan/DangXuat">Dang Xuat</a>
+                    </div>
                 </li>
             </ul>
         </div>

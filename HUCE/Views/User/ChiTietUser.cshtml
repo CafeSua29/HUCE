@@ -1,7 +1,7 @@
-﻿@model HUCE.Models.NhanVien
+﻿@model HUCE.Models.User
 
 @{
-    ViewBag.Title = "ChiTietNhanVien";
+    ViewBag.Title = "ChiTietUser";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="page-title">Thong Tin Nhan Vien</h3>
+                <h3 class="page-title">Thong Tin Ca Nhan</h3>
                 <ul class="breadcrumb">
                 </ul>
             </div>
@@ -22,16 +22,12 @@
                     <div class="about-info">
                         <h4>Thong Tin Ca Nhan</h4>
                         <div class="media mt-3">
-                            <img src="~/Assets/img/profiles/@{ @Model.MaNV }.jpg" class="mr-3" alt="...">
+                            <img src="~/Assets/img/profiles/@{ @Model.MaUser }.jpg" class="mr-3" alt="...">
                             <div class="media-body">
                                 <ul>
                                     <li>
-                                        <span class="title-span">Ma Nhan Vien : </span>
-                                        <span class="info-span">@Model.MaNV</span>
-                                    </li>
-                                    <li>
-                                        <span class="title-span">Ten Nhan Vien : </span>
-                                        <span class="info-span">@Model.TenNV</span>
+                                        <span class="title-span">Ho Ten : </span>
+                                        <span class="info-span">@Model.TenUser</span>
                                     </li>
                                     <li>
                                         <span class="title-span">Gioi Tinh : </span>

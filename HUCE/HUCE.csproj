@@ -136,9 +136,11 @@
     <Compile Include="Controllers\MonHocController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\PhanQuyenController.cs" />
+    <Compile Include="Controllers\QuyenController.cs" />
     <Compile Include="Controllers\SinhVienController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\ThoiKhoaBieuController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,6 +192,8 @@
     <Content Include="Views\Lop\DanhSachLop.cshtml" />
     <Content Include="Views\Lop\ThemLop.cshtml" />
     <Content Include="Views\Lop\SuaLop.cshtml" />
+    <Content Include="Views\User\ChiTietUser.cshtml" />
+    <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyen.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -200,9 +204,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ChuongTrinhKhung\" />
-    <Folder Include="Views\DiemRenLuyen\" />
     <Folder Include="Views\HocBong\" />
     <Folder Include="Views\PhanQuyen\" />
+    <Folder Include="Views\Quyen\" />
     <Folder Include="Views\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>
