@@ -79,6 +79,7 @@
       <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Association Name="HocKy_ChuongTrinhKhung" Member="ChuongTrinhKhungs" ThisKey="MaHK" OtherKey="MaHK" Type="ChuongTrinhKhung" />
       <Association Name="HocKy_DanhSachLop" Member="DanhSachLops" ThisKey="MaHK" OtherKey="MaHK" Type="DanhSachLop" />
+      <Association Name="HocKy_DiemRenLuyen" Member="DiemRenLuyens" ThisKey="MaHK" OtherKey="MaHK" Type="DiemRenLuyen" />
       <Association Name="NamHoc_HocKy" Member="NamHoc" ThisKey="MaNH" OtherKey="MaNH" Type="NamHoc" IsForeignKey="true" />
     </Type>
   </Table>
@@ -195,12 +196,14 @@
   </Table>
   <Table Name="dbo.DiemRenLuyen" Member="DiemRenLuyens">
     <Type Name="DiemRenLuyen">
-      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaSV" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaHK" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="DiemTC1" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="DiemTC2" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="DiemTC3" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="TongDiem" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Column Name="DelTime" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="HocKy_DiemRenLuyen" Member="HocKy" ThisKey="MaHK" OtherKey="MaHK" Type="HocKy" IsForeignKey="true" />
       <Association Name="SinhVien_DiemRenLuyen" Member="SinhVien" ThisKey="MaSV" OtherKey="MaSV" Type="SinhVien" IsForeignKey="true" />
     </Type>
   </Table>

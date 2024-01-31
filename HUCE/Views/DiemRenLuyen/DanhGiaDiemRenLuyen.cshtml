@@ -1,0 +1,71 @@
+﻿@model HUCE.Models.DiemRenLuyen
+
+@{
+    ViewBag.Title = "DanhGiaDiemRenLuyen";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Danh Gia Diem Ren Luyen</h3>
+                <ul class="breadcrumb">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>Danh Gia Diem Ren Luyen</span></h5>
+                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiemTC1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DiemTC1, new { htmlAttributes = new { @class = "form-control", type = "number", min = "-5", max = "5" } })
+                                @Html.ValidationMessageFor(model => model.DiemTC1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiemTC2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DiemTC2, new { htmlAttributes = new { @class = "form-control", type = "number", min = "-5", max = "5" } })
+                                @Html.ValidationMessageFor(model => model.DiemTC2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiemTC3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DiemTC3, new { htmlAttributes = new { @class = "form-control", type = "number", min = "-5", max = "5" } })
+                                @Html.ValidationMessageFor(model => model.DiemTC3, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="text-danger">
+                                    @TempData["Error"]
+                                </div>
+                                <input type="submit" value="Thêm" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -69,6 +69,9 @@ namespace HUCE.Models
     partial void InsertSinhVien(SinhVien instance);
     partial void UpdateSinhVien(SinhVien instance);
     partial void DeleteSinhVien(SinhVien instance);
+    partial void InsertDiemRenLuyen(DiemRenLuyen instance);
+    partial void UpdateDiemRenLuyen(DiemRenLuyen instance);
+    partial void DeleteDiemRenLuyen(DiemRenLuyen instance);
         #endregion
         public DBConnecterDataContext() :
 		base(global::System.Configuration.ConfigurationManager.ConnectionStrings["HUCEConnectionString"].ConnectionString, mappingSource)
@@ -1210,6 +1213,8 @@ namespace HUCE.Models
 		
 		private System.Nullable<System.DateTime> _DelTime;
 		
+		private EntitySet<DiemRenLuyen> _DiemRenLuyens;
+		
 		private EntityRef<NamHoc> _NamHoc;
 		
     #region Extensibility Method Definitions
@@ -1228,6 +1233,7 @@ namespace HUCE.Models
 		
 		public HocKy()
 		{
+			this._DiemRenLuyens = new EntitySet<DiemRenLuyen>(new Action<DiemRenLuyen>(this.attach_DiemRenLuyens), new Action<DiemRenLuyen>(this.detach_DiemRenLuyens));
 			this._NamHoc = default(EntityRef<NamHoc>);
 			OnCreated();
 		}
@@ -1316,6 +1322,19 @@ namespace HUCE.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="HocKy_DiemRenLuyen", Storage="_DiemRenLuyens", ThisKey="MaHK", OtherKey="MaHK")]
+		public EntitySet<DiemRenLuyen> DiemRenLuyens
+		{
+			get
+			{
+				return this._DiemRenLuyens;
+			}
+			set
+			{
+				this._DiemRenLuyens.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamHoc_HocKy", Storage="_NamHoc", ThisKey="MaNH", OtherKey="MaNH", IsForeignKey=true)]
 		public NamHoc NamHoc
 		{
@@ -1368,6 +1387,18 @@ namespace HUCE.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_DiemRenLuyens(DiemRenLuyen entity)
+		{
+			this.SendPropertyChanging();
+			entity.HocKy = this;
+		}
+		
+		private void detach_DiemRenLuyens(DiemRenLuyen entity)
+		{
+			this.SendPropertyChanging();
+			entity.HocKy = null;
 		}
 	}
 	
@@ -2961,6 +2992,8 @@ namespace HUCE.Models
 		
 		private System.Nullable<System.DateTime> _DelTime;
 		
+		private EntitySet<DiemRenLuyen> _DiemRenLuyens;
+		
 		private EntityRef<Lop> _Lop;
 		
     #region Extensibility Method Definitions
@@ -2989,6 +3022,7 @@ namespace HUCE.Models
 		
 		public SinhVien()
 		{
+			this._DiemRenLuyens = new EntitySet<DiemRenLuyen>(new Action<DiemRenLuyen>(this.attach_DiemRenLuyens), new Action<DiemRenLuyen>(this.detach_DiemRenLuyens));
 			this._Lop = default(EntityRef<Lop>);
 			OnCreated();
 		}
@@ -3177,6 +3211,19 @@ namespace HUCE.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SinhVien_DiemRenLuyen", Storage="_DiemRenLuyens", ThisKey="MaSV", OtherKey="MaSV")]
+		public EntitySet<DiemRenLuyen> DiemRenLuyens
+		{
+			get
+			{
+				return this._DiemRenLuyens;
+			}
+			set
+			{
+				this._DiemRenLuyens.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lop_SinhVien", Storage="_Lop", ThisKey="MaLop", OtherKey="MaLop", IsForeignKey=true)]
 		public Lop Lop
 		{
@@ -3230,13 +3277,29 @@ namespace HUCE.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_DiemRenLuyens(DiemRenLuyen entity)
+		{
+			this.SendPropertyChanging();
+			entity.SinhVien = this;
+		}
+		
+		private void detach_DiemRenLuyens(DiemRenLuyen entity)
+		{
+			this.SendPropertyChanging();
+			entity.SinhVien = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DiemRenLuyen")]
-	public partial class DiemRenLuyen
+	public partial class DiemRenLuyen : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
 		private string _MaSV;
+		
+		private string _MaHK;
 		
 		private float _DiemTC1;
 		
@@ -3248,11 +3311,38 @@ namespace HUCE.Models
 		
 		private System.Nullable<System.DateTime> _DelTime;
 		
+		private EntityRef<HocKy> _HocKy;
+		
+		private EntityRef<SinhVien> _SinhVien;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaSVChanging(string value);
+    partial void OnMaSVChanged();
+    partial void OnMaHKChanging(string value);
+    partial void OnMaHKChanged();
+    partial void OnDiemTC1Changing(float value);
+    partial void OnDiemTC1Changed();
+    partial void OnDiemTC2Changing(float value);
+    partial void OnDiemTC2Changed();
+    partial void OnDiemTC3Changing(float value);
+    partial void OnDiemTC3Changed();
+    partial void OnTongDiemChanging(float value);
+    partial void OnTongDiemChanged();
+    partial void OnDelTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnDelTimeChanged();
+    #endregion
+		
 		public DiemRenLuyen()
 		{
+			this._HocKy = default(EntityRef<HocKy>);
+			this._SinhVien = default(EntityRef<SinhVien>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaSV", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaSV", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string MaSV
 		{
 			get
@@ -3263,7 +3353,39 @@ namespace HUCE.Models
 			{
 				if ((this._MaSV != value))
 				{
+					if (this._SinhVien.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMaSVChanging(value);
+					this.SendPropertyChanging();
 					this._MaSV = value;
+					this.SendPropertyChanged("MaSV");
+					this.OnMaSVChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHK", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string MaHK
+		{
+			get
+			{
+				return this._MaHK;
+			}
+			set
+			{
+				if ((this._MaHK != value))
+				{
+					if (this._HocKy.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMaHKChanging(value);
+					this.SendPropertyChanging();
+					this._MaHK = value;
+					this.SendPropertyChanged("MaHK");
+					this.OnMaHKChanged();
 				}
 			}
 		}
@@ -3279,7 +3401,11 @@ namespace HUCE.Models
 			{
 				if ((this._DiemTC1 != value))
 				{
+					this.OnDiemTC1Changing(value);
+					this.SendPropertyChanging();
 					this._DiemTC1 = value;
+					this.SendPropertyChanged("DiemTC1");
+					this.OnDiemTC1Changed();
 				}
 			}
 		}
@@ -3295,7 +3421,11 @@ namespace HUCE.Models
 			{
 				if ((this._DiemTC2 != value))
 				{
+					this.OnDiemTC2Changing(value);
+					this.SendPropertyChanging();
 					this._DiemTC2 = value;
+					this.SendPropertyChanged("DiemTC2");
+					this.OnDiemTC2Changed();
 				}
 			}
 		}
@@ -3311,7 +3441,11 @@ namespace HUCE.Models
 			{
 				if ((this._DiemTC3 != value))
 				{
+					this.OnDiemTC3Changing(value);
+					this.SendPropertyChanging();
 					this._DiemTC3 = value;
+					this.SendPropertyChanged("DiemTC3");
+					this.OnDiemTC3Changed();
 				}
 			}
 		}
@@ -3327,7 +3461,11 @@ namespace HUCE.Models
 			{
 				if ((this._TongDiem != value))
 				{
+					this.OnTongDiemChanging(value);
+					this.SendPropertyChanging();
 					this._TongDiem = value;
+					this.SendPropertyChanged("TongDiem");
+					this.OnTongDiemChanged();
 				}
 			}
 		}
@@ -3343,8 +3481,100 @@ namespace HUCE.Models
 			{
 				if ((this._DelTime != value))
 				{
+					this.OnDelTimeChanging(value);
+					this.SendPropertyChanging();
 					this._DelTime = value;
+					this.SendPropertyChanged("DelTime");
+					this.OnDelTimeChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="HocKy_DiemRenLuyen", Storage="_HocKy", ThisKey="MaHK", OtherKey="MaHK", IsForeignKey=true)]
+		public HocKy HocKy
+		{
+			get
+			{
+				return this._HocKy.Entity;
+			}
+			set
+			{
+				HocKy previousValue = this._HocKy.Entity;
+				if (((previousValue != value) 
+							|| (this._HocKy.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._HocKy.Entity = null;
+						previousValue.DiemRenLuyens.Remove(this);
+					}
+					this._HocKy.Entity = value;
+					if ((value != null))
+					{
+						value.DiemRenLuyens.Add(this);
+						this._MaHK = value.MaHK;
+					}
+					else
+					{
+						this._MaHK = default(string);
+					}
+					this.SendPropertyChanged("HocKy");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SinhVien_DiemRenLuyen", Storage="_SinhVien", ThisKey="MaSV", OtherKey="MaSV", IsForeignKey=true)]
+		public SinhVien SinhVien
+		{
+			get
+			{
+				return this._SinhVien.Entity;
+			}
+			set
+			{
+				SinhVien previousValue = this._SinhVien.Entity;
+				if (((previousValue != value) 
+							|| (this._SinhVien.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SinhVien.Entity = null;
+						previousValue.DiemRenLuyens.Remove(this);
+					}
+					this._SinhVien.Entity = value;
+					if ((value != null))
+					{
+						value.DiemRenLuyens.Add(this);
+						this._MaSV = value.MaSV;
+					}
+					else
+					{
+						this._MaSV = default(string);
+					}
+					this.SendPropertyChanged("SinhVien");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
