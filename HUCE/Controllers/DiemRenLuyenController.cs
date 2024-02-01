@@ -23,11 +23,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            List<SinhVien> listsv = db.SinhViens.Where(o => o.DelTime == null).ToList();
+            List<DiemRenLuyen> listdrl = db.DiemRenLuyens.Where(o => o.DelTime == null).ToList();
 
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
+            ViewBag.SV = db.SinhViens.Where(o => o.DelTime == null).ToList();
 
-            return View(listsv);
+            return View(listdrl);
         }
 
         public ActionResult DanhGiaDiemRenLuyen()
@@ -49,7 +49,6 @@ namespace HUCE.Controllers
                 var masv = SessionConfig.GetSession();
 
                 var dtn = DateTime.Now;
-
                 var hocky = dtn.Month;
                 var namhoc = dtn.Year;
 
@@ -87,7 +86,7 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "SinhVien");
+                        return RedirectToAction("Dashboard", "DiemRenLuyen");
                     }
                     else
                     {
@@ -98,7 +97,7 @@ namespace HUCE.Controllers
                         db.DiemRenLuyens.InsertOnSubmit(drl);
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "SinhVien");
+                        return RedirectToAction("Dashboard", "DiemRenLuyen");
                     }
                 }
             }
@@ -107,6 +106,139 @@ namespace HUCE.Controllers
                 TempData["Error"] = "Không thể gui danh gia, chi tiet loi: " + ex;
                 return View(drl);
             }
+        }
+
+        public ActionResult SuaDiemRenLuyen(string masv, string mahk)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            DiemRenLuyen drl = db.DiemRenLuyens.FirstOrDefault(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null);
+
+            return View(drl);
+        }
+
+        [HttpPost]
+        public ActionResult SuaDiemRenLuyen(DiemRenLuyen drl)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                if (!string.IsNullOrEmpty(drl.MaSV) && !string.IsNullOrEmpty(drl.MaHK))
+                {
+                    var qr = db.DiemRenLuyens.Where(o => o.MaSV == drl.MaSV && o.MaHK == drl.MaHK && o.DelTime == null);
+
+                    if (qr.Any())
+                    {
+                        DiemRenLuyen drl1 = qr.SingleOrDefault();
+
+                        drl1.DiemTC1 = drl.DiemTC1;
+                        drl1.DiemTC2 = drl.DiemTC2;
+                        drl1.DiemTC3 = drl.DiemTC3;
+                        drl1.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+
+                        db.SubmitChanges();
+
+                        return RedirectToAction("DanhSachDiemRenLuyen", "DiemRenLuyen");
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Không tim thay danh gia";
+                        return View(drl);
+                    }
+                }
+                else
+                {
+                    TempData["Error"] = "Không tim thay danh gia";
+                    return View(drl);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Không thể cap nhat thong tin danh gia, chi tiet loi: " + ex;
+                return View(drl);
+            }
+        }
+
+        public ActionResult XoaDiemRenLuyen(string masv, string mahk)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                var qr = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null);
+
+                DiemRenLuyen drl = qr.SingleOrDefault();
+
+                drl.DelTime = DateTime.Now;
+
+                db.SubmitChanges();
+
+                return RedirectToAction("DanhSachDiemRenLuyen", "DiemRenLuyen");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("DanhSachDiemRenLuyen", "DiemRenLuyen");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult TimDiemRenLuyen(string ttdg)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                var SVC = new SinhVienController();
+
+                var dsdg = (from item in db.DiemRenLuyens.Where(o => o.DelTime == null)
+                            select new
+                            {
+                                MaSV = item.MaSV,
+                                TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
+                                TongDiem = item.TongDiem
+                            }).ToList();
+
+                if (!string.IsNullOrEmpty(ttdg))
+                {
+                    if (ttdg.All(char.IsDigit))
+                    {
+                        dsdg = (from item in db.DiemRenLuyens.Where(o => o.MaSV == ttdg && o.DelTime == null)
+                                select new
+                                {
+                                    MaSV = item.MaSV,
+                                    TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
+                                    TongDiem = item.TongDiem
+                                }).ToList();
+                    }
+                    else
+                    {
+                        var qr = db.SinhViens.Where(o => o.TenSV.Contains(ttdg) && o.DelTime == null).ToList();
+
+                        dsdg.Clear();
+
+                        foreach(SinhVien sv in qr)
+                        {
+                             var sv1 = (from item in db.DiemRenLuyens.Where(o => o.MaSV == sv.MaSV && o.DelTime == null)
+                                        select new
+                                        {
+                                            MaSV = item.MaSV,
+                                            TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
+                                            TongDiem = item.TongDiem
+                                        });
+
+                            dsdg.Add(sv1.SingleOrDefault());
+                        }
+                    }
+                }
+
+                return Json(new { dsdg = dsdg }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
         }
     }
 }

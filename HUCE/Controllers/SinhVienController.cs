@@ -114,12 +114,12 @@ namespace HUCE.Controllers
             }
         }
 
-        public ActionResult SuaSinhVien(string MaSV)
+        public ActionResult SuaSinhVien(string masv)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            SinhVien sv = db.SinhViens.FirstOrDefault(o => o.MaSV == MaSV && o.DelTime == null);
+            SinhVien sv = db.SinhViens.FirstOrDefault(o => o.MaSV == masv && o.DelTime == null);
 
             ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
 
@@ -174,14 +174,14 @@ namespace HUCE.Controllers
             }
         }
 
-        public ActionResult XoaSinhVien(string MaSV)
+        public ActionResult XoaSinhVien(string masv)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
             try
             {
-                var qr = db.SinhViens.Where(o => o.MaSV == MaSV && o.DelTime == null);
+                var qr = db.SinhViens.Where(o => o.MaSV == masv && o.DelTime == null);
 
                 SinhVien sv = qr.SingleOrDefault();
 
