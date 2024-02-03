@@ -196,6 +196,7 @@
     <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyen.cshtml" />
     <Content Include="Views\HocBong\DanhSachHocBong.cshtml" />
     <Content Include="Views\DiemRenLuyen\DanhGiaDiemRenLuyen.cshtml" />
+    <Content Include="Views\DiemRenLuyen\SuaDiemRenLuyen.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
