@@ -63,10 +63,10 @@
                                         <td>@drl.TongDiem</td>
                                         <td class="text-right">
                                             <div class="actions">
-                                                <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV" class="btn btn-sm bg-success-light mr-2">
+                                                <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa danh gia này không ?')) { location.href = '/DiemRenLuyen/XoaDiemRenLuyen?masv=@drl.MaSV' }" class="btn btn-sm bg-danger">
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa danh gia này không ?')) { location.href = '/DiemRenLuyen/XoaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK' }" class="btn btn-sm bg-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -103,10 +103,10 @@
                         $.each(data.dsdg, function (index, item) {
                             display += '<tr><td>' + item.MaSV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
-                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '&mahk=' + item.MaHK + '">' + item.TenSV + '</a>' + '</td>';
                             display += '<td>' + item.TongDiem + '</td>';
-                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
-                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa danh gia này không ?\')) { location.href = \'/DiemRenLuyen/XoaDiemRenLuyen?masv=' + item.MaSV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
+                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa danh gia này không ?\')) { location.href = \'/DiemRenLuyen/XoaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });
 
                         $('#tbDiemRenLuyen').html(display);

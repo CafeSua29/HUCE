@@ -81,7 +81,16 @@ namespace HUCE.Controllers
                         drl1.DiemTC1 = drl.DiemTC1;
                         drl1.DiemTC2 = drl.DiemTC2;
                         drl1.DiemTC3 = drl.DiemTC3;
-                        drl1.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+
+                        if(drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3 < 0)
+                        {
+                            drl1.TongDiem = 0;
+                        }
+                        else
+                        {
+                            drl1.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+                        }
+
                         drl1.DelTime = null;
 
                         db.SubmitChanges();
@@ -92,7 +101,15 @@ namespace HUCE.Controllers
                     {
                         drl.MaSV = masv;
                         drl.MaHK = mahk;
-                        drl.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+
+                        if (drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3 < 0)
+                        {
+                            drl.TongDiem = 0;
+                        }
+                        else
+                        {
+                            drl.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+                        }
 
                         db.DiemRenLuyens.InsertOnSubmit(drl);
                         db.SubmitChanges();
@@ -137,7 +154,15 @@ namespace HUCE.Controllers
                         drl1.DiemTC1 = drl.DiemTC1;
                         drl1.DiemTC2 = drl.DiemTC2;
                         drl1.DiemTC3 = drl.DiemTC3;
-                        drl1.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+
+                        if (drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3 < 0)
+                        {
+                            drl1.TongDiem = 0;
+                        }
+                        else
+                        {
+                            drl1.TongDiem = drl.DiemTC1 + drl.DiemTC2 + drl.DiemTC3;
+                        }
 
                         db.SubmitChanges();
 
@@ -198,6 +223,7 @@ namespace HUCE.Controllers
                             select new
                             {
                                 MaSV = item.MaSV,
+                                MaHK = item.MaHK,
                                 TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
                                 TongDiem = item.TongDiem
                             }).ToList();
@@ -210,6 +236,7 @@ namespace HUCE.Controllers
                                 select new
                                 {
                                     MaSV = item.MaSV,
+                                    MaHK = item.MaHK,
                                     TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
                                     TongDiem = item.TongDiem
                                 }).ToList();
@@ -226,6 +253,7 @@ namespace HUCE.Controllers
                                         select new
                                         {
                                             MaSV = item.MaSV,
+                                            MaHK = item.MaHK,
                                             TenSV = SVC.GetSinhVien(item.MaSV).TenSV,
                                             TongDiem = item.TongDiem
                                         });
