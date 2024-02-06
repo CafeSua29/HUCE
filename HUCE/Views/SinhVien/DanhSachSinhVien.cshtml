@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "DanhSachSinhVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
-
-    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -42,7 +40,6 @@
                                     <th>Que Quan</th>
                                     <th>So Dien Thoai</th>
                                     <th>Email</th>
-                                    <th>Lop</th>
                                     <th class="text-right">Hành động</th>
                                 </tr>
                             </thead>
@@ -77,13 +74,6 @@
                                         <td>@sv.QueQuan</td>
                                         <td>@sv.SoDienThoai</td>
                                         <td>@sv.Email</td>
-                                        @foreach (var lop in listlop)
-                                        {
-                                            if (sv.MaLop == lop.MaLop)
-                                            {
-                                                <td>@lop.TenLop</td>
-                                            }
-                                        }
                                         <td class="text-right">
                                             <div class="actions">
                                                 <a href="~/SinhVien/SuaSinhVien?masv=@sv.MaSV" class="btn btn-sm bg-success-light mr-2">
@@ -142,7 +132,6 @@
                             display += '<td>' + item.QueQuan + '</td>';
                             display += '<td>' + item.SoDienThoai + '</td>';
                             display += '<td>' + item.Email + '</td>';
-                            display += '<td>' + item.TenLop + '</td>';
                             display += '<td class="text-right"><div class="actions"><a href="/SinhVien/SuaSinhVien?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
                             display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa sinh vien này không ?\')) { location.href = \'/SinhVien/XoaSinhVien?masv=' + item.MaSV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });

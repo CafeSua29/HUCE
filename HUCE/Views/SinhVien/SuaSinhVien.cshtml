@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "SuaSinhVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
-
-    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -82,21 +80,6 @@
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MaLop, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <select class="form-control" name="MaLop">
-                                    @{
-                                        foreach (var lop in listlop)
-                                        {
-                                            <option value="@lop.MaLop" @Html.Raw(lop.MaLop == Model.MaLop ? "selected" : "")>@lop.TenLop</option>
-                                        }
-                                    }
-                                </select>
-                                @Html.ValidationMessageFor(model => model.MaLop, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

@@ -36,8 +36,6 @@ namespace HUCE.Controllers
 
             List<SinhVien> listsv = db.SinhViens.Where(o => o.DelTime == null).ToList();
 
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
-
             return View(listsv);
         }
 
@@ -45,8 +43,6 @@ namespace HUCE.Controllers
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
-
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
 
             return View(new SinhVien());
         }
@@ -56,8 +52,6 @@ namespace HUCE.Controllers
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
-
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
 
             try
             {
@@ -85,7 +79,6 @@ namespace HUCE.Controllers
                             sv1.QueQuan = sv.QueQuan;
                             sv1.SoDienThoai = sv.SoDienThoai;
                             sv1.Email = sv.Email;
-                            sv1.MaLop = sv.MaLop;
                             sv1.DelTime = null;
 
                             db.SubmitChanges();
@@ -121,8 +114,6 @@ namespace HUCE.Controllers
 
             SinhVien sv = db.SinhViens.FirstOrDefault(o => o.MaSV == masv && o.DelTime == null);
 
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
-
             return View(sv);
         }
 
@@ -131,8 +122,6 @@ namespace HUCE.Controllers
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
-
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
 
             try
             {
@@ -149,7 +138,6 @@ namespace HUCE.Controllers
                         sv1.QueQuan = sv.QueQuan;
                         sv1.SoDienThoai = sv.SoDienThoai;
                         sv1.Email = sv.Email;
-                        sv1.MaLop = sv.MaLop;
 
                         db.SubmitChanges();
 
@@ -204,8 +192,6 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-                var LC = new LopController();
-
                 var dssv = (from item in db.SinhViens.Where(o => o.DelTime == null)
                             select new
                             {
@@ -215,8 +201,7 @@ namespace HUCE.Controllers
                                 NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
                                 QueQuan = item.QueQuan,
                                 SoDienThoai = item.SoDienThoai,
-                                Email = item.Email,
-                                TenLop = LC.GetLop(item.MaLop).TenLop
+                                Email = item.Email
                             }).ToList();
 
                 if (!string.IsNullOrEmpty(ttsv))
@@ -232,8 +217,7 @@ namespace HUCE.Controllers
                                     NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
                                     QueQuan = item.QueQuan,
                                     SoDienThoai = item.SoDienThoai,
-                                    Email = item.Email,
-                                    TenLop = LC.GetLop(item.MaLop).TenLop
+                                    Email = item.Email
                                 }).ToList();
                     }
                     else
@@ -247,8 +231,7 @@ namespace HUCE.Controllers
                                     NgaySinh = String.Format("{0: dd/MM/yyyy}", item.NgaySinh),
                                     QueQuan = item.QueQuan,
                                     SoDienThoai = item.SoDienThoai,
-                                    Email = item.Email,
-                                    TenLop = LC.GetLop(item.MaLop).TenLop
+                                    Email = item.Email
                                 }).ToList();
                     }
                 }
@@ -278,8 +261,6 @@ namespace HUCE.Controllers
 
             var sv = db.SinhViens.Where(o => o.MaSV == masv && o.DelTime == null).SingleOrDefault();
 
-            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
-
             return View(sv);
         }
 
@@ -307,9 +288,6 @@ namespace HUCE.Controllers
                                     var gioitinh = worksheet.Cells[row, 3].Value.ToString().Trim();
                                     var gt = false;
 
-                                    var tenlop = worksheet.Cells[row, 8].Value.ToString().Trim();
-                                    var qr = db.Lops.Where(o => o.TenLop.Contains(tenlop) && o.DelTime == null);
-
                                     switch (gioitinh)
                                     {
                                         case "Nam":
@@ -333,8 +311,7 @@ namespace HUCE.Controllers
                                         NgaySinh = DateTime.ParseExact(worksheet.Cells[row, 4].Value.ToString().Trim(), "dd/MM/yyyy", CultureInfo.InvariantCulture),
                                         QueQuan = worksheet.Cells[row, 5].Value.ToString().Trim(),
                                         SoDienThoai = worksheet.Cells[row, 6].Value.ToString().Trim(),
-                                        Email = worksheet.Cells[row, 7].Value.ToString().Trim(),
-                                        MaLop = qr.SingleOrDefault().MaLop
+                                        Email = worksheet.Cells[row, 7].Value.ToString().Trim()
                                     };
 
                                     ThemSinhVien(sv);
@@ -368,8 +345,6 @@ namespace HUCE.Controllers
             {
                 List<SinhVien> listsv = db.SinhViens.Where(o => o.DelTime == null).ToList();
 
-                List<Lop> listlop = db.Lops.Where(o => o.DelTime == null).ToList();
-
                 ExcelPackage ep = new ExcelPackage();
                 ExcelWorksheet Sheet = ep.Workbook.Worksheets.Add("SinhVien");
 
@@ -380,7 +355,6 @@ namespace HUCE.Controllers
                 Sheet.Cells["E1"].Value = "Que Quan";
                 Sheet.Cells["F1"].Value = "So Dien Thoai";
                 Sheet.Cells["G1"].Value = "Email";
-                Sheet.Cells["H1"].Value = "Lop";
 
                 int row = 2;
 
@@ -404,14 +378,6 @@ namespace HUCE.Controllers
                     Sheet.Cells[string.Format("E{0}", row)].Value = sv.QueQuan;
                     Sheet.Cells[string.Format("F{0}", row)].Value = sv.SoDienThoai;
                     Sheet.Cells[string.Format("G{0}", row)].Value = sv.Email;
-
-                    foreach(Lop lop in listlop)
-                    {
-                        if(sv.MaLop == lop.MaLop)
-                        {
-                            Sheet.Cells[string.Format("H{0}", row)].Value = lop.TenLop;
-                        }
-                    }
 
                     row++;
                 }
