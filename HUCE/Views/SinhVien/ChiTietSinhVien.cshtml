@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ChiTietSinhVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -63,6 +65,18 @@
                                     <li>
                                         <span class="title-span">Email : </span>
                                         <span class="info-span">@Model.Email</span>
+                                    </li>
+                                    <li>
+                                        <span class="title-span">Lop : </span>
+                                        @{
+                                            foreach (var lop in listlop)
+                                            {
+                                                if (Model.MaLopQuanLy == lop.MaLop)
+                                                {
+                                                    <span class="info-span">@lop.TenLop</span>
+                                                }
+                                            }
+                                        }
                                     </li>
                                 </ul>
                             </div>

@@ -113,6 +113,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             GiangVien gv = db.GiangViens.FirstOrDefault(o => o.MaGV == magv && o.DelTime == null);
+
             return View(gv);
         }
 
@@ -124,7 +125,7 @@ namespace HUCE.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(gv.MaGV))
+                if (!string.IsNullOrEmpty(gv.MaGV) && !string.IsNullOrEmpty(gv.TenGV))
                 {
                     var qr = db.GiangViens.Where(o => o.MaGV == gv.MaGV && o.DelTime == null);
 
@@ -247,7 +248,7 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-                return db.GiangViens.Where(o => o.MaGV == magv && o.DelTime == null).SingleOrDefault(); ;
+                return db.GiangViens.SingleOrDefault(o => o.MaGV == magv && o.DelTime == null);
             }
 
             return null;
@@ -258,7 +259,7 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var gv = db.GiangViens.Where(o => o.MaGV == magv && o.DelTime == null).SingleOrDefault();
+            var gv = db.GiangViens.SingleOrDefault(o => o.MaGV == magv && o.DelTime == null);
 
             return View(gv);
         }

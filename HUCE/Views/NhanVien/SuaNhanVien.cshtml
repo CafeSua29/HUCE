@@ -1,7 +1,7 @@
-﻿@model HUCE.Models.GiangVien
+﻿@model HUCE.Models.NhanVien
 
 @{
-    ViewBag.Title = "ThemGiangVien";
+    ViewBag.Title = "SuaNhanVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Them Giang Vien</h3>
+                <h3 class="page-title">Sua Nhan Vien</h3>
                 <ul class="breadcrumb">
                 </ul>
             </div>
@@ -26,23 +26,15 @@
 
                         <div class="form-horizontal">
                             <div class="col-12">
-                                <h5 class="form-title"><span>Thông Tin Giang Vien</span></h5>
+                                <h5 class="form-title"><span>Thông Tin Nhan Vien</span></h5>
                             </div>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.MaNV)
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.MaGV, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.TenNV, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MaGV, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MaGV, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TenGV, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TenGV, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.TenGV, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.TenNV, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TenNV, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -96,19 +88,14 @@
                                     <div class="text-danger">
                                         @TempData["Error"]
                                     </div>
-                                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                                    <input type="submit" value="Luu" class="btn btn-primary" />
                                 </div>
                             </div>
                         </div>
                     }
-                    <div class="col-md-offset-2 col-md-10">
-                        <form method="post" action="~/GiangVien/NhapFileExcel" enctype="multipart/form-data">
-                            <input type="file" id="file" name="file" class="btn btn-primary" />
-                            <button type="submit" value="Thêm" class="btn btn-primary">Thêm danh sach</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

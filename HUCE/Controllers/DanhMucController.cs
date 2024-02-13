@@ -8,36 +8,38 @@ using System.Web.Mvc;
 
 namespace HUCE.Controllers
 {
-    public class UserController : Controller
+    public class DanhMucController : Controller
     {
         public DBConnecterDataContext db = new DBConnecterDataContext();
 
-        // GET: User
+        // GET: DanhMuc
         public ActionResult Index()
         {
             return View();
         }
 
-        public User GetUser(string maus)
+        public DanhMuc GetDanhMuc(string madm)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 RedirectToAction("Login", "Login");
             else
             {
-                return db.Users.SingleOrDefault(o => o.MaUser == maus && o.DelTime == null);
+                return db.DanhMucs.SingleOrDefault(o => o.MaDM == madm && o.DelTime == null);
             }
 
             return null;
         }
 
-        public ActionResult ChiTietUser(string maus)
+        public DanhMuc GetDanhMucbyTen(string tendm)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
-                return RedirectToAction("Login", "Login");
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.DanhMucs.FirstOrDefault(o => o.TenDM.Contains(tendm) && o.DelTime == null);
+            }
 
-            var User = db.Users.SingleOrDefault(o => o.MaUser == maus && o.DelTime == null);
-
-            return View(User);
+            return null;
         }
     }
 }

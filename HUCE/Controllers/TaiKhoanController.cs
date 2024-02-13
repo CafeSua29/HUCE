@@ -98,6 +98,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             TaiKhoan tk = db.TaiKhoans.FirstOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+
             return View(tk);
         }
 
@@ -109,7 +110,7 @@ namespace HUCE.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(tk.TenTaiKhoan))
+                if (!string.IsNullOrEmpty(tk.TenTaiKhoan) && !string.IsNullOrEmpty(tk.MatKhau))
                 {
                     var qr = db.TaiKhoans.Where(o => o.TenTaiKhoan == tk.TenTaiKhoan && o.DelTime == null);
 
@@ -414,6 +415,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             SessionConfig.DeSession();
+
             return RedirectToAction("Login", "Login");
         }
     }

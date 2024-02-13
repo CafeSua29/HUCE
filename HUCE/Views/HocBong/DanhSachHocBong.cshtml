@@ -2,6 +2,115 @@
 @{
     ViewBag.Title = "DanhSachHocBong";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.Khoa> listkhoa = ViewBag.Khoa;
+    List<HUCE.Models.HocKy> listhk = ViewBag.HK;
 }
 
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="form-row col-md-15">
+                <div class="col-md-3 mb-3 top-nav-search">
+                    <select class="form-control" name="" id="makhoa">
+                        @{
+                            foreach (var khoa in listkhoa)
+                            {
+                                <option value="@khoa.MaKhoa">@khoa.TenKhoa</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 top-nav-search">
+                    <select class="form-control" name="" id="mahk">
+                        @{
+                            foreach (var hk in listhk)
+                            {
+                                <option value="@hk.MaHK">@hk.TenHK</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 top-nav-search">
+                    <input type="number" class="form-control" placeholder="Diem ren luyen toi thieu" id="drlmin" name="">
+                </div>
+                <div class="col-md-3 mb-3 top-nav-search">
+                    <input type="text" class="form-control" placeholder="Diem chu yeu cau" id="diemchumin" name="">
+                </div>
+                <div class="col-md-3 mb-3 top-nav-search">
+                    <input type="number" class="form-control" placeholder="Diem he 4 toi thieu" id="diemhe4min" name="">
+                </div>
+                <div class="col-md-3 mb-1 top-nav-search">
+                    <button class="btn" type="button" id="btnLapDanhSach"><i class="fas fa-search"> Lap Danh Sach</i></button>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="~/HocBong/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
+                </div>
+            </div>
+            <div class="text-danger">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma Sinh Vien</th>
+                                    <th>Ten Sinh Vien</th>
+                                    <th>Khoa</th>
+                                    <th>Diem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbHocBong">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnLapDanhSach').click(function () {
+                var makhoa = $('#makhoa').val();
+                var mahk = $('#mahk').val();
+                var drlmin = $('#drlmin').val();
+                var diemchumin = $('#diemchumin').val();
+                var diemhe4min = $('#diemhe4min').val();
+
+                LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe4min);
+            });
+
+            function LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe4min) {
+                $.ajax({
+                    url: "/HocBong/LapDanhSach",
+                    type: 'post',
+                    data: { makhoa: makhoa, mahk: mahk, drlmin: drlmin, diemchumin: diemchumin, diemhe4min: diemhe4min },
+                    success: function (data) {
+                        let display = '';
+
+                        $.each(data.dshb, function (index, item) {
+                            display += '<tr><td>' + item.MaSV + '</td>';
+                            display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
+                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                            display += '<td>' + item.Khoa + '</td>';
+                            display += '<td>' + item.Diem + '</td></tr>';
+                        });
+
+                        $('#tbHocBong').html(display);
+                    }
+                });
+            }
+        })
+    </script>
+}

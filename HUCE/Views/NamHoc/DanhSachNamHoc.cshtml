@@ -1,0 +1,55 @@
+﻿@model List<HUCE.Models.NamHoc>
+
+@{
+    ViewBag.Title = "DanhSachNamHoc";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/NamHoc/ThemNamHoc" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma Nam Hoc</th>
+                                    <th>Ten Nam Hoc</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbNamHoc">
+                                @foreach (var nh in Model)
+                                {
+                                    <tr>
+                                        <td>@nh.MaNH</td>
+                                        <td>@nh.TenNH</td>
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a href="~/NamHoc/SuaNamHoc?manh=@nh.MaNH" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa nam hoc này không ?')) { location.href = '/NamHoc/XoaNamHoc?manh=@nh.MaNH' }" class="btn btn-sm bg-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

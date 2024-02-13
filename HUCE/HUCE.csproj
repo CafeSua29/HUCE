@@ -127,13 +127,16 @@
     <Compile Include="App_Start\SessionConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ChuongTrinhKhungController.cs" />
+    <Compile Include="Controllers\DanhMucController.cs" />
     <Compile Include="Controllers\DiemRenLuyenController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HocBongController.cs" />
+    <Compile Include="Controllers\HocKyController.cs" />
     <Compile Include="Controllers\KhoaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
     <Compile Include="Controllers\MonHocController.cs" />
+    <Compile Include="Controllers\NamHocController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\PhanQuyenController.cs" />
     <Compile Include="Controllers\QuyenController.cs" />
@@ -149,6 +152,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBConnecter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\SVDRLModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +201,21 @@
     <Content Include="Views\HocBong\DanhSachHocBong.cshtml" />
     <Content Include="Views\DiemRenLuyen\DanhGiaDiemRenLuyen.cshtml" />
     <Content Include="Views\DiemRenLuyen\SuaDiemRenLuyen.cshtml" />
+    <Content Include="Views\NhanVien\ThemNhanVien.cshtml" />
+    <Content Include="Views\NhanVien\DanhSachNhanVien.cshtml" />
+    <Content Include="Views\NhanVien\SuaNhanVien.cshtml" />
+    <Content Include="Views\Quyen\DanhSachQuyen.cshtml" />
+    <Content Include="Views\Quyen\ThemQuyen.cshtml" />
+    <Content Include="Views\Quyen\SuaQuyen.cshtml" />
+    <Content Include="Views\PhanQuyen\DanhSachPhanQuyen.cshtml" />
+    <Content Include="Views\PhanQuyen\PhanQuyen.cshtml" />
+    <Content Include="Views\PhanQuyen\SuaPhanQuyen.cshtml" />
+    <Content Include="Views\NamHoc\DanhSachNamHoc.cshtml" />
+    <Content Include="Views\NamHoc\ThemNamHoc.cshtml" />
+    <Content Include="Views\NamHoc\SuaNamHoc.cshtml" />
+    <Content Include="Views\HocKy\DanhSachHocKy.cshtml" />
+    <Content Include="Views\HocKy\ThemHocKy.cshtml" />
+    <Content Include="Views\HocKy\SuaHocKy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -207,8 +226,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ChuongTrinhKhung\" />
-    <Folder Include="Views\PhanQuyen\" />
-    <Folder Include="Views\Quyen\" />
+    <Folder Include="Views\DanhMuc\" />
     <Folder Include="Views\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>

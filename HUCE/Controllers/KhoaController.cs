@@ -98,6 +98,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             Khoa khoa = db.Khoas.FirstOrDefault(o => o.MaKhoa == makhoa && o.DelTime == null);
+
             return View(khoa);
         }
 
@@ -109,7 +110,7 @@ namespace HUCE.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(khoa.MaKhoa))
+                if (!string.IsNullOrEmpty(khoa.MaKhoa) && !string.IsNullOrEmpty(khoa.TenKhoa))
                 {
                     var qr = db.Khoas.Where(o => o.MaKhoa == khoa.MaKhoa && o.DelTime == null);
 
@@ -295,7 +296,7 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-                return db.Khoas.Where(o => o.MaKhoa == makhoa && o.DelTime == null).SingleOrDefault();
+                return db.Khoas.SingleOrDefault(o => o.MaKhoa == makhoa && o.DelTime == null);
             }
 
             return null;
