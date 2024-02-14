@@ -1,10 +1,8 @@
-﻿@model List<HUCE.Models.DiemRenLuyen>
+﻿@model List<HUCE.Models.SVDRLModel>
 
 @{
     ViewBag.Title = "DanhSachDiemRenLuyen";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
-
-    List<HUCE.Models.SinhVien> listsv = ViewBag.SV;
 }
 
 <div class="content container-fluid">
@@ -15,8 +13,11 @@
                     <input type="text" class="form-control" placeholder="Nhập ma hoac ten sinh vien" id="ttdg" name="ttdg">
                 </div>
                 <div class="col-md-3 mb-1 top-nav-search">
-                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search">Tìm Kiếm</i></button>
+                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search"> Tìm Kiếm</i></button>
                 </div>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/DiemRenLuyen/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
             </div>
             <div class="text-danger">
                 @TempData["Error"]
@@ -33,6 +34,7 @@
                                 <tr>
                                     <th>Ma Sinh Vien</th>
                                     <th>Ten Sinh Vien</th>
+                                    <th>Hoc Ky</th>
                                     <th>Tong Diem</th>
                                     <th class="text-right">Hành động</th>
                                 </tr>
@@ -43,30 +45,26 @@
                                     <tr>
                                         <td>@drl.MaSV</td>
 
-                                        @foreach (var sv in listsv)
-                                        {
-                                            if (sv.MaSV == drl.MaSV)
-                                            {
-                                                <td>
-                                                    <h2 class="table-avatar">
-                                                        <a class="avatar avatar-sm mr-2">
-                                                            <img class="avatar-img rounded-circle"
-                                                                 src="~/Assets/img/profiles/@{ @sv.MaSV }.jpg"
-                                                                 alt="User Image">
-                                                        </a>
-                                                        <a href="~/SinhVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
-                                                    </h2>
-                                                </td>
-                                            }
-                                        }
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a class="avatar avatar-sm mr-2">
+                                                    <img class="avatar-img rounded-circle"
+                                                         src="~/Assets/img/profiles/@{ @drl.MaSV }.jpg"
+                                                         alt="User Image">
+                                                </a>
+                                                <a href="~/SinhVien/ChiTietSinhVien?masv=@drl.MaSV">@drl.TenSV</a>
+                                            </h2>
+                                        </td>
 
+                                        <td>@drl.TenHK</td>
                                         <td>@drl.TongDiem</td>
+
                                         <td class="text-right">
                                             <div class="actions">
-                                                <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK" class="btn btn-sm bg-success-light mr-2">
+                                                <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa danh gia này không ?')) { location.href = '/DiemRenLuyen/XoaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK' }" class="btn btn-sm bg-danger">
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa danh gia này không ?')) { location.href = '/DiemRenLuyen/XoaDiemRenLuyen?masv=@drl.MaSV' }" class="btn btn-sm bg-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -100,13 +98,15 @@
                     success: function (data) {
                         let display = '';
 
-                        $.each(data.dsdg, function (index, item) {
+                        $.each(data.dssv, function (index, item) {
                             display += '<tr><td>' + item.MaSV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
-                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '&mahk=' + item.MaHK + '">' + item.TenSV + '</a>' + '</td>';
+                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                            display += '<td>' + item.HocKy + '</td>';
+                            display += '<td>' + item.NamHoc + '</td>';
                             display += '<td>' + item.TongDiem + '</td>';
-                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
-                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa danh gia này không ?\')) { location.href = \'/DiemRenLuyen/XoaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
+                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa danh gia này không ?\')) { location.href = \'/DiemRenLuyen/XoaDiemRenLuyen?masv=' + item.MaSV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });
 
                         $('#tbDiemRenLuyen').html(display);

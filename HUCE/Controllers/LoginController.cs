@@ -44,6 +44,7 @@ namespace HUCE.Controllers
                         }
                         else
                         {
+                            SessionConfig.DeSession();
                             SessionConfig.SetSession(taikhoan.TenTaiKhoan, taikhoan1.MaQuyen);
 
                             switch (taikhoan1.MaQuyen)

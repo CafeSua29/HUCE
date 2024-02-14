@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ThemSinhVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -29,6 +31,7 @@
                             <h5 class="form-title"><span>Thông Tin Sinh Vien</span></h5>
                         </div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                         <div class="form-group">
                             @Html.LabelFor(model => model.MaSV, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -87,6 +90,21 @@
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaLopQuanLy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <select class="form-control" name="MaLopQuanLy">
+                                    @{
+                                        foreach (var lop in listlop)
+                                        {
+                                            <option value="@lop.MaLop" @Html.Raw(lop.MaLop == Model.MaLopQuanLy ? "selected" : "")>@lop.TenLop</option>
+                                        }
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.MaLopQuanLy, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

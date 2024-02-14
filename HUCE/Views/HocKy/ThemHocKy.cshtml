@@ -1,0 +1,80 @@
+﻿@model HUCE.Models.HocKy
+
+@{
+    ViewBag.Title = "ThemHocKy";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.NamHoc> listnh = ViewBag.NH;
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Them Hoc Ky</h3>
+                <ul class="breadcrumb">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Thông Tin Hoc Ky</span></h5>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MaHK, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MaHK, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MaHK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TenHK, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TenHK, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TenHK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MaNH, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <select class="form-control" name="MaNH">
+                                        @{
+                                            foreach (var nh in listnh)
+                                            {
+                                                <option value="@nh.MaNH" @Html.Raw(nh.MaNH == Model.MaNH ? "selected" : "")>@nh.TenNH</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.MaNH, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="text-danger">
+                                        @TempData["Error"]
+                                    </div>
+                                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

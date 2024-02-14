@@ -74,6 +74,7 @@ namespace HUCE.Controllers
 
                             lop1.MaLop = lop.MaLop;
                             lop1.TenLop = lop.TenLop;
+                            lop1.MaKhoa = lop.MaKhoa;
                             lop1.DelTime = null;
 
                             db.SubmitChanges();
@@ -114,6 +115,7 @@ namespace HUCE.Controllers
             ViewBag.Khoa = listkhoa;
 
             Lop lop = db.Lops.FirstOrDefault(o => o.MaLop == malop && o.DelTime == null);
+
             return View(lop);
         }
 
@@ -127,7 +129,7 @@ namespace HUCE.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(lop.MaLop))
+                if (!string.IsNullOrEmpty(lop.MaLop) && !string.IsNullOrEmpty(lop.TenLop))
                 {
                     var qr = db.Lops.Where(o => o.MaLop == lop.MaLop && o.DelTime == null);
 
@@ -339,7 +341,7 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-                return db.Lops.Where(o => o.MaLop == malop && o.DelTime == null).SingleOrDefault();
+                return db.Lops.SingleOrDefault(o => o.MaLop == malop && o.DelTime == null);
             }
 
             return null;

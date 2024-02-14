@@ -107,6 +107,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             MonHoc mh = db.MonHocs.FirstOrDefault(o => o.MaMH == MaMH && o.DelTime == null);
+
             return View(mh);
         }
 
@@ -118,7 +119,7 @@ namespace HUCE.Controllers
 
             try
             {
-                if (!string.IsNullOrEmpty(mh.MaMH))
+                if (!string.IsNullOrEmpty(mh.MaMH) && !string.IsNullOrEmpty(mh.TenMH))
                 {
                     if (mh.SoTin <= 0)
                     {

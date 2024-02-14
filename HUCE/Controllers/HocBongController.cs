@@ -23,7 +23,23 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
+            ViewBag.Khoa = db.Khoas.Where(o => o.DelTime == null).ToList();
+            ViewBag.HK = db.HocKies.Where(o => o.DelTime == null).ToList();
+
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult LapDanhSach(string makhoa, string mahk, double drlmin, string diemchumin, double diemhe4min)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                
+            }
+
+            return null;
         }
     }
 }

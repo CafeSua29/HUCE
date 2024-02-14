@@ -1,10 +1,8 @@
-﻿@model List<HUCE.Models.SinhVien>
+﻿@model List<HUCE.Models.NhanVien>
 
 @{
-    ViewBag.Title = "DanhSachSinhVien";
+    ViewBag.Title = "DanhSachNhanVien";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
-
-    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
 }
 
 <div class="content container-fluid">
@@ -12,15 +10,15 @@
         <div class="row align-items-center">
             <div class="form-row col-md-8">
                 <div class="col-md-4 mb-3 top-nav-search">
-                    <input type="text" class="form-control" placeholder="Nhập ma hoac ten sinh vien" id="ttsv" name="ttsv">
+                    <input type="text" class="form-control" placeholder="Nhập ma hoac ten nhan vien" id="ttnv" name="ttnv">
                 </div>
                 <div class="col-md-3 mb-1 top-nav-search">
                     <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search"> Tìm Kiếm</i></button>
                 </div>
             </div>
             <div class="col-auto text-right float-right ml-auto">
-                <a href="~/SinhVien/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
-                <a href="~/SinhVien/ThemSinhVien" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                <a href="~/NhanVien/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
+                <a href="~/NhanVien/ThemNhanVien" class="btn btn-primary"><i class="fas fa-plus"></i></a>
             </div>
             <div class="text-danger">
                 @TempData["Error"]
@@ -35,34 +33,33 @@
                         <table class="table table-hover table-center mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>Ma Sinh Vien</th>
-                                    <th>Ten Sinh Vien</th>
+                                    <th>Ma Nhan Vien</th>
+                                    <th>Ten Nhan Vien</th>
                                     <th>Gioi Tinh</th>
                                     <th>Ngay Sinh</th>
                                     <th>Que Quan</th>
                                     <th>So Dien Thoai</th>
                                     <th>Email</th>
-                                    <th>Lop</th>
                                     <th class="text-right">Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="tbSinhVien">
-                                @foreach (var sv in Model)
+                            <tbody id="tbNhanVien">
+                                @foreach (var nv in Model)
                                 {
                                     <tr>
-                                        <td>@sv.MaSV</td>
+                                        <td>@nv.MaNV</td>
                                         <td>
                                             <h2 class="table-avatar">
                                                 <a class="avatar avatar-sm mr-2">
                                                     <img class="avatar-img rounded-circle"
-                                                         src="~/Assets/img/profiles/@{ @sv.MaSV }.jpg"
+                                                         src="~/Assets/img/profiles/@{ @nv.MaNV }.jpg"
                                                          alt="User Image">
                                                 </a>
-                                                <a href="~/SinhVien/ChiTietSinhVien?masv=@sv.MaSV">@sv.TenSV</a>
+                                                <a href="~/NhanVien/ChiTietNhanVien?manv=@nv.MaNV">@nv.TenNV</a>
                                             </h2>
                                         </td>
                                         @{
-                                            switch (sv.GioiTinh)
+                                            switch (nv.GioiTinh)
                                             {
                                                 case true:
                                                     <td>Nam</td>
@@ -73,25 +70,16 @@
                                                     break;
                                             }
                                         }
-                                        <td>@String.Format("{0:dd/MM/yyyy}", sv.NgaySinh)</td>
-                                        <td>@sv.QueQuan</td>
-                                        <td>@sv.SoDienThoai</td>
-                                        <td>@sv.Email</td>
-
-                                        @foreach (var lop in listlop)
-                                        {
-                                            if (sv.MaLopQuanLy == lop.MaLop)
-                                            {
-                                                <td>@lop.TenLop</td>
-                                            }
-                                        }
-
+                                        <td>@String.Format("{0:dd/MM/yyyy}", nv.NgaySinh)</td>
+                                        <td>@nv.QueQuan</td>
+                                        <td>@nv.SoDienThoai</td>
+                                        <td>@nv.Email</td>
                                         <td class="text-right">
                                             <div class="actions">
-                                                <a href="~/SinhVien/SuaSinhVien?masv=@sv.MaSV" class="btn btn-sm bg-success-light mr-2">
+                                                <a href="~/NhanVien/SuaNhanVien?manv=@nv.MaNV" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa sinh vien này không ?')) { location.href = '/SinhVien/XoaSinhVien?masv=@sv.MaSV' }" class="btn btn-sm bg-danger">
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa Nhan Vien này không ?')) { location.href = '/NhanVien/XoaNhanVien?manv=@nv.MaNV' }" class="btn btn-sm bg-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -112,23 +100,23 @@
     <script>
         $(document).ready(function () {
             $('#btnTimKiem').click(function () {
-                var ttsv = $('#ttsv').val();
+                var ttnv = $('#ttnv').val();
 
-                TimSinhVien(ttsv);
+                TimNhanVien(ttnv);
             });
 
-            function TimSinhVien(ttsv) {
+            function TimNhanVien(ttnv) {
                 $.ajax({
-                    url: "/SinhVien/TimSinhVien",
+                    url: "/NhanVien/TimNhanVien",
                     type: 'post',
-                    data: { ttsv: ttsv },
+                    data: { ttnv: ttnv },
                     success: function (data) {
                         let display = '';
 
-                        $.each(data.dssv, function (index, item) {
-                            display += '<tr><td>' + item.MaSV + '</td>';
+                        $.each(data.dsnv, function (index, item) {
+                            display += '<tr><td>' + item.MaNV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
-                                + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
+                                + item.MaNV + '.jpg" alt="User Image"></a>' + '<a href="/NhanVien/ChiTietNhanVien?MaNV=' + item.MaNV + '">' + item.TenNV + '</a>' + '</td>';
                             display += '<td>';
                             switch (item.GioiTinh) {
                                 case true:
@@ -144,15 +132,15 @@
                             display += '<td>' + item.QueQuan + '</td>';
                             display += '<td>' + item.SoDienThoai + '</td>';
                             display += '<td>' + item.Email + '</td>';
-                            display += '<td>' + item.TenLop + '</td>';
-                            display += '<td class="text-right"><div class="actions"><a href="/SinhVien/SuaSinhVien?masv=' + item.MaSV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
-                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa sinh vien này không ?\')) { location.href = \'/SinhVien/XoaSinhVien?masv=' + item.MaSV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
+                            display += '<td class="text-right"><div class="actions"><a href="/NhanVien/SuaNhanVien?manv=' + item.MaNV + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa Nhan Vien này không ?\')) { location.href = \'/NhanVien/XoaNhanVien?manv=' + item.MaNV + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });
 
-                        $('#tbSinhVien').html(display);
+                        $('#tbNhanVien').html(display);
                     }
                 });
             }
         })
     </script>
 }
+

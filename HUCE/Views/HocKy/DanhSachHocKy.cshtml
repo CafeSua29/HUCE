@@ -1,0 +1,68 @@
+﻿@model List<HUCE.Models.HocKy>
+
+@{
+    ViewBag.Title = "DanhSachHocKy";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.NamHoc> listnh = ViewBag.NH;
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/HocKy/ThemHocKy" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ma Hoc Ky</th>
+                                    <th>Ten Hoc Ky</th>
+                                    <th>Nam Hoc</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbHocKy">
+                                @foreach (var hk in Model)
+                                {
+                                    <tr>
+                                        <td>@hk.MaHK</td>
+                                        <td>@hk.TenHK</td>
+                                        @{
+                                            foreach (var nh in listnh)
+                                            {
+                                                if (hk.MaNH == nh.MaNH)
+                                                {
+                                                    <td>@nh.TenNH</td>
+                                                }
+                                            }
+                                        }
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a href="~/HocKy/SuaHocKy?mahk=@hk.MaHK" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa hoc ky này không ?')) { location.href = '/HocKy/XoaHocKy?mahk=@hk.MaHK' }" class="btn btn-sm bg-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

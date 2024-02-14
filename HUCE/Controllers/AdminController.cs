@@ -32,7 +32,7 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
-               return db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault();
+               return db.Admins.SingleOrDefault(o => o.MaAdmin == maad && o.DelTime == null);
             }
 
             return null;
@@ -43,7 +43,7 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var admin = db.Admins.Where(o => o.MaAdmin == maad && o.DelTime == null).SingleOrDefault();
+            var admin = db.Admins.SingleOrDefault(o => o.MaAdmin == maad && o.DelTime == null);
 
             return View(admin);
         }

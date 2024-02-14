@@ -1,0 +1,119 @@
+﻿@model List<HUCE.Models.PhanQuyen>
+
+@{
+    ViewBag.Title = "DanhSachPhanQuyen";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    List<HUCE.Models.Quyen> listquyen = ViewBag.Quyen;
+    List<HUCE.Models.DanhMuc> listdm = ViewBag.DM;
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="form-row col-md-8">
+                <div class="col-md-4 mb-3 top-nav-search">
+                    <input type="text" class="form-control" placeholder="Nhập ten quyen" id="ttpq" name="ttpq">
+                </div>
+                <div class="col-md-3 mb-1 top-nav-search">
+                    <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search"> Tìm Kiếm</i></button>
+                </div>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/PhanQuyen/PhanQuyen" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="text-danger">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-center mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Ten Quyen</th>
+                                    <th>Ten Danh Muc</th>
+                                    <th class="text-right">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbPhanQuyen">
+                                @foreach (var pq in Model)
+                                {
+                                    <tr>
+                                        @{
+                                            foreach (var quyen in listquyen)
+                                            {
+                                                if (pq.MaQuyen == quyen.MaQuyen)
+                                                {
+                                                    <td>@quyen.TenQuyen</td>
+                                                }
+                                            }
+                                        }
+
+                                        @{
+                                            foreach (var dm in listdm)
+                                            {
+                                                if (dm.MaDM == pq.MaDM)
+                                                {
+                                                    <td>@dm.TenDM</td>
+                                                }
+                                            }
+                                        }
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                @*<a href="~/PhanQuyen/SuaPhanQuyen?maquyen=@pq.MaQuyen&madm=@pq.MaDM" class="btn btn-sm bg-success-light mr-2">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>*@
+                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa phan quyen này không ?')) { location.href = '/PhanQuyen/XoaPhanQuyen?maquyen=@pq.MaQuyen&madm=@pq.MaDM' }" class="btn btn-sm bg-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnTimKiem').click(function () {
+                var ttpq = $('#ttpq').val();
+
+                TimPhanQuyen(ttpq);
+            });
+
+            function TimPhanQuyen(ttpq) {
+                $.ajax({
+                    url: "/PhanQuyen/TimPhanQuyen",
+                    type: 'post',
+                    data: { ttpq: ttpq },
+                    success: function (data) {
+                        let display = '';
+
+                        $.each(data.dspq, function (index, item) {
+                            display += '<tr><td>' + item.TenQuyen + '</td>';
+                            display += '<td>' + item.TenDM + '</td>';
+                            display += '<td class="text-right"><div class="actions">'; //<a href="/PhanQuyen/SuaPhanQuyen?maquyen=' + item.MaQuyen + '&madm=' + item.MaDM +'" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>
+                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa phan quyen này không ?\')) { location.href = \'/PhanQuyen/XoaPhanQuyen?maquyen=' + item.MaQuyen + '&madm=' + item.MaDM + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
+                        });
+
+                        $('#tbPhanQuyen').html(display);
+                    }
+                });
+            }
+        })
+    </script>
+}
+
