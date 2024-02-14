@@ -23,9 +23,7 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            List<TaiKhoan> listTK = db.TaiKhoans.Where(o => o.DelTime == null).ToList();
-
-            return View(listTK);
+            return View();
         }
 
         public Admin GetAdmin(string maad)
