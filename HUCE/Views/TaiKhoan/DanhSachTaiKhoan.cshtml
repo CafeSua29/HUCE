@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "DanhSachTaiKhoan";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var listquyen = ViewBag.Quyen;
 }
 
 <div class="content container-fluid">
@@ -45,26 +47,17 @@
                                     <tr>
                                         <td>@tk.TenTaiKhoan</td>
                                         <td>@tk.MatKhau</td>
+
                                         @{
-                                            switch (tk.MaQuyen)
+                                            foreach (var q in listquyen)
                                             {
-                                                case "1":
-                                                    <td>Admin</td>
-                                                    break;
-
-                                                case "2":
-                                                    <td>Nhan Vien</td>
-                                                    break;
-
-                                                case "3":
-                                                    <td>Giang Vien</td>
-                                                    break;
-
-                                                case "4":
-                                                    <td>Sinh Vien</td>
-                                                    break;
+                                                if (tk.MaQuyen == q.MaQuyen)
+                                                {
+                                                    <td>@q.TenQuyen</td>
+                                                }
                                             }
                                         }
+
                                         <td class="text-right">
                                             <div class="actions">
                                                 <a href="~/TaiKhoan/SuaTaiKhoan?tentk=@tk.TenTaiKhoan" class="btn btn-sm bg-success-light mr-2">
@@ -107,25 +100,7 @@
                         $.each(data.dstk, function (index, item) {
                             display += '<tr><td>' + item.TenTaiKhoan + '</td>';
                             display += '<td>' + item.MatKhau + '</td>';
-                            display += '<td>';
-                            switch (item.MaQuyen) {
-                                case "1":
-                                    display += "Admin"
-                                    break;
-
-                                case "2":
-                                    display += "Nhan Vien"
-                                    break;
-
-                                case "3":
-                                    display += "Giang Vien"
-                                    break;
-
-                                case "4":
-                                    display += "Sinh Vien"
-                                    break;
-                            }
-                            display += '</td>';
+                            display += '<td>' + item.TenQuyen + '</td>';
                             display += '<td class="text-right"><div class="actions"><a href="/TaiKhoan/SuaTaiKhoan?tentk=' + item.TenTaiKhoan + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
                             display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa tai khoan này không ?\')) { location.href = \'/TaiKhoan/XoaTaiKhoan?tentk=' + item.TenTaiKhoan + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
                         });

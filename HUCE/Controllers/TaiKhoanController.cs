@@ -26,6 +26,8 @@ namespace HUCE.Controllers
 
             List<TaiKhoan> listTK = db.TaiKhoans.Where(o => o.DelTime == null).ToList();
 
+            ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+
             return View(listTK);
         }
 
@@ -33,6 +35,8 @@ namespace HUCE.Controllers
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
+
+            ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
 
             return View(new TaiKhoan());
         }
@@ -51,6 +55,8 @@ namespace HUCE.Controllers
 
                     if (qr.Any())
                     {
+                        ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+
                         TempData["Error"] = "Tai khoan da ton tai";
                         return View(tk);
                     }
@@ -81,12 +87,16 @@ namespace HUCE.Controllers
                 }
                 else
                 {
+                    ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+
                     TempData["Error"] = "Vui long nhap day du thong tin tai khoan";
                     return View(tk);
                 }
             }
             catch (Exception ex)
             {
+                ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+
                 TempData["Error"] = "Không thể them moi tai khoan, chi tiet loi: " + ex;
                 return View(tk);
             }
@@ -98,6 +108,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             TaiKhoan tk = db.TaiKhoans.FirstOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
 
             return View(tk);
         }
@@ -126,18 +137,21 @@ namespace HUCE.Controllers
                     }
                     else
                     {
+                        ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
                         TempData["Error"] = "Không tim thay tai khoan";
                         return View(tk);
                     }
                 }
                 else
                 {
+                    ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
                     TempData["Error"] = "Không tim thay tai khoan";
                     return View(tk);
                 }
             }
             catch (Exception ex)
             {
+                ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
                 TempData["Error"] = "Không thể cap nhat thong tin tai khoan, chi tiet loi: " + ex;
                 return View(tk);
             }
@@ -180,12 +194,14 @@ namespace HUCE.Controllers
                 RedirectToAction("Login", "Login");
             else
             {
+                var QC = new QuyenController();
+
                 var dstk = (from item in db.TaiKhoans.Where(o => o.DelTime == null)
                             select new
                             {
                                 TenTaiKhoan = item.TenTaiKhoan,
                                 MatKhau = item.MatKhau,
-                                MaQuyen = item.MaQuyen
+                                TenQuyen = QC.GetQuyen(item.MaQuyen).TenQuyen
                             }).ToList();
 
                 if (!string.IsNullOrEmpty(tentk))
@@ -195,7 +211,7 @@ namespace HUCE.Controllers
                             {
                                 TenTaiKhoan = item.TenTaiKhoan,
                                 MatKhau = item.MatKhau,
-                                MaQuyen = item.MaQuyen
+                                TenQuyen = QC.GetQuyen(item.MaQuyen).TenQuyen
                             }).ToList();
                 }
 
@@ -223,6 +239,8 @@ namespace HUCE.Controllers
                             {
                                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                                 int rowCount = worksheet.Dimension.Rows;
+
+                                var QC = new QuyenController();
 
                                 for (int row = 2; row <= rowCount; row++)
                                 {
@@ -319,6 +337,14 @@ namespace HUCE.Controllers
 
                         case "4":
                             Sheet.Cells[string.Format("C{0}", row)].Value = "Sinh Vien";
+                            break;
+
+                        case "5":
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Sinh Vien";
+                            break;
+
+                        case "6":
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Giang Vien";
                             break;
                     }
 

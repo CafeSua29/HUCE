@@ -343,11 +343,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var masvcb = SessionConfig.GetSession();
+            var tentk = SessionConfig.GetSession();
 
-            var qr = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.CanBoLop == "Lop Truong" && o.DelTime == null);
+            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-            if(qr == null)
+            if(qr.MaQuyen != "5")
             {
                 TempData["Error"] = "Ban khong phai can bo lop";
                 return RedirectToAction("Login", "Login");
@@ -393,11 +393,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var magvcn = SessionConfig.GetSession();
+            var tentk = SessionConfig.GetSession();
 
-            var qr = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.GVCN == "GVCN" && o.DelTime == null);
+            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-            if (qr == null)
+            if (qr.MaQuyen != "6")
             {
                 TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                 return RedirectToAction("Login", "Login");
@@ -443,11 +443,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var masvcb = SessionConfig.GetSession();
+            var tentk = SessionConfig.GetSession();
 
-            var qr = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.CanBoLop == "Lop Truong" && o.DelTime == null);
+            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-            if (qr == null)
+            if (qr.MaQuyen != "5")
             {
                 TempData["Error"] = "Ban khong phai can bo lop";
                 return RedirectToAction("Login", "Login");
@@ -473,11 +473,11 @@ namespace HUCE.Controllers
 
             try
             {
-                var masvcb = SessionConfig.GetSession();
+                var tentk = SessionConfig.GetSession();
 
-                var qr1 = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.CanBoLop == "Lop Truong" && o.DelTime == null);
+                var qr1 = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-                if (qr1 == null)
+                if (qr1.MaQuyen != "5")
                 {
                     TempData["Error"] = "Ban khong phai can bo lop";
                     return RedirectToAction("Login", "Login");
@@ -533,11 +533,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var magvcn = SessionConfig.GetSession();
+            var tentk = SessionConfig.GetSession();
 
-            var qr = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.GVCN == "GVCN" && o.DelTime == null);
+            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-            if (qr == null)
+            if (qr.MaQuyen != "6")
             {
                 TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                 return RedirectToAction("Login", "Login");
@@ -563,11 +563,11 @@ namespace HUCE.Controllers
 
             try
             {
-                var magvcn = SessionConfig.GetSession();
+                var tentk = SessionConfig.GetSession();
 
-                var qr1 = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.GVCN == "GVCN" && o.DelTime == null);
+                var qr1 = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
 
-                if (qr1 == null)
+                if (qr1.MaQuyen != "6")
                 {
                     TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                     return RedirectToAction("Login", "Login");

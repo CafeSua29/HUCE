@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ThemTaiKhoan";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var listquyen = ViewBag.Quyen;
 }
 
 <div class="content container-fluid">
@@ -50,10 +52,12 @@
                                 @Html.LabelFor(model => model.MaQuyen, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     <select class="form-control" name="MaQuyen">
-                                        <option value="1" @Html.Raw("1" == Model.MaQuyen ? "selected" : "")>Admin</option>
-                                        <option value="2" @Html.Raw("2" == Model.MaQuyen ? "selected" : "")>Nhan Vien</option>
-                                        <option value="3" @Html.Raw("3" == Model.MaQuyen ? "selected" : "")>Giang Vien</option>
-                                        <option value="4" @Html.Raw("4" == Model.MaQuyen ? "selected" : "")>Sinh Vien</option>
+                                        @{
+                                            foreach (var q in listquyen)
+                                            {
+                                                <option value="@q.MaQuyen" @Html.Raw(q.MaQuyen == Model.MaQuyen ? "selected" : "")>@q.TenQuyen</option>
+                                            }
+                                        }
                                     </select>
                                     @Html.ValidationMessageFor(model => model.MaQuyen, "", new { @class = "text-danger" })
                                 </div>

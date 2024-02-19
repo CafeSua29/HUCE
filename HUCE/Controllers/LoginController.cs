@@ -47,24 +47,18 @@ namespace HUCE.Controllers
                             SessionConfig.DeSession();
                             SessionConfig.SetSession(taikhoan.TenTaiKhoan, taikhoan1.MaQuyen);
 
-                            switch (taikhoan1.MaQuyen)
+                            var listquyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+
+                            foreach (var q in listquyen)
                             {
-                                case "1":
-                                    return RedirectToAction("Dashboard", "Admin");
-
-                                case "2":
-                                    return RedirectToAction("Dashboard", "NhanVien");
-
-                                case "3":
-                                    return RedirectToAction("Dashboard", "GiangVien");
-
-                                case "4":
-                                    return RedirectToAction("Dashboard", "SinhVien");
-
-                                default:
-                                    TempData["Error"] = "Co loi xay ra trong qua trinh dang nhap";
-                                    return View(taikhoan);
+                                if(taikhoan1.MaQuyen == q.MaQuyen)
+                                {
+                                    return RedirectToAction("Dashboard", q.QuyenURL);
+                                }
                             }
+
+                            TempData["Error"] = "Tai khoan khong ton tai";
+                            return View(taikhoan);
                         }
                     }
                     else
