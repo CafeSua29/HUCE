@@ -313,5 +313,17 @@ namespace HUCE.Controllers
                 Response.End();
             }
         }
+
+        public MonHoc GetMonHoc(string mamh)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                return db.MonHocs.SingleOrDefault(o => o.MaMH == mamh && o.DelTime == null);
+            }
+
+            return null;
+        }
     }
 }

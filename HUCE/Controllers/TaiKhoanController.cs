@@ -68,14 +68,14 @@ namespace HUCE.Controllers
 
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "Admin");
+                            return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
                         }
                         else
                         {
                             db.TaiKhoans.InsertOnSubmit(tk);
                             db.SubmitChanges();
 
-                            return RedirectToAction("Dashboard", "Admin");
+                            return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
                         }
                     }
                 }
@@ -122,7 +122,7 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
-                        return RedirectToAction("Dashboard", "Admin");
+                        return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
                     }
                     else
                     {
@@ -165,11 +165,11 @@ namespace HUCE.Controllers
                     return RedirectToAction("Login", "Login");
                 }
                 else
-                    return RedirectToAction("Dashboard", "Admin");
+                    return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
             }
         }
 

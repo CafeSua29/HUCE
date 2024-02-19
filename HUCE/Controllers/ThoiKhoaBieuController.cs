@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HUCE.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,14 @@ namespace HUCE.Controllers
         // GET: ThoiKhoaBieu
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult LichDay()
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
     }

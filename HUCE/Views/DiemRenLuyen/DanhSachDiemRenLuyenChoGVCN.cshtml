@@ -1,7 +1,7 @@
 ﻿@model List<HUCE.Models.SVDRLModel>
 
 @{
-    ViewBag.Title = "DanhSachDiemRenLuyen";
+    ViewBag.Title = "DanhSachDiemRenLuyenChoGVCN";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 }
 
@@ -61,9 +61,6 @@
                                                 <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="#" onclick="if (confirm('Bạn có chắc muốn xóa danh gia này không ?')) { location.href = '/DiemRenLuyen/XoaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK' }" class="btn btn-sm bg-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -101,8 +98,7 @@
                                 + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
                             display += '<td>' + item.TenHK + '</td>';
                             display += '<td>' + item.TongDiem + '</td>';
-                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a>';
-                            display += '<a onclick="if (confirm(\'Bạn có chắc muốn xóa danh gia này không ?\')) { location.href = \'/DiemRenLuyen/XoaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '\'}" class="btn btn-sm bg-danger"><i class="fas fa-trash"></i></a></div></td></tr>';
+                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a></div></td></tr>';
                         });
 
                         $('#tbDiemRenLuyen').html(display);
@@ -112,5 +108,4 @@
         })
     </script>
 }
-
 

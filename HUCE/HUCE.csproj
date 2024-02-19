@@ -132,6 +132,7 @@
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HocBongController.cs" />
     <Compile Include="Controllers\HocKyController.cs" />
+    <Compile Include="Controllers\KetQuaController.cs" />
     <Compile Include="Controllers\KhoaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
@@ -152,7 +153,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBConnecter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ListDRL.cs" />
     <Compile Include="Models\SVDRLModel.cs" />
+    <Compile Include="Models\SVHBModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +219,12 @@
     <Content Include="Views\HocKy\DanhSachHocKy.cshtml" />
     <Content Include="Views\HocKy\ThemHocKy.cshtml" />
     <Content Include="Views\HocKy\SuaHocKy.cshtml" />
+    <Content Include="Views\TaiKhoan\DanhSachTaiKhoan.cshtml" />
+    <Content Include="Views\ThoiKhoaBieu\LichDay.cshtml" />
+    <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyenChoCB.cshtml" />
+    <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyenChoGVCN.cshtml" />
+    <Content Include="Views\DiemRenLuyen\ChekDiemRenLuyenChoCB.cshtml" />
+    <Content Include="Views\DiemRenLuyen\ChekDiemRenLuyenChoGVCN.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -227,7 +236,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\ChuongTrinhKhung\" />
     <Folder Include="Views\DanhMuc\" />
-    <Folder Include="Views\ThoiKhoaBieu\" />
+    <Folder Include="Views\KetQua\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

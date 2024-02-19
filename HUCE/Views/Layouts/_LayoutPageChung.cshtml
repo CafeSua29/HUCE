@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="~/Assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="~/Assets/plugins/datatables/datatables.min.css">
     <link rel="stylesheet" href="~/Assets/css/style.css">
+    <link rel="stylesheet" href="~/Assets/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="~/Assets/plugins/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="~/Assets/plugins/simple-calendar/simple-calendar.css">
 </head>
 <body>
     <div class="main-wrapper">
@@ -89,7 +92,7 @@
                                         @{
                                             foreach (HUCE.Models.DanhMuc dmcon in listdmcon)
                                             {
-                                                if(dmcon.MaDMCha == dmcha.MaDM)
+                                                if (dmcon.MaDMCha == dmcha.MaDM)
                                                 {
                                                     <li><a href="@dmcon.UrlDM">@dmcon.TenDM</a></li>
                                                 }
@@ -104,9 +107,7 @@
             </div>
         </div>
         <div class="page-wrapper">
-            <div>
                 @RenderBody()
-            </div>
         </div>
     </div>
     <script src="~/Assets/js/jquery-3.6.0.min.js"></script>
@@ -118,6 +119,16 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Assets/js/moment.min.js"></script>
+    <script src="~/Assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Assets/js/jquery-ui.min.js"></script>
+    <script src="~/Assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/Assets/plugins/fullcalendar/jquery.fullcalendar.js"></script>
+    <script src="~/Assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="~/Assets/plugins/apexchart/chart-data.js"></script>
+    <script src="~/Assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+    <script src="~/Assets/js/calander.js"></script>
+    <script src="~/Assets/js/circle-progress.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -11,41 +11,43 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="form-row col-md-15">
-                <div class="col-md-3 mb-3 top-nav-search">
-                    <select class="form-control" name="" id="makhoa">
-                        @{
-                            foreach (var khoa in listkhoa)
-                            {
-                                <option value="@khoa.MaKhoa">@khoa.TenKhoa</option>
+                <form action="~/HocBong/XuatFileExcel" method="post">
+                    <div class="col-md-3 mb-3 top-nav-search">
+                        <select class="form-control" name="makhoa" id="makhoa">
+                            @{
+                                foreach (var khoa in listkhoa)
+                                {
+                                    <option value="@khoa.MaKhoa">@khoa.TenKhoa</option>
+                                }
                             }
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3 top-nav-search">
-                    <select class="form-control" name="" id="mahk">
-                        @{
-                            foreach (var hk in listhk)
-                            {
-                                <option value="@hk.MaHK">@hk.TenHK</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3 top-nav-search">
+                        <select class="form-control" name="mahk" id="mahk">
+                            @{
+                                foreach (var hk in listhk)
+                                {
+                                    <option value="@hk.MaHK">@hk.TenHK</option>
+                                }
                             }
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3 top-nav-search">
-                    <input type="number" class="form-control" placeholder="Diem ren luyen toi thieu" id="drlmin" name="">
-                </div>
-                <div class="col-md-3 mb-3 top-nav-search">
-                    <input type="text" class="form-control" placeholder="Diem chu yeu cau" id="diemchumin" name="">
-                </div>
-                <div class="col-md-3 mb-3 top-nav-search">
-                    <input type="number" class="form-control" placeholder="Diem he 4 toi thieu" id="diemhe4min" name="">
-                </div>
-                <div class="col-md-3 mb-1 top-nav-search">
-                    <button class="btn" type="button" id="btnLapDanhSach"><i class="fas fa-search"> Lap Danh Sach</i></button>
-                </div>
-                <div class="col-auto text-right float-right ml-auto">
-                    <a href="~/HocBong/XuatFileExcel" class="btn btn-primary"><i class="fas fa-download"></i> Tải danh sách</a>
-                </div>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3 top-nav-search">
+                        <input type="number" class="form-control" placeholder="Diem ren luyen toi thieu" id="drlmin" name="drlmin">
+                    </div>
+                    <div class="col-md-3 mb-3 top-nav-search">
+                        <input type="text" class="form-control" placeholder="Diem chu yeu cau" id="diemchumin" name="diemchumin">
+                    </div>
+                    <div class="col-md-3 mb-3 top-nav-search">
+                        <input type="number" class="form-control" placeholder="Diem he 10 toi thieu" id="diemhe10min" name="diemhe10min">
+                    </div>
+                    <div class="col-md-3 mb-1 top-nav-search">
+                        <button class="btn" type="button" id="btnLapDanhSach"><i class="fas fa-search"> Lap Danh Sach</i></button>
+                    </div>
+                    <div class="col-auto text-right float-right ml-auto">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-download"></i> Tải danh sách</button>
+                    </div>
+                </form>
             </div>
             <div class="text-danger">
                 @TempData["Error"]
@@ -63,7 +65,8 @@
                                     <th>Ma Sinh Vien</th>
                                     <th>Ten Sinh Vien</th>
                                     <th>Khoa</th>
-                                    <th>Diem</th>
+                                    <th>Hoc Ky</th>
+                                    <th>Diem Trung Binh</th>
                                 </tr>
                             </thead>
                             <tbody id="tbHocBong">
@@ -86,16 +89,16 @@
                 var mahk = $('#mahk').val();
                 var drlmin = $('#drlmin').val();
                 var diemchumin = $('#diemchumin').val();
-                var diemhe4min = $('#diemhe4min').val();
+                var diemhe10min = $('#diemhe10min').val();
 
-                LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe4min);
+                LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe10min);
             });
 
-            function LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe4min) {
+            function LapDanhSach(makhoa, mahk, drlmin, diemchumin, diemhe10min) {
                 $.ajax({
                     url: "/HocBong/LapDanhSach",
                     type: 'post',
-                    data: { makhoa: makhoa, mahk: mahk, drlmin: drlmin, diemchumin: diemchumin, diemhe4min: diemhe4min },
+                    data: { makhoa: makhoa, mahk: mahk, drlmin: drlmin, diemchumin: diemchumin, diemhe10min: diemhe10min },
                     success: function (data) {
                         let display = '';
 
@@ -103,8 +106,9 @@
                             display += '<tr><td>' + item.MaSV + '</td>';
                             display += '<td>' + '<h2 class="table-avatar"><a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle"src="/Assets/img/profiles/'
                                 + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
-                            display += '<td>' + item.Khoa + '</td>';
-                            display += '<td>' + item.Diem + '</td></tr>';
+                            display += '<td>' + item.TenKhoa + '</td>';
+                            display += '<td>' + item.TenHK + '</td>';
+                            display += '<td>' + item.DiemTB + '</td></tr>';
                         });
 
                         $('#tbHocBong').html(display);

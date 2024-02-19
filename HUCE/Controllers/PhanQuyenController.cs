@@ -31,11 +31,14 @@ namespace HUCE.Controllers
 
                 foreach (PhanQuyen pq in listpq)
                 {
-                    var qr = db.DanhMucs.SingleOrDefault(o => o.DelTime == null && o.MaDM == pq.MaDM);
+                    var qr = db.DanhMucs.SingleOrDefault(o => o.DelTime == null && o.MaDM == pq.MaDM && o.MaDMCha == null);
 
-                    if (!listdmcha.Contains(qr))
+                    if(qr != null)
                     {
-                        listdmcha.Add(qr);
+                        if (!listdmcha.Contains(qr))
+                        {
+                            listdmcha.Add(qr);
+                        }
                     }
                 }
 
@@ -45,9 +48,15 @@ namespace HUCE.Controllers
 
                     foreach (DanhMuc dmc in qr)
                     {
-                        if (!listdmcon.Contains(dmc))
+                        foreach (PhanQuyen pq in listpq)
                         {
-                            listdmcon.Add(dmc);
+                            if(pq.MaDM == dmc.MaDM)
+                            {
+                                if (!listdmcon.Contains(dmc))
+                                {
+                                    listdmcon.Add(dmc);
+                                }
+                            }
                         }
                     }
                 }
@@ -83,7 +92,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-            ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+            ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
             return View(new PhanQuyen());
         }
@@ -103,7 +112,7 @@ namespace HUCE.Controllers
                     if (qr.Any())
                     {
                         ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                        ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                        ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                         TempData["Error"] = "Ban da phan quyen nay roi";
                         return View(pq);
@@ -136,7 +145,7 @@ namespace HUCE.Controllers
                 else
                 {
                     ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                    ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                    ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                     TempData["Error"] = "Vui long chon day du thong tin de phan quyen";
                     return View(pq);
@@ -145,7 +154,7 @@ namespace HUCE.Controllers
             catch (Exception ex)
             {
                 ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                 TempData["Error"] = "Không thể phan quyen, chi tiet loi: " + ex;
                 return View(pq);
@@ -158,7 +167,7 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-            ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+            ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
             PhanQuyen pq = db.PhanQuyens.FirstOrDefault(o => o.MaQuyen == maquyen && o.MaDM == madm && o.DelTime == null);
 
@@ -190,7 +199,7 @@ namespace HUCE.Controllers
                     else
                     {
                         ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                        ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                        ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                         TempData["Error"] = "Không tim thay phan quyen";
                         return View(pq);
@@ -199,7 +208,7 @@ namespace HUCE.Controllers
                 else
                 {
                     ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                    ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                    ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                     TempData["Error"] = "Không tim thay phan quyen";
                     return View(pq);
@@ -208,7 +217,7 @@ namespace HUCE.Controllers
             catch (Exception ex)
             {
                 ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
-                ViewBag.DM = db.DanhMucs.Where(o => o.MaDMCha == null && o.DelTime == null).ToList();
+                ViewBag.DM = db.DanhMucs.Where(o => o.DelTime == null).ToList();
 
                 TempData["Error"] = "Không thể cap nhat thong tin phan quyen, chi tiet loi: " + ex;
                 return View(pq);

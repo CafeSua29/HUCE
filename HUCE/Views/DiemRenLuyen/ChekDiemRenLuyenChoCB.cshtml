@@ -1,7 +1,7 @@
 ﻿@model List<HUCE.Models.DiemRenLuyen>
 
 @{
-    ViewBag.Title = "SuaDiemRenLuyen";
+    ViewBag.Title = "ChekDiemRenLuyenChoCB";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 
     List<HUCE.Models.TieuChiDiemRenLuyen> listtccha = ViewBag.TCCha;
@@ -12,7 +12,7 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Sua Diem Ren Luyen</h3>
+                <h3 class="page-title">Danh Gia Diem Ren Luyen</h3>
                 <ul class="breadcrumb">
                 </ul>
             </div>
@@ -45,16 +45,12 @@
                                     <th class="text-center" style="width:10%" lang="phieudanhgiarenluyenchitiet_mucdiemcansulopxacnhan">
                                         Mức điểm<br>cán sự<br>lớp xác nhận
                                     </th>
-                                    <th class="text-center" style="width:10%" lang="phieudanhgiarenluyenchitiet_mucdiemkqrlcvhthoacgvcn">
-                                        Mức điểm<br>KQRL CVHT<br>hoặc<br>GVCN xác nhận
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <tr>
                                     <td class="text-center bold" style="font-size:16px">Tổng điểm</td>
-                                    <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
@@ -77,21 +73,7 @@
                                                 {
                                                     if (Model[j].MaTC == tccha.MaTC)
                                                     {
-                                                        @Html.EditorFor(model => model[j].MaSV, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-                                                        @Html.EditorFor(model => model[j].MaHK, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                         @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemSV, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemCB, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemGVCN, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
                                                     }
                                                 }
                                             }
@@ -114,20 +96,14 @@
                                                         {
                                                             if (Model[j].MaTC == tc.MaTC)
                                                             {
-                                                                @Html.EditorFor(model => model[j].MaSV, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-                                                                @Html.EditorFor(model => model[j].MaHK, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                                 @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
                                                                 <td class="bold">
-                                                                    @Html.EditorFor(model => model[j].DiemSV, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
+                                                                    @Html.EditorFor(model => model[j].DiemSV, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, disabled = "disabled" } })
                                                                 </td>
 
                                                                 <td class="bold">
                                                                     @Html.EditorFor(model => model[j].DiemCB, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
-                                                                </td>
-
-                                                                <td class="bold">
-                                                                    @Html.EditorFor(model => model[j].DiemGVCN, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
                                                                 </td>
                                                             }
                                                         }

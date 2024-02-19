@@ -1,4 +1,5 @@
-﻿
+﻿@model List<HUCE.Models.DiemRenLuyen>
+
 @{
     ViewBag.Title = "DanhGiaDiemRenLuyen";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
@@ -22,7 +23,10 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="~/DiemRenLuyen/DanhGiaDiemRenLuyen">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
                         <table class="table-custom table table-bordered text-center no-footer dtr-inline" width="100%" role="grid">
                             <thead>
                                 <tr>
@@ -35,15 +39,8 @@
                                     <th style="width:5%" class="text-center" lang="phieudanhgiarenluyenchitiet-mucdiemtoida">
                                         Mức<br>điểm<br>tối đa
                                     </th>
-                                    <th style="width:10%" class="text-left" lang="phieudanhgiarenluyenchitiet-tunhanxet">Tự nhận xét</th>
                                     <th class="text-center" style="width:10%" lang="phieudanhgiarenluyenchitiet-mucdiemtudanhgiacuasinhvien">
                                         Mức điểm<br>tự đánh giá<br>của sinh viên
-                                    </th>
-                                    <th class="text-center" style="width:10%" lang="phieudanhgiarenluyenchitiet_mucdiemcansulopxacnhan">
-                                        Mức điểm<br>cán sự<br>lớp xác nhận
-                                    </th>
-                                    <th class="text-center" style="width:10%" lang="phieudanhgiarenluyenchitiet_mucdiemkqrlcvhthoacgvcn">
-                                        Mức điểm<br>KQRL CVHT<br>hoặc<br>GVCN xác nhận
                                     </th>
                                 </tr>
                             </thead>
@@ -51,9 +48,6 @@
 
                                 <tr>
                                     <td class="text-center bold" style="font-size:16px">Tổng điểm</td>
-                                    <td class="text-center bold" style="font-size:16px"></td>
-                                    <td class="text-center bold" style="font-size:16px"></td>
-                                    <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
                                     <td class="text-center bold" style="font-size:16px"></td>
@@ -69,19 +63,17 @@
                                             </td>
                                             <td class="bold">@tccha.DiemMin</td>
                                             <td class="bold">@tccha.DiemMax</td>
-                                            <td></td>
 
-                                            <td class="bold">
-                                                <input type="number" min="@tccha.DiemMin" max="@tccha.DiemMax" name="" required />
-                                            </td>
+                                            @{
+                                                for (int j = 0; j < Model.Count(); j++)
+                                                {
+                                                    if (Model[j].MaTC == tccha.MaTC)
+                                                    {
+                                                        @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                                                    }
+                                                }
+                                            }
 
-                                            <td class="bold">
-                                                <input type="number" min="@tccha.DiemMin" max="@tccha.DiemMax" name="" disabled />
-                                            </td>
-
-                                            <td class="bold">
-                                                <input type="number" min="@tccha.DiemMin" max="@tccha.DiemMax" name="" disabled />
-                                            </td>
                                         </tr>
 
                                         foreach (var tc in listtc)
@@ -94,20 +86,21 @@
                                                     </td>
                                                     <td class="">@tc.DiemMin</td>
                                                     <td class="">@tc.DiemMax</td>
-                                                    <td class="text-left">
-                                                    </td>
 
-                                                    <td class="bold">
-                                                        <input type="number" min="@tc.DiemMin" max="@tc.DiemMax" name="" required />
-                                                    </td>
+                                                    @{
+                                                        for (int j = 0; j < Model.Count(); j++)
+                                                        {
+                                                            if (Model[j].MaTC == tc.MaTC)
+                                                            {
+                                                                @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
-                                                    <td class="bold">
-                                                        <input type="number" min="@tc.DiemMin" max="@tc.DiemMax" name="" disabled />
-                                                    </td>
+                                                                <td class="bold">
+                                                                    @Html.EditorFor(model => model[j].DiemSV, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
+                                                                </td>
+                                                            }
+                                                        }
+                                                    }
 
-                                                    <td class="bold">
-                                                        <input type="number" min="@tc.DiemMin" max="@tc.DiemMax" name="" disabled />
-                                                    </td>
                                                 </tr>
                                             }
                                         }
@@ -123,7 +116,7 @@
                                 <input type="submit" value="Gui" class="btn btn-primary" />
                             </div>
                         </div>
-                    </form>
+                    }
                 </div>
             </div>
         </div>
