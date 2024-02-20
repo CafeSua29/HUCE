@@ -617,5 +617,55 @@ namespace HUCE.Controllers
                 return View(listdrl);
             }
         }
+
+        public ActionResult XacNhanDRLChoCB(List<DiemRenLuyen> listdrl)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            try
+            {
+                var masv = listdrl[0].MaSV;
+                var mahk = listdrl[0].MaHK;
+
+                var qr = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null);
+
+                if (qr.Any())
+                {
+                    List<DiemRenLuyen> listdrl1 = qr.ToList();
+
+                    foreach (DiemRenLuyen drl in listdrl)
+                    {
+                        foreach (DiemRenLuyen drl1 in listdrl1)
+                        {
+                            if (drl1.MaTC == drl.MaTC)
+                            {
+                                drl1.DiemCB = drl.DiemSV;
+
+                                db.SubmitChanges();
+                            }
+                        }
+                    }
+
+                    return RedirectToAction("ChekDiemRenLuyenChoCB", "DiemRenLuyen");
+                }
+                else
+                {
+                    ViewBag.TCCha = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha == null && o.DelTime == null).ToList();
+                    ViewBag.TC = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha != null && o.DelTime == null).ToList();
+
+                    TempData["Error"] = "Khong tim thay danh gia";
+                    return View(listdrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TCCha = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha == null && o.DelTime == null).ToList();
+                ViewBag.TC = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha != null && o.DelTime == null).ToList();
+
+                TempData["Error"] = "Không thể sua danh gia, chi tiet loi: " + ex;
+                return View(listdrl);
+            }
+        }
     }
 }
