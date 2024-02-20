@@ -5,6 +5,8 @@
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
 
     var listquyen = ViewBag.Quyen;
+    List<HUCE.Models.Lop> listlop = ViewBag.Lop;
+    string malcn = ViewBag.LCN;
 }
 
 <div class="content container-fluid">
@@ -26,45 +28,66 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-horizontal">
-                            <div class="col-12">
-                                <h5 class="form-title"><span>Thông Tin Tai Khoan</span></h5>
-                            </div>
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.TenTaiKhoan)
+                    <div class="form-horizontal">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>Thông Tin Tai Khoan</span></h5>
+                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.TenTaiKhoan)
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MatKhau, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MaQuyen, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <select class="form-control" name="MaQuyen">
-                                        @{
-                                            foreach (var q in listquyen)
-                                            {
-                                                <option value="@q.MaQuyen" @Html.Raw(q.MaQuyen == Model.MaQuyen ? "selected" : "")>@q.TenQuyen</option>
-                                            }
-                                        }
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.MaQuyen, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div class="text-danger">
-                                        @TempData["Error"]
-                                    </div>
-                                    <input type="submit" value="Luu" class="btn btn-primary" />
-                                </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatKhau, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MatKhau, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaQuyen, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <select class="form-control" name="MaQuyen">
+                                    @{
+                                        foreach (var q in listquyen)
+                                        {
+                                            <option value="@q.MaQuyen" @Html.Raw(q.MaQuyen == Model.MaQuyen ? "selected" : "")>@q.TenQuyen</option>
+                                        }
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.MaQuyen, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @{
+                            if (Model.MaQuyen == "4")
+                            {
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="malopcn">Lop Chu Nhiem</label>
+                                    <div class="col-md-10">
+                                        <select class="form-control" name="malopcn" id="malopcn">
+                                            <option value="">Chon Lop Chu Nhiem</option>
+
+                                            @{
+                                                foreach (var lop in listlop)
+                                                {
+                                                    <option value="@lop.MaLop" @Html.Raw(lop.MaLop == malcn ? "selected" : "")>@lop.TenLop</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="text-danger">
+                                    @TempData["Error"]
+                                </div>
+                                <input type="submit" value="Luu" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
                     }
                 </div>
             </div>

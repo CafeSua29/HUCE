@@ -108,13 +108,18 @@ namespace HUCE.Controllers
                 return RedirectToAction("Login", "Login");
 
             TaiKhoan tk = db.TaiKhoans.FirstOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+
             ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+            ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
+
+            if(tk.MaQuyen == "3" || tk.MaQuyen == "6")
+                ViewBag.LCN = db.GiangViens.SingleOrDefault(o => o.MaGV == tentk && o.DelTime == null).MaLopCN;
 
             return View(tk);
         }
 
         [HttpPost]
-        public ActionResult SuaTaiKhoan(TaiKhoan tk)
+        public ActionResult SuaTaiKhoan(TaiKhoan tk, string malopcn)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
@@ -133,11 +138,33 @@ namespace HUCE.Controllers
 
                         db.SubmitChanges();
 
+                        if (!string.IsNullOrEmpty(malopcn))
+                        {
+                            var qr1 = db.GiangViens.Where(o => o.MaGV == tk.TenTaiKhoan && o.DelTime == null);
+
+                            if (qr1.Any())
+                            {
+                                GiangVien gv = qr1.SingleOrDefault();
+
+                                if (!string.IsNullOrEmpty(gv.GVCN))
+                                {
+                                    gv.MaLopCN = malopcn;
+
+                                    db.SubmitChanges();
+                                }
+                            }
+                        }
+
                         return RedirectToAction("DanhSachTaiKhoan", "TaiKhoan");
                     }
                     else
                     {
                         ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+                        ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
+
+                        if (tk.MaQuyen == "3" || tk.MaQuyen == "6")
+                            ViewBag.LCN = db.GiangViens.SingleOrDefault(o => o.MaGV == tk.TenTaiKhoan && o.DelTime == null).MaLopCN;
+
                         TempData["Error"] = "Không tim thay tai khoan";
                         return View(tk);
                     }
@@ -145,6 +172,11 @@ namespace HUCE.Controllers
                 else
                 {
                     ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+                    ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
+
+                    if (tk.MaQuyen == "3" || tk.MaQuyen == "6")
+                        ViewBag.LCN = db.GiangViens.SingleOrDefault(o => o.MaGV == tk.TenTaiKhoan && o.DelTime == null).MaLopCN;
+
                     TempData["Error"] = "Không tim thay tai khoan";
                     return View(tk);
                 }
@@ -152,6 +184,11 @@ namespace HUCE.Controllers
             catch (Exception ex)
             {
                 ViewBag.Quyen = db.Quyens.Where(o => o.DelTime == null).ToList();
+                ViewBag.Lop = db.Lops.Where(o => o.DelTime == null).ToList();
+
+                if (tk.MaQuyen == "3" || tk.MaQuyen == "6")
+                    ViewBag.LCN = db.GiangViens.SingleOrDefault(o => o.MaGV == tk.TenTaiKhoan && o.DelTime == null).MaLopCN;
+
                 TempData["Error"] = "Không thể cap nhat thong tin tai khoan, chi tiet loi: " + ex;
                 return View(tk);
             }
@@ -264,6 +301,14 @@ namespace HUCE.Controllers
                                             Quyen = "4";
                                             break;
 
+                                        case "Lop Truong":
+                                            Quyen = "5";
+                                            break;
+
+                                        case "Chu Nhiem":
+                                            Quyen = "6";
+                                            break;
+
                                         default:
                                             TempData["Error"] = "Quyen khong hop le";
                                             return View("ThemTaiKhoan", new TaiKhoan());
@@ -340,11 +385,11 @@ namespace HUCE.Controllers
                             break;
 
                         case "5":
-                            Sheet.Cells[string.Format("C{0}", row)].Value = "Sinh Vien";
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Lop Truong";
                             break;
 
                         case "6":
-                            Sheet.Cells[string.Format("C{0}", row)].Value = "Giang Vien";
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "Chu Nhiem";
                             break;
                     }
 

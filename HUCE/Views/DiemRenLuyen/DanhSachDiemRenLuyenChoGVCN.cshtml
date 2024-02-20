@@ -58,7 +58,7 @@
 
                                         <td class="text-right">
                                             <div class="actions">
-                                                <a href="~/DiemRenLuyen/SuaDiemRenLuyen?masv=@drl.MaSV&mahk=@drl.MaHK" class="btn btn-sm bg-success-light mr-2">
+                                                <a href="~/DiemRenLuyen/ChekDiemRenLuyenChoGVCN?masv=@drl.MaSV&mahk=@drl.MaHK" class="btn btn-sm bg-success-light mr-2">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
                                             </div>
@@ -98,7 +98,7 @@
                                 + item.MaSV + '.jpg" alt="User Image"></a>' + '<a href="/SinhVien/ChiTietSinhVien?masv=' + item.MaSV + '">' + item.TenSV + '</a>' + '</td>';
                             display += '<td>' + item.TenHK + '</td>';
                             display += '<td>' + item.TongDiem + '</td>';
-                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/SuaDiemRenLuyen?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a></div></td></tr>';
+                            display += '<td class="text-right"><div class="actions"><a href="/DiemRenLuyen/ChekDiemRenLuyenChoGVCN?masv=' + item.MaSV + '&mahk=' + item.MaHK + '" class="btn btn-sm bg-success-light mr-2"><i class="fas fa-pen"></i></a></div></td></tr>';
                         });
 
                         $('#tbDiemRenLuyen').html(display);

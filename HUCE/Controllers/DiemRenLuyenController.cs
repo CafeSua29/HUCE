@@ -343,11 +343,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var tentk = SessionConfig.GetSession();
+            var masvcb = SessionConfig.GetSession();
 
-            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            var qr = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.DelTime == null);
 
-            if(qr.MaQuyen != "5")
+            if(qr.CanBoLop == null)
             {
                 TempData["Error"] = "Ban khong phai can bo lop";
                 return RedirectToAction("Login", "Login");
@@ -393,11 +393,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var tentk = SessionConfig.GetSession();
+            var magvcn = SessionConfig.GetSession();
 
-            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            var qr = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.DelTime == null);
 
-            if (qr.MaQuyen != "6")
+            if (qr.GVCN == null)
             {
                 TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                 return RedirectToAction("Login", "Login");
@@ -443,11 +443,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var tentk = SessionConfig.GetSession();
+            var masvcb = SessionConfig.GetSession();
 
-            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            var qr = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.DelTime == null);
 
-            if (qr.MaQuyen != "5")
+            if (qr.CanBoLop == null)
             {
                 TempData["Error"] = "Ban khong phai can bo lop";
                 return RedirectToAction("Login", "Login");
@@ -473,11 +473,11 @@ namespace HUCE.Controllers
 
             try
             {
-                var tentk = SessionConfig.GetSession();
+                var masvcb = SessionConfig.GetSession();
 
-                var qr1 = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+                var qr1 = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.DelTime == null);
 
-                if (qr1.MaQuyen != "5")
+                if (qr1.CanBoLop == null)
                 {
                     TempData["Error"] = "Ban khong phai can bo lop";
                     return RedirectToAction("Login", "Login");
@@ -533,11 +533,11 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
-            var tentk = SessionConfig.GetSession();
+            var magvcn = SessionConfig.GetSession();
 
-            var qr = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+            var qr = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.DelTime == null);
 
-            if (qr.MaQuyen != "6")
+            if (qr.GVCN == null)
             {
                 TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                 return RedirectToAction("Login", "Login");
@@ -563,11 +563,11 @@ namespace HUCE.Controllers
 
             try
             {
-                var tentk = SessionConfig.GetSession();
+                var magvcn = SessionConfig.GetSession();
 
-                var qr1 = db.TaiKhoans.SingleOrDefault(o => o.TenTaiKhoan == tentk && o.DelTime == null);
+                var qr1 = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.DelTime == null);
 
-                if (qr1.MaQuyen != "6")
+                if (qr1.GVCN == null)
                 {
                     TempData["Error"] = "Ban khong phai giao vien chu nhiem";
                     return RedirectToAction("Login", "Login");
