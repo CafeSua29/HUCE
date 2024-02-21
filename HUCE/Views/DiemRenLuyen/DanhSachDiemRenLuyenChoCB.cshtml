@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "DanhSachDiemRenLuyenChoCB";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var username = HUCE.App_Start.SessionConfig.GetSession();
 }
 
 <div class="content container-fluid">
@@ -80,15 +82,16 @@
         $(document).ready(function () {
             $('#btnTimKiem').click(function () {
                 var ttdg = $('#ttdg').val();
+                var masvcb = @username;
 
-                TimDiemRenLuyen(ttdg);
+                TimDiemRenLuyenChoCB(ttdg, masvcb);
             });
 
-            function TimDiemRenLuyen(ttdg) {
+            function TimDiemRenLuyenChoCB(ttdg, masvcb) {
                 $.ajax({
-                    url: "/DiemRenLuyen/TimDiemRenLuyen",
+                    url: "/DiemRenLuyen/TimDiemRenLuyenChoCB",
                     type: 'post',
-                    data: { ttdg: ttdg },
+                    data: { ttdg: ttdg, masvcb: masvcb },
                     success: function (data) {
                         let display = '';
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace HUCE.Controllers
 {
@@ -618,16 +619,15 @@ namespace HUCE.Controllers
             }
         }
 
-        public ActionResult XacNhanDRLChoCB(List<DiemRenLuyen> listdrl)
+        public ActionResult XacNhanDRLChoCB(string masv, string mahk)
         {
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
+            var listdrl = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null).ToList();
+
             try
             {
-                var masv = listdrl[0].MaSV;
-                var mahk = listdrl[0].MaHK;
-
                 var qr = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null);
 
                 if (qr.Any())
@@ -647,25 +647,220 @@ namespace HUCE.Controllers
                         }
                     }
 
-                    return RedirectToAction("ChekDiemRenLuyenChoCB", "DiemRenLuyen");
+                    return RedirectToAction("ChekDiemRenLuyenChoCB", "DiemRenLuyen", new { masv = masv, mahk = mahk });
                 }
                 else
                 {
-                    ViewBag.TCCha = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha == null && o.DelTime == null).ToList();
-                    ViewBag.TC = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha != null && o.DelTime == null).ToList();
-
                     TempData["Error"] = "Khong tim thay danh gia";
-                    return View(listdrl);
+                    return RedirectToAction("ChekDiemRenLuyenChoCB", "DiemRenLuyen", new { masv = masv, mahk = mahk });
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.TCCha = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha == null && o.DelTime == null).ToList();
-                ViewBag.TC = db.TieuChiDiemRenLuyens.Where(o => o.MaTCCha != null && o.DelTime == null).ToList();
-
-                TempData["Error"] = "Không thể sua danh gia, chi tiet loi: " + ex;
-                return View(listdrl);
+                TempData["Error"] = "Không thể xac nhan danh gia, chi tiet loi: " + ex;
+                return RedirectToAction("ChekDiemRenLuyenChoCB", "DiemRenLuyen", new { masv = masv, mahk = mahk });
             }
+        }
+
+        public ActionResult XacNhanDRLChoGVCN(string masv, string mahk)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                return RedirectToAction("Login", "Login");
+
+            var listdrl = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null).ToList();
+
+            try
+            {
+                var qr = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime == null);
+
+                if (qr.Any())
+                {
+                    List<DiemRenLuyen> listdrl1 = qr.ToList();
+
+                    foreach (DiemRenLuyen drl in listdrl)
+                    {
+                        foreach (DiemRenLuyen drl1 in listdrl1)
+                        {
+                            if (drl1.MaTC == drl.MaTC)
+                            {
+                                drl1.DiemGVCN = drl.DiemCB;
+
+                                db.SubmitChanges();
+                            }
+                        }
+                    }
+
+                    return RedirectToAction("ChekDiemRenLuyenChoGVCN", "DiemRenLuyen", new { masv = masv, mahk = mahk });
+                }
+                else
+                {
+                    TempData["Error"] = "Khong tim thay danh gia";
+                    return RedirectToAction("ChekDiemRenLuyenChoGVCN", "DiemRenLuyen", new { masv = masv, mahk = mahk });
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Không thể xac nhan danh gia, chi tiet loi: " + ex;
+                return RedirectToAction("ChekDiemRenLuyenChoGVCN", "DiemRenLuyen", new { masv = masv, mahk = mahk });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult TimDiemRenLuyenChoCB(string ttdg, string masvcb)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                var HKC = new HocKyController();
+
+                var malop = db.SinhViens.SingleOrDefault(o => o.MaSV == masvcb && o.DelTime == null).MaLopQuanLy;
+
+                var dtn = DateTime.Now;
+                var hocky = dtn.Month;
+                var namhoc = dtn.Year;
+
+                if (hocky <= 6)
+                {
+                    hocky = 1;
+                }
+                else
+                {
+                    hocky = 2;
+                }
+
+                var mahk = namhoc + "_" + hocky;
+
+                var dsdg = (from sv in db.SinhViens
+                            join drl in db.DiemRenLuyens
+                            on sv.MaSV equals drl.MaSV
+                            where sv.DelTime == null && drl.DelTime == null && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                            select new SVDRLModel
+                            {
+                                MaSV = sv.MaSV,
+                                TenSV = sv.TenSV,
+                                MaHK = drl.MaHK,
+                                TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                            }).Distinct().ToList();
+
+                if (!string.IsNullOrEmpty(ttdg))
+                {
+                    if (ttdg.All(char.IsDigit))
+                    {
+                        dsdg = (from sv in db.SinhViens
+                                join drl in db.DiemRenLuyens
+                                on sv.MaSV equals drl.MaSV
+                                where sv.DelTime == null && drl.DelTime == null && drl.MaSV == ttdg && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                                select new SVDRLModel
+                                {
+                                    MaSV = sv.MaSV,
+                                    TenSV = sv.TenSV,
+                                    MaHK = drl.MaHK,
+                                    TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                    TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                                }).Distinct().ToList();
+                    }
+                    else
+                    {
+                        dsdg = (from sv in db.SinhViens
+                                join drl in db.DiemRenLuyens
+                                on sv.MaSV equals drl.MaSV
+                                where sv.DelTime == null && drl.DelTime == null && sv.TenSV.Contains(ttdg) && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                                select new SVDRLModel
+                                {
+                                    MaSV = sv.MaSV,
+                                    TenSV = sv.TenSV,
+                                    MaHK = drl.MaHK,
+                                    TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                    TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                                }).Distinct().ToList();
+                    }
+                }
+
+                return Json(new { dsdg = dsdg }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult TimDiemRenLuyenChoGVCN(string ttdg, string magvcn)
+        {
+            if (string.IsNullOrEmpty(SessionConfig.GetSession()))
+                RedirectToAction("Login", "Login");
+            else
+            {
+                var HKC = new HocKyController();
+
+                var malop = db.GiangViens.SingleOrDefault(o => o.MaGV == magvcn && o.DelTime == null).MaLopCN;
+
+                var dtn = DateTime.Now;
+                var hocky = dtn.Month;
+                var namhoc = dtn.Year;
+
+                if (hocky <= 6)
+                {
+                    hocky = 1;
+                }
+                else
+                {
+                    hocky = 2;
+                }
+
+                var mahk = namhoc + "_" + hocky;
+
+                var dsdg = (from sv in db.SinhViens
+                            join drl in db.DiemRenLuyens
+                            on sv.MaSV equals drl.MaSV
+                            where sv.DelTime == null && drl.DelTime == null && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                            select new SVDRLModel
+                            {
+                                MaSV = sv.MaSV,
+                                TenSV = sv.TenSV,
+                                MaHK = drl.MaHK,
+                                TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                            }).Distinct().ToList();
+
+                if (!string.IsNullOrEmpty(ttdg))
+                {
+                    if (ttdg.All(char.IsDigit))
+                    {
+                        dsdg = (from sv in db.SinhViens
+                                join drl in db.DiemRenLuyens
+                                on sv.MaSV equals drl.MaSV
+                                where sv.DelTime == null && drl.DelTime == null && drl.MaSV == ttdg && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                                select new SVDRLModel
+                                {
+                                    MaSV = sv.MaSV,
+                                    TenSV = sv.TenSV,
+                                    MaHK = drl.MaHK,
+                                    TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                    TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                                }).Distinct().ToList();
+                    }
+                    else
+                    {
+                        dsdg = (from sv in db.SinhViens
+                                join drl in db.DiemRenLuyens
+                                on sv.MaSV equals drl.MaSV
+                                where sv.DelTime == null && drl.DelTime == null && sv.TenSV.Contains(ttdg) && sv.MaLopQuanLy == malop && drl.MaHK == mahk
+                                select new SVDRLModel
+                                {
+                                    MaSV = sv.MaSV,
+                                    TenSV = sv.TenSV,
+                                    MaHK = drl.MaHK,
+                                    TenHK = HKC.GetHocKy(drl.MaHK).TenHK,
+                                    TongDiem = TinhTongDiem(sv.MaSV, drl.MaHK)[2]
+                                }).Distinct().ToList();
+                    }
+                }
+
+                return Json(new { dsdg = dsdg }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
         }
     }
 }

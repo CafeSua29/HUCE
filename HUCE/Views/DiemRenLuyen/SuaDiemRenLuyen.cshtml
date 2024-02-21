@@ -80,18 +80,6 @@
                                                         @Html.EditorFor(model => model[j].MaSV, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                         @Html.EditorFor(model => model[j].MaHK, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                         @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemSV, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemCB, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
-
-                                                        <td class="bold">
-                                                            @Html.EditorFor(model => model[j].DiemGVCN, new { htmlAttributes = new { @class = "form-control", type = "number", min = tccha.DiemMin, max = tccha.DiemMax, required = "required" } })
-                                                        </td>
                                                     }
                                                 }
                                             }

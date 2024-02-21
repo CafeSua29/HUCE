@@ -16,6 +16,9 @@
                 <ul class="breadcrumb">
                 </ul>
             </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="~/DiemRenLuyen/XacNhanDRLChoGVCN?masv=@Model[0].MaSV&mahk=@Model[0].MaHK" class="btn btn-success"><i class="fas fa-check"></i></a>
+            </div>
         </div>
     </div>
 
@@ -77,6 +80,8 @@
                                                 {
                                                     if (Model[j].MaTC == tccha.MaTC)
                                                     {
+                                                        @Html.EditorFor(model => model[j].MaSV, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                                                        @Html.EditorFor(model => model[j].MaHK, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                         @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                     }
                                                 }
@@ -100,6 +105,8 @@
                                                         {
                                                             if (Model[j].MaTC == tc.MaTC)
                                                             {
+                                                                @Html.EditorFor(model => model[j].MaSV, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                                                                @Html.EditorFor(model => model[j].MaHK, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
                                                                 @Html.EditorFor(model => model[j].MaTC, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
 
                                                                 <td class="bold">
@@ -111,7 +118,7 @@
                                                                 </td>
 
                                                                 <td class="bold">
-                                                                    @Html.EditorFor(model => model[j].DiemCB, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
+                                                                    @Html.EditorFor(model => model[j].DiemGVCN, new { htmlAttributes = new { @class = "form-control", type = "number", min = tc.DiemMin, max = tc.DiemMax, required = "required" } })
                                                                 </td>
                                                             }
                                                         }
@@ -129,7 +136,7 @@
                                 <div class="text-danger">
                                     @TempData["Error"]
                                 </div>
-                                <input type="submit" value="Luu" class="btn btn-primary" />
+                                <input type="submit" value="Xac Nhan" class="btn btn-primary" />
                             </div>
                         </div>
                     }
