@@ -158,18 +158,39 @@ namespace HUCE.Controllers
                 }
                 else
                 {
-                    foreach (DiemRenLuyen drl in listdrl)
-                    {
-                        DiemRenLuyen drl1 = new DiemRenLuyen();
-                        drl1.MaSV = masv;
-                        drl1.MaTC = drl.MaTC;
-                        drl1.MaHK = mahk;
-                        drl1.DiemSV = drl.DiemSV;
-                        //drl1.DiemCB = drl.DiemSV;
-                        //drl1.DiemGVCN = drl.DiemSV;
+                    qr = db.DiemRenLuyens.Where(o => o.MaSV == masv && o.MaHK == mahk && o.DelTime != null);
 
-                        db.DiemRenLuyens.InsertOnSubmit(drl1);
-                        db.SubmitChanges();
+                    if(qr.Any())
+                    {
+                        var listdrl1 = qr.ToList();
+
+                        foreach (DiemRenLuyen drl1 in listdrl1)
+                        {
+                            foreach (DiemRenLuyen drl in listdrl)
+                            {
+                                if(drl1.MaTC == drl.MaTC)
+                                {
+                                    drl1.DiemSV = drl.DiemSV;
+                                    drl1.DelTime = null;
+
+                                    db.SubmitChanges();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (DiemRenLuyen drl in listdrl)
+                        {
+                            DiemRenLuyen drl1 = new DiemRenLuyen();
+                            drl1.MaSV = masv;
+                            drl1.MaTC = drl.MaTC;
+                            drl1.MaHK = mahk;
+                            drl1.DiemSV = drl.DiemSV;
+
+                            db.DiemRenLuyens.InsertOnSubmit(drl1);
+                            db.SubmitChanges();
+                        }
                     }
 
                     return RedirectToAction("Dashboard", "SinhVien");
