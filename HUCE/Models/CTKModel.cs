@@ -12,5 +12,10 @@ namespace HUCE.Models
         public string MaHK { get; set; }
         public string TenHK { get; set; }
         public List<string> ListMaMH { get; set; }
+
+        public CTKModel() 
+        {
+            ListMaMH = new List<string>();
+        }
     }
 }

@@ -44,6 +44,10 @@ namespace HUCE.Controllers
             if (string.IsNullOrEmpty(SessionConfig.GetSession()))
                 return RedirectToAction("Login", "Login");
 
+            ViewBag.Khoa = db.Khoas.Where(o => o.DelTime == null).ToList();
+            ViewBag.HK = db.HocKies.Where(o => o.DelTime == null).ToList();
+            ViewBag.MH = db.MonHocs.Where(o => o.DelTime == null).ToList();
+
             return View(new CTKModel());
         }
 
@@ -59,6 +63,10 @@ namespace HUCE.Controllers
 
                 if (qr.Any())
                 {
+                    ViewBag.Khoa = db.Khoas.Where(o => o.DelTime == null).ToList();
+                    ViewBag.HK = db.HocKies.Where(o => o.DelTime == null).ToList();
+                    ViewBag.MH = db.MonHocs.Where(o => o.DelTime == null).ToList();
+
                     TempData["Error"] = "Khoa da co chuong trinh khung roi";
                     return View(ctkmodel);
                 }
@@ -102,6 +110,10 @@ namespace HUCE.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.Khoa = db.Khoas.Where(o => o.DelTime == null).ToList();
+                ViewBag.HK = db.HocKies.Where(o => o.DelTime == null).ToList();
+                ViewBag.MH = db.MonHocs.Where(o => o.DelTime == null).ToList();
+
                 TempData["Error"] = "Không thể them chuong trinh khung, chi tiet loi: " + ex;
                 return View(ctkmodel);
             }

@@ -226,6 +226,8 @@
     <Content Include="Views\DiemRenLuyen\DanhSachDiemRenLuyenChoGVCN.cshtml" />
     <Content Include="Views\DiemRenLuyen\ChekDiemRenLuyenChoCB.cshtml" />
     <Content Include="Views\DiemRenLuyen\ChekDiemRenLuyenChoGVCN.cshtml" />
+    <Content Include="Views\ChuongTrinhKhung\DanhSachChuongTrinhKhung.cshtml" />
+    <Content Include="Views\ChuongTrinhKhung\ThemChuongTrinhKhung.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -235,7 +237,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ChuongTrinhKhung\" />
     <Folder Include="Views\DanhMuc\" />
     <Folder Include="Views\KetQua\" />
   </ItemGroup>
