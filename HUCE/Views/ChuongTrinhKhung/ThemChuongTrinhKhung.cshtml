@@ -71,10 +71,15 @@
 
                                     foreach (var mh in listmh)
                                     {
-                                        <input type="checkbox" id="@Model.ListMaMH[i]" name="@Model.ListMaMH[i]" value="@mh.MaMH">
-                                        <label for="@Model.ListMaMH[i]"> @mh.TenMH</label>
+                                        <input type="checkbox" id="model.ListMaMH[i]" name="model.ListMaMH[i]" value="@mh.MaMH">
+                                        <label for="model.ListMaMH[i]"> @mh.TenMH</label>
 
                                         i++;
+                                    }
+
+                                    if(i % 5 == 0)
+                                    { 
+                                        <br />
                                     }
                                 }
                             </div>

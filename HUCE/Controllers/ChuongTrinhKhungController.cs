@@ -95,13 +95,16 @@ namespace HUCE.Controllers
                     {
                         foreach (var mamh in ctkmodel.ListMaMH)
                         {
-                            ChuongTrinhKhung ctk1 = new ChuongTrinhKhung();
-                            ctk1.MaKhoa = ctkmodel.MaKhoa;
-                            ctk1.MaHK = ctkmodel.MaHK;
-                            ctk1.MaMH = mamh;
+                            if(!string.IsNullOrEmpty(mamh))
+                            {
+                                ChuongTrinhKhung ctk1 = new ChuongTrinhKhung();
+                                ctk1.MaKhoa = ctkmodel.MaKhoa;
+                                ctk1.MaHK = ctkmodel.MaHK;
+                                ctk1.MaMH = mamh;
 
-                            db.ChuongTrinhKhungs.InsertOnSubmit(ctk1);
-                            db.SubmitChanges();
+                                db.ChuongTrinhKhungs.InsertOnSubmit(ctk1);
+                                db.SubmitChanges();
+                            }
                         }
                     }
 
