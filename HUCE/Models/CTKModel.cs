@@ -15,7 +15,7 @@ namespace HUCE.Models
 
         public CTKModel() 
         {
-            ListMaMH = Enumerable.Repeat("", 20).ToList();
+            ListMaMH = new List<string>();
         }
     }
 }

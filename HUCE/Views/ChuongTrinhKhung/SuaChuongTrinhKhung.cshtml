@@ -1,0 +1,123 @@
+﻿@model HUCE.Models.CTKModel
+
+@{
+    ViewBag.Title = "SuaChuongTrinhKhung";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var listkhoa = ViewBag.Khoa;
+    var listhk = ViewBag.HK;
+    var listmh = ViewBag.MH;
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Sua Chuong Trinh Khung</h3>
+                <ul class="breadcrumb">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Thông Tin Chuong Trinh Khung</span></h5>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MaKhoa, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <select class="form-control" name="MaKhoa">
+                                        @{
+                                            foreach (var khoa in listkhoa)
+                                            {
+                                                <option value="@khoa.MaKhoa" @Html.Raw(khoa.MaKhoa == Model.MaKhoa ? "selected" : "") disabled>@khoa.TenKhoa</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.MaKhoa, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MaHK, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <select class="form-control" name="MaHK">
+                                        @{
+                                            foreach (var hk in listhk)
+                                            {
+                                                <option value="@hk.MaHK" @Html.Raw(hk.MaHK == Model.MaHK ? "selected" : "") disabled>@hk.TenHK</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.MaHK, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @{
+                                        var i = 0;
+
+                                        foreach (var mh in listmh)
+                                        {
+                                            var chek = false;
+
+                                            foreach (var mamh in Model.ListMaMH)
+                                            {
+                                                if (mh.MaMH == mamh)
+                                                {
+                                                    chek = true;
+
+                                                    break;
+                                                }
+                                            }
+
+                                            if (chek)
+                                            {
+                                                <input type="checkbox" id="@mh.MaMH" name="@mh.MaMH" value="@mh.MaMH" checked>
+                                                <label for="@mh.MaMH"> @mh.TenMH</label>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="@mh.MaMH" name="@mh.MaMH" value="@mh.MaMH">
+                                                <label for="@mh.MaMH"> @mh.TenMH</label>
+                                            }
+
+                                            i++;
+                                        }
+
+                                        if (i % 5 == 0)
+                                        {
+                                            <br />
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="text-danger">
+                                        @TempData["Error"]
+                                    </div>
+                                    <input type="submit" value="Luu" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

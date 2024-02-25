@@ -1,0 +1,99 @@
+﻿@model List<HUCE.Models.CTKModel>
+
+@{
+    ViewBag.Title = "XemChuongTrinhKhung";
+    Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var MHC = new HUCE.Controllers.MonHocController();
+}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Chuong Trinh Khung</h3>
+                <ul class="breadcrumb">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table-custom table table-bordered text-center no-footer dtr-inline" width="100%" role="grid">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_disabled">STT</th>
+
+                                    <th class="sorting_disabled" width="20%" lang="ctk-tenmhhp">Tên môn học/Học phần</th>
+                                    <th class="sorting_disabled" lang="ctk-mahp">Mã Học phần</th>
+
+                                    <th class="sorting_disabled" lang="ctk-stc">Số TC</th>
+                                </tr>
+                            </thead>
+
+                            @{ 
+                                var i = 1;
+
+                                foreach (var ctk in Model)
+                                {
+                                    <tbody>
+                                        <tr role="row" class="row-head row-head-hover" data-toggle="collapse" data-target=".tr-row-@i">
+                                            <td colspan="3" class="text-center">@ctk.TenHK</td>
+
+                                            @{ 
+                                                var tongsotc = 0;
+
+                                                foreach (var mamh in ctk.ListMaMH)
+                                                {
+                                                    tongsotc += @MHC.GetMonHoc(mamh).SoTin;
+                                                }
+                                            }
+
+                                            <td class="text-center"><span class=""></span>@tongsotc</td>
+                                        </tr>
+                                        
+                                        @{ 
+                                                var j = 1;
+
+                                            foreach (var mamh in ctk.ListMaMH)
+                                            {
+                                                <tr class="tr-row-@i colorSTLichHoc collapse in" aria-expanded="true" style="">
+                                                    <td>
+                                                        <div class="tr-row-@i collapse in" aria-expanded="true" style="">@j</div>
+                                                    </td>
+
+                                                    <td class="text-left">
+                                                        <div class="tr-row-@i collapse in" aria-expanded="true" style="">
+                                                            @MHC.GetMonHoc(mamh).TenMH
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tr-row-@i collapse in" aria-expanded="true" style="">@mamh</div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="tr-row-@i collapse in" aria-expanded="true" style="">@MHC.GetMonHoc(mamh).SoTin</div>
+                                                    </td>
+                                                </tr>
+
+                                                j++;
+                                            }
+                                        }
+
+                                    </tbody>
+
+                                    i++;
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "DanhSachChuongTrinhKhung";
     Layout = "~/Views/Layouts/_LayoutPageChung.cshtml";
+
+    var listkhoa = ViewBag.Khoa;
 }
 
 <div class="content container-fluid">
@@ -10,7 +12,16 @@
         <div class="row align-items-center">
             <div class="form-row col-md-8">
                 <div class="col-md-4 mb-3 top-nav-search">
-                    <input type="text" class="form-control" placeholder="Nhập ten khoa" id="tenkhoa" name="tenkhoa">
+                    <select class="form-control" name="makhoa" id="makhoa">
+                        @{
+                            <option value="">Chon Khoa</option>
+
+                            foreach (var khoa in listkhoa)
+                            {
+                                <option value="@khoa.MaKhoa">@khoa.TenKhoa</option>
+                            }
+                        }
+                    </select>
                 </div>
                 <div class="col-md-3 mb-1 top-nav-search">
                     <button class="btn" type="button" id="btnTimKiem"><i class="fas fa-search"> Tìm Kiếm</i></button>
@@ -67,16 +78,16 @@
     <script>
         $(document).ready(function () {
             $('#btnTimKiem').click(function () {
-                var tenkhoa = $('#tenkhoa').val();
+                var makhoa = $('#makhoa').val();
 
-                TimChuongTrinhKhung(tenkhoa);
+                TimChuongTrinhKhung(makhoa);
             });
 
-            function TimChuongTrinhKhung(tenkhoa) {
+            function TimChuongTrinhKhung(makhoa) {
                 $.ajax({
                     url: "/ChuongTrinhKhung/TimChuongTrinhKhung",
                     type: 'post',
-                    data: { tenkhoa: tenkhoa },
+                    data: { makhoa: makhoa },
                     success: function (data) {
                         let display = '';
 

@@ -228,6 +228,8 @@
     <Content Include="Views\DiemRenLuyen\ChekDiemRenLuyenChoGVCN.cshtml" />
     <Content Include="Views\ChuongTrinhKhung\DanhSachChuongTrinhKhung.cshtml" />
     <Content Include="Views\ChuongTrinhKhung\ThemChuongTrinhKhung.cshtml" />
+    <Content Include="Views\ChuongTrinhKhung\SuaChuongTrinhKhung.cshtml" />
+    <Content Include="Views\ChuongTrinhKhung\XemChuongTrinhKhung.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
